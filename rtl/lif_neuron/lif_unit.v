@@ -1,4 +1,4 @@
-module lif_main(clk, rst_n, i_syn, en, post_spike, V_mem_out);
+module lif_unit(clk, rst_n, i_syn, en, post_spike, V_mem_out);
     // I/O
     input clk, rst_n, en;
     input  [7:0] i_syn;
