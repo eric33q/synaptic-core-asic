@@ -1,1 +1,0 @@
-# synaptic-core-asic
