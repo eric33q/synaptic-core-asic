@@ -1,0 +1,36 @@
+C:/Users/user/Desktop/Verilog_basic/lif_main_one_to_one/lif_leak.v {1 {vlog -work work -stats=none C:/Users/user/Desktop/Verilog_basic/lif_main_one_to_one/lif_leak.v
+Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
+-- Compiling module lif_leak
+
+Top level modules:
+	lif_leak
+
+} {} {}} C:/Users/user/Desktop/Verilog_basic/lif_main_one_to_one/lif_main_one_to_one_tb.v {1 {vlog -work work -stats=none C:/Users/user/Desktop/Verilog_basic/lif_main_one_to_one/lif_main_one_to_one_tb.v
+Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
+-- Compiling module lif_main_one_to_one_tb
+
+Top level modules:
+	lif_main_one_to_one_tb
+
+} {} {}} C:/Users/user/Desktop/Verilog_basic/lif_main_one_to_one/lif_th_cmp.v {1 {vlog -work work -stats=none C:/Users/user/Desktop/Verilog_basic/lif_main_one_to_one/lif_th_cmp.v
+Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
+-- Compiling module lif_th_cmp
+
+Top level modules:
+	lif_th_cmp
+
+} {} {}} C:/Users/user/Desktop/Verilog_basic/lif_main_one_to_one/lif_refrac_ctrl.v {1 {vlog -work work -stats=none C:/Users/user/Desktop/Verilog_basic/lif_main_one_to_one/lif_refrac_ctrl.v
+Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
+-- Compiling module lif_refrac_ctrl
+
+Top level modules:
+	lif_refrac_ctrl
+
+} {} {}} C:/Users/user/Desktop/Verilog_basic/lif_main_one_to_one/lif_integrator.v {1 {vlog -work work -stats=none C:/Users/user/Desktop/Verilog_basic/lif_main_one_to_one/lif_integrator.v
+Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
+-- Compiling module lif_integrator
+
+Top level modules:
+	lif_integrator
+
+} {} {}}
