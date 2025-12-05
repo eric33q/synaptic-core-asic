@@ -1,4 +1,4 @@
-module lif_main_one_to_one #(
+module lif_unit_64to1 #(
     parameter D_WIDTH    = 8,   // 數據位寬
     parameter THRESHOLD  = 200, // 發火閾值
     parameter LEAK_SHIFT = 3,   // 漏電移位
