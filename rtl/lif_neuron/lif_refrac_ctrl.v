@@ -1,30 +1,26 @@
-module lif_refrac_ctrl(clk, rst_n, post_spike, ref);
-    input clk, rst_n, post_spike;
-    output reg ref;
-
-    localparam integer REFRAC_LEN = 5;
-
-    reg [2:0] refrac_cnt;  // counts remaining refractory cycles
-
-    wire refrac_active = (refrac_cnt != 3'd0);
-
+module lif_refrac_ctrl #(
+    parameter REF_PERIOD = 3
+)(
+    input  wire clk,
+    input  wire rst_n,
+    input  wire post_spike,
+    output wire ref_active
+);
+    // 計算不應期
+    reg [3:0] cnt;
+    //spike後才開始數
     always @(posedge clk or negedge rst_n) begin
         if (!rst_n) begin
-            refrac_cnt <= 3'd0;
-            ref        <= 1'b0;
+            cnt <= 4'd0;
         end else begin
             if (post_spike) begin
-                refrac_cnt <= REFRAC_LEN[2:0];
-            end 
-            else if (refrac_active) begin
-                refrac_cnt <= refrac_cnt - 3'd1;
-            end
-
-            if (post_spike || refrac_active) begin
-                ref       <= 1'b1;
-            end else begin
-                ref       <= 1'b0;
+                cnt <= REF_PERIOD[3:0];
+            end else if (cnt > 0) begin
+                cnt <= cnt - 1'b1;
             end
         end
     end
+    // 不為0即在不應期ref_active=1
+    assign ref_active = (cnt != 4'd0);
+
 endmodule

@@ -1,15 +1,11 @@
-module lif_leak(clk, rst_n, V_in, V_leak);
-    input clk, rst_n;
-    input [7:0] V_in;
-    output reg [7:0] V_leak;
-
-    wire [7:0] sum = V_in >> 1; // V_in * 0.5
-    always @(posedge clk or negedge rst_n) begin
-        if (!rst_n) begin
-            V_leak <= 8'd0;
-        end 
-        else begin
-            V_leak <= (sum > 8'd0) ? sum : 8'd0;
-        end
-    end
+module lif_leak #(
+    parameter D_WIDTH    = 8,
+    parameter LEAK_SHIFT = 3
+)(
+    input  wire [D_WIDTH-1:0] V_in,
+    output wire [D_WIDTH-1:0] V_leak
+);
+    wire [D_WIDTH-1:0] decay_val;
+    assign decay_val = V_in >> LEAK_SHIFT;
+    assign V_leak = (V_in >= decay_val) ? (V_in - decay_val) : {D_WIDTH{1'b0}};
 endmodule
