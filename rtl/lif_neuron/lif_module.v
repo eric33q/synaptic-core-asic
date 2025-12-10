@@ -15,7 +15,7 @@ module lif_module #(
     // 呼叫32個lif_unit組成64*32的LIF神經元
     genvar num;
     generate
-        for(i = 0; i < 32; i = i + 1) begin : LIF_UNIT_ARRAY
+        for(num = 0; num < 32; num = num + 1) begin : LIF_UNIT_ARRAY
             lif_unit_64to1 #(
                 .D_WIDTH(D_WIDTH),
                 .I_WIDTH(I_WIDTH),
