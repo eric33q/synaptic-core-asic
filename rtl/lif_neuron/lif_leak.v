@@ -1,11 +1,11 @@
 module lif_leak #(
-    parameter D_WIDTH    = 8,
+    parameter V_WIDTH    = 15,
     parameter LEAK_SHIFT = 3
 )(
-    input  wire [D_WIDTH-1:0] V_in,
-    output wire [D_WIDTH-1:0] V_leak
+    input  wire [V_WIDTH-1:0] V_in,
+    output wire [V_WIDTH-1:0] V_leak
 );
-    wire [D_WIDTH-1:0] decay_val;
+    wire [V_WIDTH-1:0] decay_val;
     assign decay_val = V_in >> LEAK_SHIFT;
-    assign V_leak = (V_in >= decay_val) ? (V_in - decay_val) : {D_WIDTH{1'b0}};
+    assign V_leak = (V_in >= decay_val) ? (V_in - decay_val) : {V_WIDTH{1'b0}};
 endmodule
