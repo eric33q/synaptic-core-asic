@@ -26,9 +26,9 @@ module lif_module #(
             ) lif_unit_inst (
                 .clk(clk),
                 .rst_n(rst_n),
-                .weight(weight[i]),
-                .post_spike(post_spike[i]),
-                .V_mem_out(V_mem_out[i])
+                .weight(weight[num]),
+                .post_spike(post_spike[num]),
+                .V_mem_out(V_mem_out[num])
             );
         end
     endgenerate
