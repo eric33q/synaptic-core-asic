@@ -8,8 +8,8 @@ module lif_integrator #(
     output wire V_next_valid
 );
     // 為了處理不同位寬的加總，建立最大位寬的暫存
-    localparam SUM_WIDTH = (V_WIDTH > I_WIDTH) ? (V_WIDTH + 1) : (I_WIDTH + 1);
-    wire [SUM_WIDTH-1:0] sum_temp;
+     localparam SUM_WIDTH = V_WIDTH + 1;
+     wire [SUM_WIDTH-1:0] sum_temp;
 
     // i_syn 不為 0 時，V_next_valid 為 1
     assign V_next_valid = (|i_syn);
