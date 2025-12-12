@@ -1,0 +1,11 @@
+//
+// File created by:  xmverilog
+// Do not modify this file
+//
+/home/t112830043/synaptic-core-asic/rtl/lif_neuron/lif_unit_64to1_tb.v
+/home/t112830043/synaptic-core-asic/rtl/lif_neuron/lif_unit_64to1.v
+/home/t112830043/synaptic-core-asic/rtl/lif_neuron/lif_integrator.v
+/home/t112830043/synaptic-core-asic/rtl/lif_neuron/lif_leak.v
+/home/t112830043/synaptic-core-asic/rtl/lif_neuron/lif_weight_adder.v
+/home/t112830043/synaptic-core-asic/rtl/lif_neuron/lif_th_cmp.v
+/home/t112830043/synaptic-core-asic/rtl/lif_neuron/lif_refrac_ctrl.v

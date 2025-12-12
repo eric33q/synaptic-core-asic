@@ -1,0 +1,21 @@
+//
+// File created by:  xrun
+// Do not modify this file
+
+s1::(13Dec2025:05:18:28):( ncverilog lif_refrac_ctrl.v )
+s2::(13Dec2025:05:38:55):( ncverilog lif_weight_adder.v )
+s3::(13Dec2025:05:59:04):( ncverilog lif_unit_64to1_tb.v lif_unit_64to1.v lif_integrator.v lif_leak.v lif_weight_adder.v lif_th_cmp.v lif_refrac_ctrl.v +access+r )
+s4::(13Dec2025:06:02:33):( ncverilog lif_unit_64to1_tb.v lif_unit_64to1.v lif_integrator.v lif_leak.v lif_weight_adder.v lif_th_cmp.v lif_refrac_ctrl.v +access+r )
+s5::(13Dec2025:06:08:18):( ncverilog lif_weight_adder.v )
+s6::(13Dec2025:06:21:51):( ncverilog lif_unit_64to1.v )
+s7::(13Dec2025:06:29:26):( ncverilog lif_unit_64to1.v )
+s8::(13Dec2025:06:32:50):( ncverilog lif_unit_64to1.v )
+s9::(13Dec2025:06:33:55):( ncverilog lif_weight_adder.v )
+s10::(13Dec2025:06:34:15):( ncverilog lif_unit_64to1.v )
+s11::(13Dec2025:06:34:21):( ncverilog lif_unit_64to1_tb.v lif_unit_64to1.v lif_integrator.v lif_leak.v lif_weight_adder.v lif_th_cmp.v lif_refrac_ctrl.v +access+r )
+s12::(13Dec2025:06:42:57):( ncverilog lif_unit_64to1_tb.v lif_unit_64to1.v lif_integrator.v lif_leak.v lif_weight_adder.v lif_th_cmp.v lif_refrac_ctrl.v +access+r )
+s13::(13Dec2025:06:45:54):( ncverilog lif_unit_64to1_tb.v lif_unit_64to1.v lif_integrator.v lif_leak.v lif_weight_adder.v lif_th_cmp.v lif_refrac_ctrl.v +access+r )
+s14::(13Dec2025:06:46:35):( ncverilog lif_unit_64to1_tb.v lif_unit_64to1.v lif_integrator.v lif_leak.v lif_weight_adder.v lif_th_cmp.v lif_refrac_ctrl.v +access+r )
+s15::(13Dec2025:06:47:36):( ncverilog lif_unit_64to1_tb.v lif_unit_64to1.v lif_integrator.v lif_leak.v lif_weight_adder.v lif_th_cmp.v lif_refrac_ctrl.v +access+r )
+s16::(13Dec2025:06:50:48):( ncverilog lif_unit_64to1_tb.v lif_unit_64to1.v lif_integrator.v lif_leak.v lif_weight_adder.v lif_th_cmp.v lif_refrac_ctrl.v +access+r )
+s17::(13Dec2025:06:52:56):( ncverilog lif_unit_64to1_tb.v lif_unit_64to1.v lif_integrator.v lif_leak.v lif_weight_adder.v lif_th_cmp.v lif_refrac_ctrl.v +access+r )

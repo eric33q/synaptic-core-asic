@@ -8,7 +8,7 @@ module lif_unit_64to1 #(
 )(
     input  wire clk,
     input  wire rst_n,
-    input  wire [D_WIDTH-1:0] weight[7:0],
+    input  wire [(D_WIDTH*8)-1:0] weight_flat,
     output wire post_spike,
     output wire [V_WIDTH-1:0] V_mem_out
 );
@@ -104,10 +104,11 @@ module lif_unit_64to1 #(
         end
     end
     // 加權電流求和單元
+    // 在 lif_unit_64to1.sv 中：
     lif_weight_adder #( .D_WIDTH(D_WIDTH), .I_WIDTH(I_WIDTH) )
     u_w_adder (
-        .weight(weight),
-        .i_syn(i_syn_group)
+        .weight_flat (weight_flat),
+        .i_syn       (i_syn_group)
     );
     // 漏電單元
     lif_leak #( .V_WIDTH(V_WIDTH), .LEAK_SHIFT(LEAK_SHIFT) ) 
