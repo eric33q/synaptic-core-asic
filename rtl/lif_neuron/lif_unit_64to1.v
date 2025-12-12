@@ -56,21 +56,21 @@ module lif_unit_64to1 #(
     // i_syn 暫存：收集 8 組權重累加後輸出一次
     always @(posedge clk or negedge rst_n) begin
         if (!rst_n) begin
-            i_syn_accum     <= {D_WIDTH{1'b0}};
-            i_syn_hold      <= {D_WIDTH{1'b0}};
+            i_syn_accum     <= {I_WIDTH{1'b0}};
+            i_syn_hold      <= {I_WIDTH{1'b0}};
             i_syn_valid     <= 1'b0;
             weight_grp_cnt  <= 3'd0;
         end else begin
             if (ref_active || post_spike) begin // 在不應期或剛發火時清除累積值
-                i_syn_accum     <= {D_WIDTH{1'b0}};
-                i_syn_hold      <= {D_WIDTH{1'b0}};
+                i_syn_accum     <= {I_WIDTH{1'b0}};
+                i_syn_hold      <= {I_WIDTH{1'b0}};
                 i_syn_valid     <= 1'b0;
                 weight_grp_cnt  <= 3'd0;
             end else begin
                 i_syn_valid <= 1'b0; // 預設為 0，數到第 8 組時拉高
                 if (weight_grp_cnt == 3'd7) begin // 收到第 8 組權重加總結果
                     i_syn_hold     <= i_syn_accum + i_syn_group;
-                    i_syn_accum    <= {D_WIDTH{1'b0}};
+                    i_syn_accum    <= {I_WIDTH{1'b0}};
                     i_syn_valid    <= 1'b1;
                     weight_grp_cnt <= 3'd0;
                 end else begin
@@ -85,11 +85,11 @@ module lif_unit_64to1 #(
 
     always @(posedge clk or negedge rst_n) begin
         if (!rst_n) begin
-            V_mem <= {D_WIDTH{1'b0}};
+            V_mem <= {V_WIDTH{1'b0}};
         end else begin
             case (state_next)
                 ST_RESET: begin
-                    V_mem <= {D_WIDTH{1'b0}}; // 強制歸零
+                    V_mem <= {V_WIDTH{1'b0}}; // 強制歸零
                 end
                 ST_INTEGRATE: begin
                     V_mem <= V_mem_next;      // 更新積分結果
@@ -110,14 +110,14 @@ module lif_unit_64to1 #(
         .i_syn(i_syn_group)
     );
     // 漏電單元
-    lif_leak #( .D_WIDTH(D_WIDTH), .LEAK_SHIFT(LEAK_SHIFT) ) 
+    lif_leak #( .V_WIDTH(V_WIDTH), .LEAK_SHIFT(LEAK_SHIFT) ) 
     u_leak (
         .V_in(V_mem),
         .V_leak(V_mem_leak)
     );
 
     // 積分單元
-    lif_integrator #( .D_WIDTH(D_WIDTH) ) 
+    lif_integrator #( .V_WIDTH(V_WIDTH), .I_WIDTH(I_WIDTH) ) 
     u_int (
         .V_leak(V_mem_leak),
         .i_syn(i_syn_to_int),
@@ -126,7 +126,7 @@ module lif_unit_64to1 #(
     );
 
     // 閾值比較器
-    lif_th_cmp #( .D_WIDTH(V_WIDTH), .THRESHOLD(THRESHOLD) )
+    lif_th_cmp #( .V_WIDTH(V_WIDTH), .THRESHOLD(THRESHOLD) )
     u_cmp (
         .V_mem(V_mem),
         .spike(post_spike)
