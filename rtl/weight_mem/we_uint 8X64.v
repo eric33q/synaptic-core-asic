@@ -5,7 +5,7 @@ module we_unit_8x64(
     // Sync read (1-cycle latency)
     input  wire         rd_en,
     input  wire [2:0]   rd_addr,
-    output reg  [63:0]  rd_data,
+    output reg  [63:0]  weight, 
     output reg          rd_valid,
 
     // Sync write
@@ -39,11 +39,11 @@ module we_unit_8x64(
     // Read operation
     always @(posedge clk or negedge rst_n) begin
         if (!rst_n) begin
-            rd_data  <= 64'b0;
+            weight  <= 64'b0;
             rd_valid <= 1'b0;
         end
         else if (rd_en) begin
-            rd_data  <= sram_mem[rd_addr];
+            weight  <= sram_mem[rd_addr];
             rd_valid <= 1'b1;
         end
         else begin
