@@ -1,0 +1,22 @@
+//
+// File created by:  xmverilog
+// Do not modify this file
+//
+-XLMODE
+./xcelium.d/run.lnx8664.22.03.d
+-RUNMODE
+one_to_one_tb.v
+lif_main.v
+lif_integrator.v
+lif_leak.v
+lif_refrac_ctrl.v
+lif_th_cmp.v
+-CDSLIB
+./xcelium.d/run.lnx8664.22.03.d/cdsrun.lib
+-HDLVAR
+./xcelium.d/run.lnx8664.22.03.d/hdlrun.var
+-MESSAGES
+-UPDATE
+-XLLIBSTORE
+./xcelium.d/run.lnx8664.22.03.d/xllibs
+-ALLOWUNBOUND

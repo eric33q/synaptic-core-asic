@@ -1,0 +1,93 @@
+xmverilog(64): 22.03-s003: (c) Copyright 1995-2022 Cadence Design Systems, Inc.
+TOOL:	xmverilog	22.03-s003: Started on Dec 10, 2025 at 02:16:23 CST
+ncverilog
+	one_to_one_tb.v
+	lif_main.v
+	lif_integrator.v
+	lif_leak.v
+	lif_refrac_ctrl.v
+	lif_th_cmp.v
+	+access+r
+xmverilog: *W,NCEXDEP: Executable (ncverilog) is deprecated. Use (xmverilog) instead.
+		Caching library 'worklib' ....... Done
+	Elaborating the design hierarchy:
+	Building instance overlay tables: .................... Done
+	Generating native compiled code:
+		worklib.lif_refrac_ctrl:v <0x6c8dd7ca>
+			streams:   3, words:   789
+		worklib.lif_th_cmp:v <0x4ec9ff47>
+			streams:   1, words:   158
+		worklib.lif_integrator:v <0x456bbd16>
+			streams:   3, words:   568
+		worklib.lif_leak:v <0x0d421f27>
+			streams:   2, words:   422
+		worklib.lif_main:v <0x40aa2d4e>
+			streams:   5, words:  2000
+		worklib.one_to_one_tb:v <0x1d766e21>
+			streams:   5, words: 17410
+	Building instance specific data structures.
+	Loading native compiled code:     .................... Done
+	Design hierarchy summary:
+		                 Instances  Unique
+		Modules:                 6       6
+		Registers:               8       8
+		Scalar wires:            5       -
+		Vectored wires:          8       -
+		Always blocks:           4       4
+		Initial blocks:          3       3
+		Cont. assignments:       7       8
+		Pseudo assignments:      2       2
+		Simulation timescale:  1ps
+	Writing initial simulation snapshot: worklib.one_to_one_tb:v
+Loading snapshot worklib.one_to_one_tb:v .................... Done
+*Verdi* Loading libsscore_xcelium171.so
+xcelium> source /usr/cad/cadence/ncverilog/XCELIUM_22.03.003/tools/xcelium/files/xmsimrc
+xcelium> run
+FSDB Dumper for Xcelium, Release Verdi_Q-2020.03, Linux x86_64/64bit, 02/09/2020
+(C) 1996 - 2020 by Synopsys, Inc.
+***********************************************************************
+*  WARNING -                                                          *
+*  The simulator version is newer than the supported FSDB Writer.     *
+***********************************************************************
+*Verdi* FSDB WARNING: The FSDB file already exists. Overwriting the FSDB file may crash the programs that are using this file.
+*Verdi* : Create FSDB file 'one_to_one.fsdb'
+*Verdi* : Begin traversing the scope (one_to_one_tb), layer (0).
+*Verdi* : Enable +all dumping.
+*Verdi* : End of traversing.
+=== Simulation Start (Black-box Mode) ===
+Time	 V_mem 	 Spike
+                   0	   0 	 0
+
+--- [Test 1] Integration & Leakage ---
+               45000	  50 	 0
+               55000	  94 	 0
+               65000	 133 	 0
+               75000	 117 	 0
+               85000	 103 	 0
+               95000	  91 	 0
+              105000	  80 	 0
+
+--- [Test 2] Firing Threshold Check (Th=        200) ---
+              115000	  70 	 0
+              125000	  62 	 0
+              135000	 155 	 0
+>>> SPIKE GENERATED! <<<
+              145000	 236 	 1
+              155000	   0 	 0
+>>> PASS: Hard Reset successful (V_mem=0)
+
+--- [Test 3] Refractory Period Check (          3 cycles) ---
+>>> PASS: Refractory period maintained 0V correctly.
+
+--- [Test 4] Recovery Check ---
+>>> FAIL: Neuron did not recover! (V_mem=  0)
+              195000	 100 	 0
+              205000	 188 	 0
+              215000	 255 	 1
+              225000	   0 	 0
+
+=== Simulation Complete ===
+Simulation stopped via $stop(1) at time 236 NS + 0
+./one_to_one_tb.v:154     $stop;
+xcelium> exit
+TOOL:	xmverilog	22.03-s003: Exiting on Dec 10, 2025 at 02:16:30 CST  (total: 00:00:07)

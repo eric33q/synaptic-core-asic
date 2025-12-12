@@ -1,0 +1,10 @@
+//
+// File created by:  xmverilog
+// Do not modify this file
+//
+/home/t112830043/synaptic-core-asic/rtl/lif_neuron_for_local/one_to_one/one_to_one_tb.v
+/home/t112830043/synaptic-core-asic/rtl/lif_neuron_for_local/one_to_one/lif_main.v
+/home/t112830043/synaptic-core-asic/rtl/lif_neuron_for_local/one_to_one/lif_integrator.v
+/home/t112830043/synaptic-core-asic/rtl/lif_neuron_for_local/one_to_one/lif_leak.v
+/home/t112830043/synaptic-core-asic/rtl/lif_neuron_for_local/one_to_one/lif_refrac_ctrl.v
+/home/t112830043/synaptic-core-asic/rtl/lif_neuron_for_local/one_to_one/lif_th_cmp.v
