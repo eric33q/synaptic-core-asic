@@ -1,3 +1,4 @@
+`timescale 1ns/1ps
 module lif_th_cmp #(
     parameter V_WIDTH   = 15,
     parameter THRESHOLD = 200
