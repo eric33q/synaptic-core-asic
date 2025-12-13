@@ -1,3 +1,4 @@
+`timescale 1ns/1ps
 module lif_weight_adder #(
     parameter D_WIDTH = 8,   // 單一權重位寬
     parameter I_WIDTH = 15   // 8 個權重總和位寬，需確保 >= D_WIDTH+3

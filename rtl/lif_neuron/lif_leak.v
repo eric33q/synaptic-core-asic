@@ -1,3 +1,4 @@
+`timescale 1ns/1ps
 module lif_leak #(
     parameter V_WIDTH    = 15,
     parameter LEAK_SHIFT = 3

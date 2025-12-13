@@ -1,3 +1,4 @@
+`timescale 1ns/1ps
 module lif_refrac_ctrl #(
     parameter REF_PERIOD = 3
 )(

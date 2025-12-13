@@ -1,3 +1,4 @@
+`timescale 1ns/1ps
 module lif_integrator #(
     parameter V_WIDTH = 15,  // 膜電位位寬
     parameter I_WIDTH = 15  // 總突觸電流位寬

@@ -1,3 +1,4 @@
+`timescale 1ns/1ps
 module lif_module #(
     parameter D_WIDTH    = 8,   // 數據位寬
     parameter I_WIDTH    = 15,  // 電流位寬
