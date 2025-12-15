@@ -2,21 +2,21 @@ module we_unit_8x64(
     input  wire         clk,
     input  wire         rst_n,
 
-    // Sync read (1-cycle latency)
+    //讀取權重記憶體
     input  wire         rd_en,
     input  wire [2:0]   rd_addr,
-    output reg  [63:0]  weight, 
+    output reg  [63:0]  rd_weight, 
     output reg          rd_valid,
 
-    // Sync write
+    //寫入權重記憶體
     input  wire         wr_en,
     input  wire [2:0]   wr_addr,
-    input  wire [63:0]  wr_data,
+    input  wire [63:0]  wr_weight,
 
     // Byte write enable: wr_be[0] -> [7:0], wr_be[7] -> [63:56]
     input  wire [7:0]   wr_be
 );
-    // 8x64 bits memory array
+    // 8x64 SRAM 記憶體陣列
     reg [63:0] sram_mem [0:7];
 
     // Write operation
@@ -30,7 +30,7 @@ module we_unit_8x64(
         else if (wr_en) begin
             for (i = 0; i < 8; i = i + 1) begin
                 if (wr_be[i]) begin
-                    sram_mem[wr_addr][i*8 +: 8] <= wr_data[i*8 +: 8];
+                    sram_mem[wr_addr][i*8 +: 8] <= wr_data[i*8 +: 8]; // 按位寫入
                 end
             end
         end
