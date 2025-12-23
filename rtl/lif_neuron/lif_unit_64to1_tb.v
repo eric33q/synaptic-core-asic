@@ -2,7 +2,7 @@
 module lif_unit_64to1_tb;
 
     // ==========================================
-    // 1. 參數設定 (需與 DUT 保持一致)
+    // 1. 參數設定
     // ==========================================
     parameter D_WIDTH    = 8;
     parameter I_WIDTH    = 15;
@@ -12,34 +12,38 @@ module lif_unit_64to1_tb;
     parameter REF_PERIOD = 3;
 
     // ==========================================
-    // 2. 訊號宣告 (修改重點：轉接橋樑)
+    // 2. 訊號宣告
     // ==========================================
     reg  clk;
     reg  rst_n;
     
-    // 宣告一個扁平的暫存器，方便 TB 賦值 (64 bits total)
+    // 扁平輸入 (64 bits)
     reg  [D_WIDTH*8-1:0] weight_flat;
-
-    // 宣告符合 DUT 接口要求的 Unpacked Wire
+    
+    // 觀測用陣列 (Unpacked Wire)
     wire [D_WIDTH-1:0]   weight_unpacked [7:0];
 
     wire post_spike;
     wire [V_WIDTH-1:0] V_mem_out;
 
+    integer i;       // 用於 send_inputs 迴圈
+    integer k;       // 用於抓 Spike 的視窗迴圈
+    reg spike_found; // 用於標記是否抓到 Spike
+
     // ==========================================
-    // 3. 轉接邏輯 (Packing -> Unpacking Bridge)
+    // 3. 轉接邏輯 (Packing / Unpacking)
     // ==========================================
-    // 這段代碼負責將扁平的 weight_flat "切片" 分配給 weight_unpacked
-    genvar g;
+    
+    // DUT -> TB (扁平轉陣列，方便波形觀測)
+    genvar gi; 
     generate
-        for (g = 0; g < 8; g = g + 1) begin : pack_to_unpack
-            // weight_flat 的每 8 bits 對應到 weight_unpacked 的一個元素
-            assign weight_unpacked[g] = weight_flat[(g*D_WIDTH) +: D_WIDTH];
+        for (gi = 0; gi < 8; gi = gi + 1) begin : tb_unpack
+            assign weight_unpacked[gi] = weight_flat[(gi*D_WIDTH) +: D_WIDTH];
         end
     endgenerate
 
     // ==========================================
-    // 4. 實例化 DUT (Device Under Test)
+    // 4. 實例化 DUT
     // ==========================================
     lif_unit_64to1 #(
         .D_WIDTH(D_WIDTH),
@@ -51,22 +55,13 @@ module lif_unit_64to1_tb;
     ) u_dut (
         .clk(clk),
         .rst_n(rst_n),
-        .weight_mem(weight_flat), // 連接轉接後的訊號
+        .weight_mem(weight_flat),
         .post_spike(post_spike),
         .V_mem_out(V_mem_out)
     );
-
-// 4. [訊號映射] 把扁平的值「解包」給觀測用的陣列看
-    genvar gi; 
-    generate
-        for (gi = 0; gi < 8; gi = gi + 1) begin : tb_unpack
-            // 裡面的 i 也要全部改成 gi
-            assign weight_unpacked[gi] = weight_flat[(gi*D_WIDTH) +: D_WIDTH];
-        end
-    endgenerate
     
     // ==========================================
-    // 5. 時脈產生 (100MHz)
+    // 5. 時脈產生
     // ==========================================
     initial begin
         clk = 0;
@@ -74,34 +69,25 @@ module lif_unit_64to1_tb;
     end
 
     // ==========================================
-    // 6. 測試任務 (Helper Tasks)
+    // 6. 測試任務
     // ==========================================
-    integer i;
-
-    // 任務：發送 64 個輸入 (分 8 個 Cycle)
-    // val: 每個權重的數值 (這裡簡化為所有通道數值相同)
     task send_64_inputs;
         input [D_WIDTH-1:0] val;
         begin
-            // 當計數器不為 0 時，持續在每個 Clock 正緣等待
-            // 直到它在 Clock 正緣被檢測到歸零為止
+            // 訊號同步化：等待 DUT 計數器歸零
             while (u_dut.weight_grp_cnt != 3'd0) @(posedge clk);
-            
+
             $display("[Time %0t] Sending 64 inputs with value %d...", $time, val);
             
             for (i = 0; i < 8; i = i + 1) begin
-                // 直接對扁平暫存器賦值，語法更簡潔
-                // {8{val}} 代表將 val 重複 8 次，填滿 64 bits
-                weight_flat <= {8{val}}; 
+                weight_flat <= {8{val}};
                 @(posedge clk);
             end
             
-            // 發送完畢後清零
             weight_flat <= {(D_WIDTH*8){1'b0}};
         end
     endtask
 
-    // 任務：等待 N 個週期
     task wait_cycles;
         input integer n;
         begin
@@ -114,44 +100,43 @@ module lif_unit_64to1_tb;
     // ==========================================
     initial begin
         // 初始化
-        clk = 0;
         rst_n = 0;
-        
-        // 確保 Reset 期間輸入是乾淨的
         weight_flat = {(D_WIDTH*8){1'b0}};
+        spike_found = 0; 
         
-        #20; rst_n = 1; // 釋放重置
+        #20;
+        rst_n = 1;
         $display("[Time %0t] Reset released.", $time);
         
-        // 確保重置後有足夠時間進入穩定狀態
         wait_cycles(5);
 
-        // --- Test 1: 積分測試 (未達閾值) ---
-        // 輸入總和 = 64 * 2 = 128 ( < 200 )
+        // --- Test 1: 積分測試 ---
         send_64_inputs(8'd2);
-        
-        wait_cycles(5); // 等待積分更新
+        wait_cycles(5);
         $display("[Time %0t] V_mem after input 2: %d (Expected ~128)", $time, V_mem_out);
 
-        // --- Test 2: 漏電測試 (Leakage) ---
+        // --- Test 2: 漏電測試 ---
         $display("[Time %0t] Waiting for leakage...", $time);
-        wait_cycles(10); // 等待一段時間讓電位衰減
+        wait_cycles(10);
         $display("[Time %0t] V_mem after leakage: %d (Expected < Previous)", $time, V_mem_out);
 
-        // --- Test 3: 發火測試 (Fire) ---
-        // 輸入總和 = 64 * 4 = 256 ( > 200 )
-        // 注意：此時 V_mem 可能還有 Test 1 剩餘的殘值，更容易發火
+        // --- Test 3: 發火測試 (使用視窗檢測) ---
         send_64_inputs(8'd4);
         
-        wait_cycles(2); // 等待 Spike 產生
-        if (post_spike) 
+        //使用迴圈給予寬容度，確保抓到只有 1 cycle 的 Spike
+        spike_found = 0;
+        for(k = 0; k < 10; k = k + 1) begin 
+            if(post_spike) spike_found = 1;
+            @(posedge clk);
+        end
+
+        if(spike_found) 
             $display("[Time %0t] PASS: Spike detected! V_mem: %d", $time, V_mem_out);
         else            
             $display("[Time %0t] FAIL: No spike detected.", $time);
 
-        // --- Test 4: 不應期測試 (Refractory Period) ---
-        // Spike 後立即發送強輸入，預期應該被忽略
-        $display("[Time %0t] Testing Refractory Period (Sending inputs immediately)...", $time);
+        // --- Test 4: 不應期測試 ---
+        $display("[Time %0t] Testing Refractory Period...", $time);
         send_64_inputs(8'd5); 
         
         wait_cycles(5);
@@ -160,13 +145,13 @@ module lif_unit_64to1_tb;
         #50; $finish;
     end
 
-    // 產生波形檔 (可選)
+    // 產生波形
     initial begin
         $dumpfile("lif_unit_64to1.vcd");
         $dumpvars(0, lif_unit_64to1_tb);
-        // 也可以 dump 內部的 unpacked array，但在 waveform viewer 中可能需要展開看
+        // 手動 dump 陣列內容
         for (i=0; i<8; i=i+1) begin
-             $dumpvars(0, weight_unpacked[i]); 
+             $dumpvars(0, weight_unpacked[i]);
         end
     end
 
