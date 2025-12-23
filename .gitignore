@@ -1,1 +1,14 @@
 /.idea
+# 忽略 Xcelium 模擬產生的資料夾
+xcelium.d/
+*.d/
+
+# 忽略模擬紀錄與 log
+*.log
+*.history
+*.key
+
+# 忽略常見的波形檔 (如果您也有產生的話)
+*.fsdb
+*.vcd
+*.shm

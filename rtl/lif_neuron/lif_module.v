@@ -9,7 +9,7 @@ module lif_module #(
 )(
     input  wire clk,
     input  wire rst_n,
-    input  wire [D_WIDTH-1:0] weight[31:0][7:0],
+    input  wire [63:0] weight_mem[31:0], 
     output wire [31:0]post_spike,
     output wire [V_WIDTH-1:0] V_mem_out[31:0]
 );
@@ -27,7 +27,7 @@ module lif_module #(
             ) lif_unit_inst (
                 .clk(clk),
                 .rst_n(rst_n),
-                .weight(weight[num]),
+                .weight_mem(weight_mem[num]),
                 .post_spike(post_spike[num]),
                 .V_mem_out(V_mem_out[num])
             );

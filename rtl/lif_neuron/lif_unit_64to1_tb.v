@@ -51,11 +51,20 @@ module lif_unit_64to1_tb;
     ) u_dut (
         .clk(clk),
         .rst_n(rst_n),
-        .weight(weight_unpacked), // 連接轉接後的訊號
+        .weight_mem(weight_flat), // 連接轉接後的訊號
         .post_spike(post_spike),
         .V_mem_out(V_mem_out)
     );
 
+// 4. [訊號映射] 把扁平的值「解包」給觀測用的陣列看
+    genvar gi; 
+    generate
+        for (gi = 0; gi < 8; gi = gi + 1) begin : tb_unpack
+            // 裡面的 i 也要全部改成 gi
+            assign weight_unpacked[gi] = weight_flat[(gi*D_WIDTH) +: D_WIDTH];
+        end
+    endgenerate
+    
     // ==========================================
     // 5. 時脈產生 (100MHz)
     // ==========================================
@@ -74,8 +83,9 @@ module lif_unit_64to1_tb;
     task send_64_inputs;
         input [D_WIDTH-1:0] val;
         begin
-            // 等待 DUT 內部的計數器歸零，確保數據對齊積分視窗
-            wait(u_dut.weight_grp_cnt == 3'd0);
+            // 當計數器不為 0 時，持續在每個 Clock 正緣等待
+            // 直到它在 Clock 正緣被檢測到歸零為止
+            while (u_dut.weight_grp_cnt != 3'd0) @(posedge clk);
             
             $display("[Time %0t] Sending 64 inputs with value %d...", $time, val);
             
@@ -104,8 +114,11 @@ module lif_unit_64to1_tb;
     // ==========================================
     initial begin
         // 初始化
+        clk = 0;
         rst_n = 0;
-        weight_flat = 0; // 初始化扁平暫存器
+        
+        // 確保 Reset 期間輸入是乾淨的
+        weight_flat = {(D_WIDTH*8){1'b0}};
         
         #20; rst_n = 1; // 釋放重置
         $display("[Time %0t] Reset released.", $time);

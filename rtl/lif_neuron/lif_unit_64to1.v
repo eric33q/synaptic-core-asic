@@ -9,7 +9,7 @@ module lif_unit_64to1 #(
 )(
     input  wire clk,
     input  wire rst_n,
-    input  wire [D_WIDTH-1:0] weight[7:0],
+    input  wire [63:0] weight_mem, // 64 個 8 位元權重平坦化輸入
     output wire post_spike,
     output wire [V_WIDTH-1:0] V_mem_out
 );
@@ -38,6 +38,9 @@ module lif_unit_64to1 #(
         else
             state_reg <= state_next;
     end
+
+   
+
     always @(*) begin
         state_next = state_reg;
         // 如果在不應期，或者剛剛spike，下一刻必須是重置狀態
@@ -81,6 +84,7 @@ module lif_unit_64to1 #(
             end
         end
     end
+
     // 根據 i_syn_valid 控制是否將 i_syn_hold 傳給積分器
     assign i_syn_to_int = i_syn_valid ? i_syn_hold : {I_WIDTH{1'b0}}; 
 
@@ -104,12 +108,14 @@ module lif_unit_64to1 #(
             endcase
         end
     end
+
     // 加權電流求和單元
     lif_weight_adder #( .D_WIDTH(D_WIDTH), .I_WIDTH(I_WIDTH) )
     u_w_adder (
-        .weight(weight),
+        .weight_flat(weight_mem),//從 SRAM 讀進來的原始 64-bit 數據
         .i_syn(i_syn_group)
     );
+
     // 漏電單元
     lif_leak #( .V_WIDTH(V_WIDTH), .LEAK_SHIFT(LEAK_SHIFT) ) 
     u_leak (
@@ -141,5 +147,4 @@ module lif_unit_64to1 #(
         .post_spike(post_spike),
         .ref_active(ref_active)
     );
-
 endmodule
