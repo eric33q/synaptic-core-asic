@@ -8,5 +8,5 @@ module lif_leak #(
 );
     wire [V_WIDTH-1:0] decay_val;
     assign decay_val = V_in >> LEAK_SHIFT;
-    assign V_leak = (V_in >= decay_val) ? (V_in - decay_val) : {V_WIDTH{1'b0}};
+    assign V_leak = V_in - decay_val;
 endmodule
