@@ -145,14 +145,17 @@ module lif_unit_64to1_tb;
         #50; $finish;
     end
 
-    // 產生波形
+    // 產生 FSDB 波形
     initial begin
-        $dumpfile("lif_unit_64to1.vcd");
-        $dumpvars(0, lif_unit_64to1_tb);
-        // 手動 dump 陣列內容
-        for (i=0; i<8; i=i+1) begin
-             $dumpvars(0, weight_unpacked[i]);
-        end
+        $fsdbDumpfile("lif_unit_64to1.fsdb");
+        
+        // 1. Dump 所有的標準訊號 (Wire, Reg)
+        $fsdbDumpvars(0, lif_unit_64to1_tb);
+        
+        // 2. Dump 所有的陣列與記憶體 (Multi-Dimensional Arrays)
+        // 這行指令會自動處理 weight_unpacked 和 sram_mem，不用手動迴圈
+        $fsdbDumpMDA(); 
     end
+
 
 endmodule
