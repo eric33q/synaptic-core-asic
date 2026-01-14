@@ -1,0 +1,20 @@
+xmverilog(64): 22.03-s003: (c) Copyright 1995-2022 Cadence Design Systems, Inc.
+TOOL:	xmverilog	22.03-s003: Started on Dec 22, 2025 at 00:25:14 CST
+ncverilog
+	lif_layer1_tb.v
+	lif_layer1_top.v
+	lif_unit_core.v
+	lif_integrator.v
+	lif_leak.v
+	lif_refrac_logic.v
+	lif_th_cmp.v
+	+access+r
+xmverilog: *W,NCEXDEP: Executable (ncverilog) is deprecated. Use (xmverilog) instead.
+xmverilog: *E,FILEMIS: Cannot find the provided file lif_layer1_tb.v.
+xmverilog: *E,FILEMIS: Cannot find the provided file lif_layer1_top.v.
+xmverilog: *E,FILEMIS: Cannot find the provided file lif_unit_core.v.
+xmverilog: *E,FILEMIS: Cannot find the provided file lif_integrator.v.
+xmverilog: *E,FILEMIS: Cannot find the provided file lif_leak.v.
+xmverilog: *E,FILEMIS: Cannot find the provided file lif_refrac_logic.v.
+xmverilog: *E,FILEMIS: Cannot find the provided file lif_th_cmp.v.
+TOOL:	xmverilog	22.03-s003: Exiting on Dec 22, 2025 at 00:25:15 CST  (total: 00:00:01)
