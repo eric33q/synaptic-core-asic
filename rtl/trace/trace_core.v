@@ -10,17 +10,20 @@ module trace_core #(
 );
 
     reg  [T_WIDTH-1:0] trace_reg;   // 目前的 Trace 數值
-    wire [T_WIDTH-1:0] decay_val;      
+    wire [T_WIDTH-1:0] decay_val;   // 衰減值   
     wire [T_WIDTH-1:0] trace_decayed;  
     wire [T_WIDTH:0]   sum_temp;      
     wire [T_WIDTH-1:0] trace_next;     
 
+    // 衰減邏輯
     assign decay_val = trace_reg >> DECAY_SHIFT;
-    assign trace_decayed = trace_reg - decay_val;  //衰減邏輯
+    assign trace_decayed = (trace_reg != 0 && decay_val == 0) ? 
+                           (trace_reg - 1'b1) : 
+                           (trace_reg - decay_val);
     
     assign sum_temp = trace_reg + ADD_VAL;
 
-    // 若有 Spike：使用 sum_temp (若超過 255 則飽和鎖在 255)
+    // 若有 Spike：使用 sum_temp (飽和鎖在 255)
     assign trace_next = spike_in ? 
                         ( (sum_temp > {T_WIDTH{1'b1}}) ? {T_WIDTH{1'b1}} : sum_temp[T_WIDTH-1:0] ) : 
                         trace_decayed;
