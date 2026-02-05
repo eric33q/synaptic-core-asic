@@ -1,6 +1,6 @@
 module lif_weight_adder #(
     parameter D_WIDTH = 8,   // 單一權重位寬
-    parameter I_WIDTH = 15   // 8 個權重總和位寬，需確保 >= D_WIDTH+3
+    parameter I_WIDTH = 18   // 8 個權重總和位寬，需確保 >= D_WIDTH+3
 )
 (
     input  wire [D_WIDTH-1:0] weight[7:0],
