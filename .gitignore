@@ -1,1 +1,33 @@
 /.idea
+# Waveforms
+*.fsdb
+*.vcd
+*.vpd
+*.trn
+*.dsn
+
+# Simulation Logs & History
+*.log
+*.key
+*.history
+*.diag
+*.jou
+novas_dump.log
+ncverilog.log
+xmverilog.log
+
+#Tool Generated Directories
+xcelium.d/
+INCA_libs/
+simv
+simv.daidir/
+csrc/
+nWaveLog/
+verdiLog/
+work/
+worklib/
+snapshot/
+
+#Configuration
+novas.rc
+novas.conf
