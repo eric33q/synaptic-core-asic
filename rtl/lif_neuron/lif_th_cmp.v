@@ -1,5 +1,5 @@
 module lif_th_cmp #(
-    parameter V_WIDTH   = 15,
+    parameter V_WIDTH   = 19,
     parameter THRESHOLD = 200
 )(
     input  wire [V_WIDTH-1:0] V_mem,
