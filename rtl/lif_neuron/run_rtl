@@ -1,0 +1,1 @@
+ncverilog lif_unit_tb.v lif_unit_784to1.v lif_leak.v lif_integrator.v lif_refrac_ctrl.v lif_th_cmp.v lif_weight_adder.v +access+r

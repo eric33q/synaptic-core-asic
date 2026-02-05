@@ -2,7 +2,7 @@ module lif_unit_784to1 #(
     parameter D_WIDTH    = 8,   // 數據位寬
     parameter I_WIDTH    = 18,  // 電流位寬
     parameter V_WIDTH    = 19,   // 電位位寬
-    parameter THRESHOLD  = 200, // 發火閾值
+    parameter THRESHOLD  = 800, // 發火閾值
     parameter LEAK_SHIFT = 3,   // 漏電移位
     parameter REF_PERIOD = 3    // 不應期週期數
 )(
@@ -13,7 +13,6 @@ module lif_unit_784to1 #(
     output wire [V_WIDTH-1:0] V_mem_out
 );
     reg  [V_WIDTH-1:0] V_mem;
-    wire [D_WIDTH-1:0] weight[7:0];
     wire [V_WIDTH-1:0] V_mem_leak;
     wire [V_WIDTH-1:0] V_mem_next; // 來自積分器的計算結果
     wire V_next_valid;             // 積分器指示是否有效
@@ -38,15 +37,6 @@ module lif_unit_784to1 #(
         else
             state_reg <= state_next;
     end
-
-    assign weight[0] = weight_mem[7:0];
-    assign weight[1] = weight_mem[15:8];
-    assign weight[2] = weight_mem[23:16];
-    assign weight[3] = weight_mem[31:24];
-    assign weight[4] = weight_mem[39:32];
-    assign weight[5] = weight_mem[47:40];
-    assign weight[6] = weight_mem[55:48];
-    assign weight[7] = weight_mem[63:56];
 
     always @(*) begin
         state_next = state_reg;
@@ -79,14 +69,16 @@ module lif_unit_784to1 #(
                 weight_grp_cnt  <= 7'd0;
             end else begin
                 i_syn_valid <= 1'b0; // 預設為 0，數到第 98 組時拉高
-                if (weight_grp_cnt == 7'd97) begin // 收到第 98 組權重加總結果
-                    i_syn_hold     <= i_syn_accum + i_syn_group;
-                    i_syn_accum    <= {I_WIDTH{1'b0}};
-                    i_syn_valid    <= 1'b1;
-                    weight_grp_cnt <= 7'd0;
-                end else begin
-                    i_syn_accum    <= i_syn_accum + i_syn_group;
-                    weight_grp_cnt <= weight_grp_cnt + 1'b1;
+                if (weight_mem != 64'd0 || weight_grp_cnt > 7'd0) begin
+                    if (weight_grp_cnt == 7'd98) begin 
+                        i_syn_hold     <= i_syn_accum + i_syn_group;
+                        i_syn_accum    <= {I_WIDTH{1'b0}};
+                        i_syn_valid    <= 1'b1;
+                        weight_grp_cnt <= 7'd0;
+                    end else begin
+                        i_syn_accum    <= i_syn_accum + i_syn_group;
+                        weight_grp_cnt <= weight_grp_cnt + 1'b1;
+                    end
                 end
             end
         end
@@ -119,7 +111,7 @@ module lif_unit_784to1 #(
     // 加權電流求和單元
     lif_weight_adder #( .D_WIDTH(D_WIDTH), .I_WIDTH(I_WIDTH) )
     u_w_adder (
-        .weight(weight),
+        .weight_bus(weight_mem),
         .i_syn(i_syn_group)
     );
 
