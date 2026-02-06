@@ -2,9 +2,11 @@
 // File created by:  xmverilog
 // Do not modify this file
 //
-layer1_buffer_wrapper_tb.v
-layer1_buffer_wrapper.v
-spike_buffer_layer1.v
+trace/layer1_trace_integration_tb.v
+trace/layer1_trace_integration.v
+trace/pre_trace.v
+trace/trace_core.v
+layer1_system_top.v
 spike_generator.v
 lif_unit_core.v
 lif_integrator.v

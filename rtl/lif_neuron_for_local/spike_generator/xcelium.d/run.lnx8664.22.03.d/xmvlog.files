@@ -2,9 +2,11 @@
 // File created by:  xmverilog
 // Do not modify this file
 //
-/home/t112830043/synaptic-core-asic/rtl/lif_neuron_for_local/spike_generator/layer1_buffer_wrapper_tb.v
-/home/t112830043/synaptic-core-asic/rtl/lif_neuron_for_local/spike_generator/layer1_buffer_wrapper.v
-/home/t112830043/synaptic-core-asic/rtl/lif_neuron_for_local/spike_generator/spike_buffer_layer1.v
+/home/t112830043/synaptic-core-asic/rtl/lif_neuron_for_local/spike_generator/trace/layer1_trace_integration_tb.v
+/home/t112830043/synaptic-core-asic/rtl/lif_neuron_for_local/spike_generator/trace/layer1_trace_integration.v
+/home/t112830043/synaptic-core-asic/rtl/lif_neuron_for_local/spike_generator/trace/pre_trace.v
+/home/t112830043/synaptic-core-asic/rtl/lif_neuron_for_local/spike_generator/trace/trace_core.v
+/home/t112830043/synaptic-core-asic/rtl/lif_neuron_for_local/spike_generator/layer1_system_top.v
 /home/t112830043/synaptic-core-asic/rtl/lif_neuron_for_local/spike_generator/spike_generator.v
 /home/t112830043/synaptic-core-asic/rtl/lif_neuron_for_local/spike_generator/lif_unit_core.v
 /home/t112830043/synaptic-core-asic/rtl/lif_neuron_for_local/spike_generator/lif_integrator.v
