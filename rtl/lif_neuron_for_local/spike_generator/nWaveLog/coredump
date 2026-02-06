@@ -1,0 +1,505 @@
+30849:   /usr/cad/synopsys/verdi/cur/platform/LINUXAMD64/bin/Novas -nWave
+0000000000400000 199868K r-x-- novas
+000000000c92e000    488K r-x-- novas
+000000000c9a8000  12568K rwx-- novas
+000000000d5ee000  82032K rwx--   [ anon ]
+0000000013d40000  23304K rwx--   [ anon ]
+00007faf29132000      4K -----   [ anon ]
+00007faf29133000   8192K rwx--   [ anon ]
+00007faf29933000      4K -----   [ anon ]
+00007faf29934000   8192K rwx--   [ anon ]
+00007faf2a134000      4K -----   [ anon ]
+00007faf2a135000   8192K rwx--   [ anon ]
+00007faf2a935000      4K -----   [ anon ]
+00007faf2a936000   8192K rwx--   [ anon ]
+00007faf2b136000      4K -----   [ anon ]
+00007faf2b137000   8192K rwx--   [ anon ]
+00007faf2b937000    396K r-x-- libtiff.so.3.9.4
+00007faf2b99a000   2044K ----- libtiff.so.3.9.4
+00007faf2bb99000      8K r-x-- libtiff.so.3.9.4
+00007faf2bb9b000      4K rwx-- libtiff.so.3.9.4
+00007faf2bb9c000     24K r-x-- libqtiff.so
+00007faf2bba2000   2048K ----- libqtiff.so
+00007faf2bda2000      4K rwx-- libqtiff.so
+00007faf2bda3000     16K r-x-- libqtga.so
+00007faf2bda7000   2048K ----- libqtga.so
+00007faf2bfa7000      4K rwx-- libqtga.so
+00007faf2bfa8000    340K r-x-- libQtSvg.so.4.8.7
+00007faf2bffd000   2048K ----- libQtSvg.so.4.8.7
+00007faf2c1fd000      8K r-x-- libQtSvg.so.4.8.7
+00007faf2c1ff000      4K rwx-- libQtSvg.so.4.8.7
+00007faf2c200000     20K r-x-- libqsvg.so
+00007faf2c205000   2044K ----- libqsvg.so
+00007faf2c404000      4K rwx-- libqsvg.so
+00007faf2c405000    436K r-x-- libmng.so.1.0.0
+00007faf2c472000   2048K ----- libmng.so.1.0.0
+00007faf2c672000     12K r-x-- libmng.so.1.0.0
+00007faf2c675000      8K rwx-- libmng.so.1.0.0
+00007faf2c677000     20K r-x-- libqmng.so
+00007faf2c67c000   2048K ----- libqmng.so
+00007faf2c87c000      4K rwx-- libqmng.so
+00007faf2c87d000    132K r-x-- libjpeg.so.62.0.0
+00007faf2c89e000   2048K ----- libjpeg.so.62.0.0
+00007faf2ca9e000      4K rwx-- libjpeg.so.62.0.0
+00007faf2ca9f000     28K r-x-- libqjpeg.so
+00007faf2caa6000   2044K ----- libqjpeg.so
+00007faf2cca5000      4K rwx-- libqjpeg.so
+00007faf2cca6000     24K r-x-- libqico.so
+00007faf2ccac000   2048K ----- libqico.so
+00007faf2ceac000      4K rwx-- libqico.so
+00007faf2cead000     24K r-x-- libqgif.so
+00007faf2ceb3000   2048K ----- libqgif.so
+00007faf2d0b3000      4K rwx-- libqgif.so
+00007faf2d0b4000     72K r-x-- libnss_myhostname.so.2
+00007faf2d0c6000   2044K ----- libnss_myhostname.so.2
+00007faf2d2c5000     12K r-x-- libnss_myhostname.so.2
+00007faf2d2c8000      4K rwx-- libnss_myhostname.so.2
+00007faf2d2c9000     24K r-x-- libnss_dns-2.17.so
+00007faf2d2cf000   2044K ----- libnss_dns-2.17.so
+00007faf2d4ce000      4K r-x-- libnss_dns-2.17.so
+00007faf2d4cf000      4K rwx-- libnss_dns-2.17.so
+00007faf2d4d0000    240K r-x-- libblkid.so.1.1.0
+00007faf2d50c000   2044K ----- libblkid.so.1.1.0
+00007faf2d70b000     12K r-x-- libblkid.so.1.1.0
+00007faf2d70e000      4K rwx-- libblkid.so.1.1.0
+00007faf2d70f000      4K rwx--   [ anon ]
+00007faf2d710000     16K r-x-- libgpg-error.so.0.10.0
+00007faf2d714000   2044K ----- libgpg-error.so.0.10.0
+00007faf2d913000      4K r-x-- libgpg-error.so.0.10.0
+00007faf2d914000      4K rwx-- libgpg-error.so.0.10.0
+00007faf2d915000    500K r-x-- libgcrypt.so.11.8.2
+00007faf2d992000   2044K ----- libgcrypt.so.11.8.2
+00007faf2db91000      4K r-x-- libgcrypt.so.11.8.2
+00007faf2db92000     12K rwx-- libgcrypt.so.11.8.2
+00007faf2db95000      4K rwx--   [ anon ]
+00007faf2db96000     72K r-x-- liblz4.so.1.7.1
+00007faf2dba8000   2044K ----- liblz4.so.1.7.1
+00007faf2dda7000      4K rwx-- liblz4.so.1.7.1
+00007faf2dda8000    256K r-x-- libmount.so.1.1.0
+00007faf2dde8000   2048K ----- libmount.so.1.1.0
+00007faf2dfe8000      4K r-x-- libmount.so.1.1.0
+00007faf2dfe9000      4K rwx-- libmount.so.1.1.0
+00007faf2dfea000      4K rwx--   [ anon ]
+00007faf2dfeb000     88K r-x-- libresolv-2.17.so
+00007faf2e001000   2048K ----- libresolv-2.17.so
+00007faf2e201000      4K r-x-- libresolv-2.17.so
+00007faf2e202000      4K rwx-- libresolv-2.17.so
+00007faf2e203000      8K rwx--   [ anon ]
+00007faf2e205000    144K r-x-- libselinux.so.1
+00007faf2e229000   2044K ----- libselinux.so.1
+00007faf2e428000      4K r-x-- libselinux.so.1
+00007faf2e429000      4K rwx-- libselinux.so.1
+00007faf2e42a000      8K rwx--   [ anon ]
+00007faf2e42c000    384K r-x-- libpcre.so.1.2.0
+00007faf2e48c000   2048K ----- libpcre.so.1.2.0
+00007faf2e68c000      4K r-x-- libpcre.so.1.2.0
+00007faf2e68d000      4K rwx-- libpcre.so.1.2.0
+00007faf2e68e000     12K r-x-- libgmodule-2.0.so.0.5600.1
+00007faf2e691000   2044K ----- libgmodule-2.0.so.0.5600.1
+00007faf2e890000      4K r-x-- libgmodule-2.0.so.0.5600.1
+00007faf2e891000      4K rwx-- libgmodule-2.0.so.0.5600.1
+00007faf2e892000     28K r-x-- libffi.so.6.0.1
+00007faf2e899000   2044K ----- libffi.so.6.0.1
+00007faf2ea98000      4K r-x-- libffi.so.6.0.1
+00007faf2ea99000      4K rwx-- libffi.so.6.0.1
+00007faf2ea9a000    188K r-x-- libsystemd.so.0.6.0
+00007faf2eac9000   2048K ----- libsystemd.so.0.6.0
+00007faf2ecc9000      4K r-x-- libsystemd.so.0.6.0
+00007faf2ecca000      4K rwx-- libsystemd.so.0.6.0
+00007faf2eccb000   1104K r-x-- libglib-2.0.so.0.5600.1
+00007faf2eddf000   2044K ----- libglib-2.0.so.0.5600.1
+00007faf2efde000      4K r-x-- libglib-2.0.so.0.5600.1
+00007faf2efdf000      4K rwx-- libglib-2.0.so.0.5600.1
+00007faf2efe0000      4K rwx--   [ anon ]
+00007faf2efe1000    316K r-x-- libgobject-2.0.so.0.5600.1
+00007faf2f030000   2048K ----- libgobject-2.0.so.0.5600.1
+00007faf2f230000      4K r-x-- libgobject-2.0.so.0.5600.1
+00007faf2f231000      4K rwx-- libgobject-2.0.so.0.5600.1
+00007faf2f232000   1624K r-x-- libgio-2.0.so.0.5600.1
+00007faf2f3c8000   2048K ----- libgio-2.0.so.0.5600.1
+00007faf2f5c8000     20K r-x-- libgio-2.0.so.0.5600.1
+00007faf2f5cd000     12K rwx-- libgio-2.0.so.0.5600.1
+00007faf2f5d0000      8K rwx--   [ anon ]
+00007faf2f5d2000    312K r-x-- libdbus-1.so.3.14.14
+00007faf2f620000   2044K ----- libdbus-1.so.3.14.14
+00007faf2f81f000      4K r-x-- libdbus-1.so.3.14.14
+00007faf2f820000      4K rwx-- libdbus-1.so.3.14.14
+00007faf2f821000      4K rwx--   [ anon ]
+00007faf2f822000    152K r-x-- libdbus-glib-1.so.2.2.2
+00007faf2f848000   2048K ----- libdbus-glib-1.so.2.2.2
+00007faf2fa48000      4K r-x-- libdbus-glib-1.so.2.2.2
+00007faf2fa49000      4K rwx-- libdbus-glib-1.so.2.2.2
+00007faf2fa4a000    148K r-x-- liblzma.so.5.2.2
+00007faf2fa6f000   2044K ----- liblzma.so.5.2.2
+00007faf2fc6e000      4K r-x-- liblzma.so.5.2.2
+00007faf2fc6f000      4K rwx-- liblzma.so.5.2.2
+00007faf2fc70000     92K r-x-- libelf-0.176.so
+00007faf2fc87000   2044K ----- libelf-0.176.so
+00007faf2fe86000      4K r-x-- libelf-0.176.so
+00007faf2fe87000      4K rwx-- libelf-0.176.so
+00007faf2fe88000     16K r-x-- libattr.so.1.1.0
+00007faf2fe8c000   2044K ----- libattr.so.1.1.0
+00007faf3008b000      4K r-x-- libattr.so.1.1.0
+00007faf3008c000      4K rwx-- libattr.so.1.1.0
+00007faf3008d000    312K r-x-- libdw-0.176.so
+00007faf300db000   2048K ----- libdw-0.176.so
+00007faf302db000      8K r-x-- libdw-0.176.so
+00007faf302dd000      4K rwx-- libdw-0.176.so
+00007faf302de000     16K r-x-- libcap.so.2.22
+00007faf302e2000   2044K ----- libcap.so.2.22
+00007faf304e1000      4K r-x-- libcap.so.2.22
+00007faf304e2000      4K rwx-- libcap.so.2.22
+00007faf304e3000     80K r-x-- libudev.so.1.6.2
+00007faf304f7000   2048K ----- libudev.so.1.6.2
+00007faf306f7000      4K r-x-- libudev.so.1.6.2
+00007faf306f8000      4K rwx-- libudev.so.1.6.2
+00007faf306f9000   2240K rwx--   [ anon ]
+00007faf30929000   6804K r-x-- novas.rcc
+00007faf30fce000      8K r-x-- libXinerama.so.1.0.0
+00007faf30fd0000   2044K ----- libXinerama.so.1.0.0
+00007faf311cf000      4K r-x-- libXinerama.so.1.0.0
+00007faf311d0000      4K rwx-- libXinerama.so.1.0.0
+00007faf311d1000     40K r-x-- libXrandr.so.2.2.0
+00007faf311db000   2044K ----- libXrandr.so.2.2.0
+00007faf313da000      4K r-x-- libXrandr.so.2.2.0
+00007faf313db000      4K rwx-- libXrandr.so.2.2.0
+00007faf313dc000      8K r-x-- UTF-16.so
+00007faf313de000   2048K ----- UTF-16.so
+00007faf315de000      4K r-x-- UTF-16.so
+00007faf315df000      4K rwx-- UTF-16.so
+00007faf315e0000      4K -----   [ anon ]
+00007faf315e1000   8192K rwx--   [ anon ]
+00007faf31de1000     20K r-x-- libXfixes.so.3.1.0
+00007faf31de6000   2044K ----- libXfixes.so.3.1.0
+00007faf31fe5000      4K r-x-- libXfixes.so.3.1.0
+00007faf31fe6000      4K rwx-- libXfixes.so.3.1.0
+00007faf31fe7000     36K r-x-- libXcursor.so.1.0.2
+00007faf31ff0000   2048K ----- libXcursor.so.1.0.2
+00007faf321f0000      4K r-x-- libXcursor.so.1.0.2
+00007faf321f1000      4K rwx-- libXcursor.so.1.0.2
+00007faf321f2000      4K -----   [ anon ]
+00007faf321f3000   8192K rwx--   [ anon ]
+00007faf329f3000     48K r-x-- libnss_files-2.17.so
+00007faf329ff000   2044K ----- libnss_files-2.17.so
+00007faf32bfe000      4K r-x-- libnss_files-2.17.so
+00007faf32bff000      4K rwx-- libnss_files-2.17.so
+00007faf32c00000     24K rwx--   [ anon ]
+00007faf32c06000      8K r-x-- libXau.so.6.0.0
+00007faf32c08000   2048K ----- libXau.so.6.0.0
+00007faf32e08000      4K r-x-- libXau.so.6.0.0
+00007faf32e09000      4K rwx-- libXau.so.6.0.0
+00007faf32e0a000     16K r-x-- libuuid.so.1.3.0
+00007faf32e0e000   2044K ----- libuuid.so.1.3.0
+00007faf3300d000      4K r-x-- libuuid.so.1.3.0
+00007faf3300e000      4K rwx-- libuuid.so.1.3.0
+00007faf3300f000    160K r-x-- libexpat.so.1.6.0
+00007faf33037000   2048K ----- libexpat.so.1.6.0
+00007faf33237000      8K r-x-- libexpat.so.1.6.0
+00007faf33239000      4K rwx-- libexpat.so.1.6.0
+00007faf3323a000    116K r-x-- libxcb.so.1
+00007faf33257000   2048K ----- libxcb.so.1
+00007faf33457000      4K rwx-- libxcb.so.1
+00007faf33458000     36K r-x-- libXrender.so.1.3.0
+00007faf33461000   2048K ----- libXrender.so.1.3.0
+00007faf33661000      4K r-x-- libXrender.so.1.3.0
+00007faf33662000      4K rwx-- libXrender.so.1.3.0
+00007faf33663000     88K r-x-- libgcc_s.so.1
+00007faf33679000   2044K ----- libgcc_s.so.1
+00007faf33878000      4K r-x-- libgcc_s.so.1
+00007faf33879000      4K rwx-- libgcc_s.so.1
+00007faf3387a000     92K r-x-- libICE.so.6.3.0
+00007faf33891000   2044K ----- libICE.so.6.3.0
+00007faf33a90000      4K r-x-- libICE.so.6.3.0
+00007faf33a91000      4K rwx-- libICE.so.6.3.0
+00007faf33a92000     16K rwx--   [ anon ]
+00007faf33a96000     28K r-x-- libSM.so.6.0.1
+00007faf33a9d000   2044K ----- libSM.so.6.0.1
+00007faf33c9c000      4K r-x-- libSM.so.6.0.1
+00007faf33c9d000      4K rwx-- libSM.so.6.0.1
+00007faf33c9e000    164K r-x-- libpng15.so.15
+00007faf33cc7000   2048K ----- libpng15.so.15
+00007faf33ec7000      4K r-x-- libpng15.so.15
+00007faf33ec8000      4K rwx-- libpng15.so.15
+00007faf33ec9000     60K r-x-- libbz2.so.1.0.6
+00007faf33ed8000   2044K ----- libbz2.so.1.0.6
+00007faf340d7000      4K r-x-- libbz2.so.1.0.6
+00007faf340d8000      4K rwx-- libbz2.so.1.0.6
+00007faf340d9000     84K r-x-- libz.so.1.2.7
+00007faf340ee000   2044K ----- libz.so.1.2.7
+00007faf342ed000      4K r-x-- libz.so.1.2.7
+00007faf342ee000      4K rwx-- libz.so.1.2.7
+00007faf342ef000   1808K r-x-- libc-2.17.so
+00007faf344b3000   2044K ----- libc-2.17.so
+00007faf346b2000     16K r-x-- libc-2.17.so
+00007faf346b6000      8K rwx-- libc-2.17.so
+00007faf346b8000     20K rwx--   [ anon ]
+00007faf346bd000   1028K r-x-- libm-2.17.so
+00007faf347be000   2044K ----- libm-2.17.so
+00007faf349bd000      4K r-x-- libm-2.17.so
+00007faf349be000      4K rwx-- libm-2.17.so
+00007faf349bf000    152K r-x-- libpng12.so.0.50.0
+00007faf349e5000   2044K ----- libpng12.so.0.50.0
+00007faf34be4000      4K r-x-- libpng12.so.0.50.0
+00007faf34be5000      4K rwx-- libpng12.so.0.50.0
+00007faf34be6000     28K r-x-- librt-2.17.so
+00007faf34bed000   2044K ----- librt-2.17.so
+00007faf34dec000      4K r-x-- librt-2.17.so
+00007faf34ded000      4K rwx-- librt-2.17.so
+00007faf34dee000     92K r-x-- libpthread-2.17.so
+00007faf34e05000   2044K ----- libpthread-2.17.so
+00007faf35004000      4K r-x-- libpthread-2.17.so
+00007faf35005000      4K rwx-- libpthread-2.17.so
+00007faf35006000     16K rwx--   [ anon ]
+00007faf3500a000     40K r-x-- libnuma.so.1.0.0
+00007faf35014000   2048K ----- libnuma.so.1.0.0
+00007faf35214000      4K r-x-- libnuma.so.1.0.0
+00007faf35215000      4K rwx-- libnuma.so.1.0.0
+00007faf35216000     92K r-x-- libnsl-2.17.so
+00007faf3522d000   2044K ----- libnsl-2.17.so
+00007faf3542c000      4K r-x-- libnsl-2.17.so
+00007faf3542d000      4K rwx-- libnsl-2.17.so
+00007faf3542e000      8K rwx--   [ anon ]
+00007faf35430000    256K r-x-- libfontconfig.so.1.11.1
+00007faf35470000   2044K ----- libfontconfig.so.1.11.1
+00007faf3566f000      8K r-x-- libfontconfig.so.1.11.1
+00007faf35671000      4K rwx-- libfontconfig.so.1.11.1
+00007faf35672000     68K r-x-- libXext.so.6.4.0
+00007faf35683000   2044K ----- libXext.so.6.4.0
+00007faf35882000      4K r-x-- libXext.so.6.4.0
+00007faf35883000      4K rwx-- libXext.so.6.4.0
+00007faf35884000   1244K r-x-- libX11.so.6
+00007faf359bb000   2048K ----- libX11.so.6
+00007faf35bbb000     24K rwx-- libX11.so.6
+00007faf35bc1000     96K r-x-- libXmu.so.6.2.0
+00007faf35bd9000   2048K ----- libXmu.so.6.2.0
+00007faf35dd9000      4K r-x-- libXmu.so.6.2.0
+00007faf35dda000      4K rwx-- libXmu.so.6.2.0
+00007faf35ddb000      4K rwx--   [ anon ]
+00007faf35ddc000    388K r-x-- libXt.so.6.0.0
+00007faf35e3d000   2044K ----- libXt.so.6.0.0
+00007faf3603c000      4K r-x-- libXt.so.6.0.0
+00007faf3603d000     20K rwx-- libXt.so.6.0.0
+00007faf36042000      4K rwx--   [ anon ]
+00007faf36043000     84K r-x-- libXft.so.2.3.2
+00007faf36058000   2044K ----- libXft.so.2.3.2
+00007faf36257000      4K r-x-- libXft.so.2.3.2
+00007faf36258000      4K rwx-- libXft.so.2.3.2
+00007faf36259000      8K r-x-- libXss.so.1.0.0
+00007faf3625b000   2048K ----- libXss.so.1.0.0
+00007faf3645b000      4K r-x-- libXss.so.1.0.0
+00007faf3645c000      4K rwx-- libXss.so.1.0.0
+00007faf3645d000    228K r-x-- libtbb.so.2
+00007faf36496000   2044K ----- libtbb.so.2
+00007faf36695000      8K r-x-- libtbb.so.2
+00007faf36697000     12K rwx-- libtbb.so.2
+00007faf3669a000      8K rwx--   [ anon ]
+00007faf3669c000   1480K r-x-- libstdc++.so.6
+00007faf3680e000   2048K ----- libstdc++.so.6
+00007faf36a0e000     40K r-x-- libstdc++.so.6
+00007faf36a18000      8K rwx-- libstdc++.so.6
+00007faf36a1a000     12K rwx--   [ anon ]
+00007faf36a1d000    208K r-x-- libsnpsmalloc.so
+00007faf36a51000   2044K ----- libsnpsmalloc.so
+00007faf36c50000      4K r-x-- libsnpsmalloc.so
+00007faf36c51000      4K rwx-- libsnpsmalloc.so
+00007faf36c52000     40K rwx--   [ anon ]
+00007faf36c5c000   1688K r-x-- libsimprofile_verdi.so
+00007faf36e02000   2044K ----- libsimprofile_verdi.so
+00007faf37001000     52K r-x-- libsimprofile_verdi.so
+00007faf3700e000      4K rwx-- libsimprofile_verdi.so
+00007faf3700f000     20K rwx--   [ anon ]
+00007faf37014000    208K r-x-- libQtSql.so.4.8.5
+00007faf37048000   2044K ----- libQtSql.so.4.8.5
+00007faf37247000     12K rwx-- libQtSql.so.4.8.5
+00007faf3724a000   2564K r-x-- libQt3Support.so.4.8.5
+00007faf374cb000   2048K ----- libQt3Support.so.4.8.5
+00007faf376cb000    124K rwx-- libQt3Support.so.4.8.5
+00007faf376ea000   1048K r-x-- libQtNetwork.so.4.8.5
+00007faf377f0000   2044K ----- libQtNetwork.so.4.8.5
+00007faf379ef000     36K rwx-- libQtNetwork.so.4.8.5
+00007faf379f8000  21820K r-x-- libQtWebKit.so.4.9.4
+00007faf38f47000   2048K ----- libQtWebKit.so.4.9.4
+00007faf39147000   1632K rwx-- libQtWebKit.so.4.9.4
+00007faf392df000    168K rwx--   [ anon ]
+00007faf39309000    224K r-x-- libQtXml.so.4.8.5
+00007faf39341000   2044K ----- libQtXml.so.4.8.5
+00007faf39540000     12K rwx-- libQtXml.so.4.8.5
+00007faf39543000   2600K r-x-- libQtCore.so.4.8.5
+00007faf397cd000   2044K ----- libQtCore.so.4.8.5
+00007faf399cc000     60K rwx-- libQtCore.so.4.8.5
+00007faf399db000      4K rwx--   [ anon ]
+00007faf399dc000   9524K r-x-- libQtGui.so.4.8.5
+00007faf3a329000   2044K ----- libQtGui.so.4.8.5
+00007faf3a528000    340K rwx-- libQtGui.so.4.8.5
+00007faf3a57d000     12K rwx--   [ anon ]
+00007faf3a580000     84K r-x-- libQtSolutions_MotifExtension-2.7.so.1.0.0
+00007faf3a595000   2044K ----- libQtSolutions_MotifExtension-2.7.so.1.0.0
+00007faf3a794000      8K rwx-- libQtSolutions_MotifExtension-2.7.so.1.0.0
+00007faf3a796000    732K r-x-- libfreetype.so.6.14.0
+00007faf3a84d000   2048K ----- libfreetype.so.6.14.0
+00007faf3aa4d000     28K r-x-- libfreetype.so.6.14.0
+00007faf3aa54000      4K rwx-- libfreetype.so.6.14.0
+00007faf3aa55000    404K r-x-- libvfs.so
+00007faf3aaba000   2048K ----- libvfs.so
+00007faf3acba000     12K r-x-- libvfs.so
+00007faf3acbd000      4K rwx-- libvfs.so
+00007faf3acbe000     12K rwx--   [ anon ]
+00007faf3acc1000      8K r-x-- libdl-2.17.so
+00007faf3acc3000   2048K ----- libdl-2.17.so
+00007faf3aec3000      4K r-x-- libdl-2.17.so
+00007faf3aec4000      4K rwx-- libdl-2.17.so
+00007faf3aec5000    136K r-x-- ld-2.17.so
+00007faf3aeef000     60K r-x-- VeraBd.ttf
+00007faf3aefe000    160K rwx--   [ anon ]
+00007faf3af26000     68K r-x-- Vera.ttf
+00007faf3af37000     20K r-x-- access.rcc
+00007faf3af3c000     12K r-xs- f8d13561-c254-48da-8e62-4234fcfa72db-le64.cache-7
+00007faf3af3f000      8K r-xs- 31f63b9a-1eb9-4f31-80fd-864100d0dc6f-le64.cache-7
+00007faf3af41000      8K r-xs- ac5ef369-939d-4faf-b600-cdc44bbf5dea-le64.cache-7
+00007faf3af43000     96K r-xs- f75758c1-39f5-4b36-bcf7-dcba1929a4e1-le64.cache-7
+00007faf3af5b000     44K r-xs- 2f7ffdb7-a75a-470e-825e-91df15075e44-le64.cache-7
+00007faf3af66000      8K r-xs- 2edebf0b-0591-4c73-b935-7eb66dfe9bbb-le64.cache-7
+00007faf3af68000     12K r-xs- fe6dd7d3-cd47-4fa2-8054-79db604e5347-le64.cache-7
+00007faf3af6b000      4K r-xs- 36f8a2a6-18ae-4da2-83fb-c8b8f947a8d8-le64.cache-7
+00007faf3af6c000      4K r-xs- 2dcc8aef-60cb-4a8d-8a32-eccd59820255-le64.cache-7
+00007faf3af6d000      4K r-xs- 8537cb47-d2c7-4693-a088-5088ae90496a-le64.cache-7
+00007faf3af6e000      4K r-xs- dc02fbd4-24be-41b6-8b17-261209f5d3ca-le64.cache-7
+00007faf3af6f000     12K r-xs- 6dfd2094-9355-4f69-a516-15f26708dbf0-le64.cache-7
+00007faf3af72000      4K r-xs- ff00139d-5953-411f-bb31-b894a1bfeea6-le64.cache-7
+00007faf3af73000     16K r-xs- 577da3b5-bfd2-48d2-ad67-a9652e042a08-le64.cache-7
+00007faf3af77000     16K r-xs- 6a0e4534-cf8d-408a-9f3f-48c33bc6fdce-le64.cache-7
+00007faf3af7b000     12K r-xs- 7940d479-e33e-465f-8428-5011604ad0cc-le64.cache-7
+00007faf3af7e000      4K r-xs- da6f7dae-9e32-4e9a-993c-53564488fb5b-le64.cache-7
+00007faf3af7f000      4K r-xs- 063e5a8a-93c3-444b-9f05-aea80760f6db-le64.cache-7
+00007faf3af80000      4K r-xs- dea7202f-4e3d-47b1-bbcd-be59bd2e49ae-le64.cache-7
+00007faf3af81000      4K r-xs- 5b0311d1-0114-41cf-ab1d-61841cbb81e1-le64.cache-7
+00007faf3af82000      4K r-xs- abc6a19b-d771-4a9c-93cf-cb4f68b94778-le64.cache-7
+00007faf3af83000      4K r-xs- dca49090-533d-4592-8823-e780a09a42fc-le64.cache-7
+00007faf3af84000      4K r-xs- 7755cc19-76c4-411f-95e4-a44c785a1717-le64.cache-7
+00007faf3af85000      4K r-xs- c410a111-339e-430f-a2f9-0fade26cfa8f-le64.cache-7
+00007faf3af86000      4K r-xs- 7800d384-d45e-4953-bb58-36321a60a045-le64.cache-7
+00007faf3af87000      4K r-xs- 4774329e-50e7-4d9a-9b32-11bf7a6e9e81-le64.cache-7
+00007faf3af88000      4K r-xs- f809df3e-1023-4a2f-90dd-ce0869869939-le64.cache-7
+00007faf3af89000      4K r-xs- e5c05a1c-139d-4bdc-bd91-39e37534aff7-le64.cache-7
+00007faf3af8a000      4K r-xs- 50135f7c-40a5-45c1-862d-59ca8f7826bb-le64.cache-7
+00007faf3af8b000      4K r-xs- 9866c822-745b-4436-a20a-a2f3055a93fc-le64.cache-7
+00007faf3af8c000     20K r-xs- 57ee5e52-10f2-4f3e-9df7-da820ceb3f96-le64.cache-7
+00007faf3af91000      8K r-xs- aa6aeac9-29d9-4bfa-825a-9a24c8fdded6-le64.cache-7
+00007faf3af93000      4K r-xs- b03d7e01-94d0-4a8c-81e5-8c30cfde570b-le64.cache-7
+00007faf3af94000      8K r-xs- 3836fd09-f058-46f1-acbb-968b931a170e-le64.cache-7
+00007faf3af96000      8K r-xs- fe30db61-7747-4879-95e6-acebc2bebde7-le64.cache-7
+00007faf3af98000      8K r-xs- 07c7f089-bc7e-4728-ba12-58f15d7b8df1-le64.cache-7
+00007faf3af9a000     32K r-xs- 029bda26-ff43-4609-ba43-634d7035631d-le64.cache-7
+00007faf3afa2000      4K r-xs- 967c1af0-4451-47d4-bc45-c4f36d960ef7-le64.cache-7
+00007faf3afa3000     44K r-xs- 15d41df4-182c-40a2-ae42-a021ab25a690-le64.cache-7
+00007faf3afae000     32K r-xs- 41454255-f0cf-4d4f-9844-29e00811c037-le64.cache-7
+00007faf3afb6000      8K r-xs- 2d7ff15d-7dbc-4515-baac-d5fe24f7b39e-le64.cache-7
+00007faf3afb8000      4K r-xs- 621ac50c-8ee0-475a-9bc5-7de68c743001-le64.cache-7
+00007faf3afb9000     20K r-xs- 5860f015-248e-46b1-a714-4d33f93ebbd2-le64.cache-7
+00007faf3afbe000     28K r-xs- gconv-modules.cache
+00007faf3afc5000   1156K rwx--   [ anon ]
+00007faf3b0e6000      4K r-x-- ld-2.17.so
+00007faf3b0e7000      4K rwx-- ld-2.17.so
+00007faf3b0e8000      4K rwx--   [ anon ]
+00007ffe7c2cc000    136K rwx--   [ stack ]
+00007ffe7c35b000      8K r-x--   [ anon ]
+ffffffffff600000      4K r-x--   [ anon ]
+ total           612996K
+Thread 7 (Thread 0x7faf31de0700 (LWP 30871)):
+#0  0x00007faf343b49fd in nanosleep () at /lib64/libc.so.6
+#1  0x00007faf343b4894 in sleep () at /lib64/libc.so.6
+#2  0x0000000006f3da6a in LicenseCheckUtility ()
+#3  0x000000000939f8d4 in sdp_wrap_start_routine ()
+#4  0x00007faf34df5ea5 in start_thread () at /lib64/libpthread.so.0
+#5  0x00007faf343edb0d in clone () at /lib64/libc.so.6
+Thread 6 (Thread 0x7faf2b936700 (LWP 30885)):
+#0  0x00007faf343e4b43 in select () at /lib64/libc.so.6
+#1  0x00000000092fdb80 in NotifierThreadProc ()
+#2  0x000000000939f8d4 in sdp_wrap_start_routine ()
+#3  0x00007faf34df5ea5 in start_thread () at /lib64/libpthread.so.0
+#4  0x00007faf343edb0d in clone () at /lib64/libc.so.6
+Thread 5 (Thread 0x7faf2b135700 (LWP 30888)):
+#0  0x00007faf34df9a35 in pthread_cond_wait@@GLIBC_2.3.2 () at /lib64/libpthread.so.0
+#1  0x00007faf395c8b7b in QWaitCondition::wait(QMutex*, unsigned long) () at /usr/cad/synopsys/verdi/cur/platform/LINUXAMD64/lib/Qt/libQtCore.so.4
+#2  0x00007faf3a0296ce in QFileInfoGatherer::run() () at /usr/cad/synopsys/verdi/cur/platform/LINUXAMD64/lib/Qt/libQtGui.so.4
+#3  0x00007faf395c8661 in QThreadPrivate::start(void*) () at /usr/cad/synopsys/verdi/cur/platform/LINUXAMD64/lib/Qt/libQtCore.so.4
+#4  0x000000000939f8d4 in sdp_wrap_start_routine ()
+#5  0x00007faf34df5ea5 in start_thread () at /lib64/libpthread.so.0
+#6  0x00007faf343edb0d in clone () at /lib64/libc.so.6
+Thread 4 (Thread 0x7faf2a934700 (LWP 30889)):
+#0  0x00007faf34df9a35 in pthread_cond_wait@@GLIBC_2.3.2 () at /lib64/libpthread.so.0
+#1  0x00007faf395c8b7b in QWaitCondition::wait(QMutex*, unsigned long) () at /usr/cad/synopsys/verdi/cur/platform/LINUXAMD64/lib/Qt/libQtCore.so.4
+#2  0x00007faf3a0296ce in QFileInfoGatherer::run() () at /usr/cad/synopsys/verdi/cur/platform/LINUXAMD64/lib/Qt/libQtGui.so.4
+#3  0x00007faf395c8661 in QThreadPrivate::start(void*) () at /usr/cad/synopsys/verdi/cur/platform/LINUXAMD64/lib/Qt/libQtCore.so.4
+#4  0x000000000939f8d4 in sdp_wrap_start_routine ()
+#5  0x00007faf34df5ea5 in start_thread () at /lib64/libpthread.so.0
+#6  0x00007faf343edb0d in clone () at /lib64/libc.so.6
+Thread 3 (Thread 0x7faf2a133700 (LWP 30890)):
+#0  0x00007faf343e4b43 in select () at /lib64/libc.so.6
+#1  0x00007faf396cb133 in qt_safe_select(int, fd_set*, fd_set*, fd_set*, timeval const*) () at /usr/cad/synopsys/verdi/cur/platform/LINUXAMD64/lib/Qt/libQtCore.so.4
+#2  0x00007faf396cdffc in QEventDispatcherUNIXPrivate::doSelect(QFlags<QEventLoop::ProcessEventsFlag>, timeval*) () at /usr/cad/synopsys/verdi/cur/platform/LINUXAMD64/lib/Qt/libQtCore.so.4
+#3  0x00007faf396ceb22 in QEventDispatcherUNIX::processEvents(QFlags<QEventLoop::ProcessEventsFlag>) () at /usr/cad/synopsys/verdi/cur/platform/LINUXAMD64/lib/Qt/libQtCore.so.4
+#4  0x00007faf396a3e2f in QEventLoop::processEvents(QFlags<QEventLoop::ProcessEventsFlag>) () at /usr/cad/synopsys/verdi/cur/platform/LINUXAMD64/lib/Qt/libQtCore.so.4
+#5  0x00007faf396a40c8 in QEventLoop::exec(QFlags<QEventLoop::ProcessEventsFlag>) () at /usr/cad/synopsys/verdi/cur/platform/LINUXAMD64/lib/Qt/libQtCore.so.4
+#6  0x00007faf395c5e33 in QThread::exec() () at /usr/cad/synopsys/verdi/cur/platform/LINUXAMD64/lib/Qt/libQtCore.so.4
+#7  0x00007faf39689e3f in QInotifyFileSystemWatcherEngine::run() () at /usr/cad/synopsys/verdi/cur/platform/LINUXAMD64/lib/Qt/libQtCore.so.4
+#8  0x00007faf395c8661 in QThreadPrivate::start(void*) () at /usr/cad/synopsys/verdi/cur/platform/LINUXAMD64/lib/Qt/libQtCore.so.4
+#9  0x000000000939f8d4 in sdp_wrap_start_routine ()
+#10 0x00007faf34df5ea5 in start_thread () at /lib64/libpthread.so.0
+#11 0x00007faf343edb0d in clone () at /lib64/libc.so.6
+Thread 2 (Thread 0x7faf29932700 (LWP 30891)):
+#0  0x00007faf343e4b43 in select () at /lib64/libc.so.6
+#1  0x00007faf396cb133 in qt_safe_select(int, fd_set*, fd_set*, fd_set*, timeval const*) () at /usr/cad/synopsys/verdi/cur/platform/LINUXAMD64/lib/Qt/libQtCore.so.4
+#2  0x00007faf396cdffc in QEventDispatcherUNIXPrivate::doSelect(QFlags<QEventLoop::ProcessEventsFlag>, timeval*) () at /usr/cad/synopsys/verdi/cur/platform/LINUXAMD64/lib/Qt/libQtCore.so.4
+#3  0x00007faf396ceb22 in QEventDispatcherUNIX::processEvents(QFlags<QEventLoop::ProcessEventsFlag>) () at /usr/cad/synopsys/verdi/cur/platform/LINUXAMD64/lib/Qt/libQtCore.so.4
+#4  0x00007faf396a3e2f in QEventLoop::processEvents(QFlags<QEventLoop::ProcessEventsFlag>) () at /usr/cad/synopsys/verdi/cur/platform/LINUXAMD64/lib/Qt/libQtCore.so.4
+#5  0x00007faf396a40c8 in QEventLoop::exec(QFlags<QEventLoop::ProcessEventsFlag>) () at /usr/cad/synopsys/verdi/cur/platform/LINUXAMD64/lib/Qt/libQtCore.so.4
+#6  0x00007faf395c5e33 in QThread::exec() () at /usr/cad/synopsys/verdi/cur/platform/LINUXAMD64/lib/Qt/libQtCore.so.4
+#7  0x00007faf39689e3f in QInotifyFileSystemWatcherEngine::run() () at /usr/cad/synopsys/verdi/cur/platform/LINUXAMD64/lib/Qt/libQtCore.so.4
+#8  0x00007faf395c8661 in QThreadPrivate::start(void*) () at /usr/cad/synopsys/verdi/cur/platform/LINUXAMD64/lib/Qt/libQtCore.so.4
+#9  0x000000000939f8d4 in sdp_wrap_start_routine ()
+#10 0x00007faf34df5ea5 in start_thread () at /lib64/libpthread.so.0
+#11 0x00007faf343edb0d in clone () at /lib64/libc.so.6
+Thread 1 (Thread 0x7faf3b0d1000 (LWP 30849)):
+#0  0x00007faf3435f223 in _IO_proc_close@@GLIBC_2.2.5 () at /lib64/libc.so.6
+#1  0x00007faf3436a26c in __GI__IO_file_close_it () at /lib64/libc.so.6
+#2  0x00007faf3435d288 in fclose@@GLIBC_2.2.5 () at /lib64/libc.so.6
+#3  0x00000000094a1349 in _sys_pclose ()
+#4  0x000000000943da6a in system ()
+#5  0x000000000942b72a in sysiCrash ()
+#6  0x000000000942bbe2 in actUnexpectAction ()
+#7  0x000000000942bc2c in catchSignalCB ()
+#8  0x00007faf34325400 in <signal handler called> () at /lib64/libc.so.6
+#9  0x00007faf3a0b3eb1 in QSortFilterProxyModel::parent(QModelIndex const&) const () at /usr/cad/synopsys/verdi/cur/platform/LINUXAMD64/lib/Qt/libQtGui.so.4
+#10 0x00007faf3a07ce4c in QTreeView::indexRowSizeHint(QModelIndex const&) const () at /usr/cad/synopsys/verdi/cur/platform/LINUXAMD64/lib/Qt/libQtGui.so.4
+#11 0x00007faf3a07d299 in QTreeViewPrivate::itemHeight(int) const () at /usr/cad/synopsys/verdi/cur/platform/LINUXAMD64/lib/Qt/libQtGui.so.4
+#12 0x00007faf3a07d52e in QTreeViewPrivate::updateScrollBars() () at /usr/cad/synopsys/verdi/cur/platform/LINUXAMD64/lib/Qt/libQtGui.so.4
+#13 0x00007faf3a07d7d7 in QTreeView::updateGeometries() () at /usr/cad/synopsys/verdi/cur/platform/LINUXAMD64/lib/Qt/libQtGui.so.4
+#14 0x00007faf3a085271 in QTreeView::timerEvent(QTimerEvent*) () at /usr/cad/synopsys/verdi/cur/platform/LINUXAMD64/lib/Qt/libQtGui.so.4
+#15 0x00007faf396b743c in QObject::event(QEvent*) () at /usr/cad/synopsys/verdi/cur/platform/LINUXAMD64/lib/Qt/libQtCore.so.4
+#16 0x00007faf39c22222 in QWidget::event(QEvent*) () at /usr/cad/synopsys/verdi/cur/platform/LINUXAMD64/lib/Qt/libQtGui.so.4
+#17 0x00007faf39f54486 in QFrame::event(QEvent*) () at /usr/cad/synopsys/verdi/cur/platform/LINUXAMD64/lib/Qt/libQtGui.so.4
+#18 0x00007faf39fc70fb in QAbstractScrollArea::event(QEvent*) () at /usr/cad/synopsys/verdi/cur/platform/LINUXAMD64/lib/Qt/libQtGui.so.4
+#19 0x00007faf3a04989b in QAbstractItemView::event(QEvent*) () at /usr/cad/synopsys/verdi/cur/platform/LINUXAMD64/lib/Qt/libQtGui.so.4
+#20 0x00007faf39bdb9bc in QApplicationPrivate::notify_helper(QObject*, QEvent*) () at /usr/cad/synopsys/verdi/cur/platform/LINUXAMD64/lib/Qt/libQtGui.so.4
+#21 0x00007faf39bdfa0b in QApplication::notify(QObject*, QEvent*) () at /usr/cad/synopsys/verdi/cur/platform/LINUXAMD64/lib/Qt/libQtGui.so.4
+#22 0x0000000006e128ac in QwApplication::notify(QObject*, QEvent*) ()
+#23 0x00007faf396a4f7e in QCoreApplication::notifyInternal(QObject*, QEvent*) () at /usr/cad/synopsys/verdi/cur/platform/LINUXAMD64/lib/Qt/libQtCore.so.4
+#24 0x0000000006d98155 in qmotif_timer_handler(void*, unsigned long*) ()
+#25 0x00007faf35e0a4d4 in XtAppProcessEvent () at /lib64/libXt.so.6
+#26 0x0000000006d9611f in QtMotif::processEvents(QFlags<QEventLoop::ProcessEventsFlag>) ()
+#27 0x00007faf396a3e2f in QEventLoop::processEvents(QFlags<QEventLoop::ProcessEventsFlag>) () at /usr/cad/synopsys/verdi/cur/platform/LINUXAMD64/lib/Qt/libQtCore.so.4
+#28 0x00007faf396a40c8 in QEventLoop::exec(QFlags<QEventLoop::ProcessEventsFlag>) () at /usr/cad/synopsys/verdi/cur/platform/LINUXAMD64/lib/Qt/libQtCore.so.4
+#29 0x00007faf396a7e3c in QCoreApplication::exec() () at /usr/cad/synopsys/verdi/cur/platform/LINUXAMD64/lib/Qt/libQtCore.so.4
+#30 0x0000000006d6fea3 in QwApplication::exec() ()
+#31 0x00000000027dc7b7 in FUNC_DEBMAIN_LOOP() ()
+#32 0x00000000027e392b in main ()
+---------------
+branchName=Verdi_Q-2020.03 cnlDate=-- Sun Feb 9 05:01:42 PDT 2020 cnlEnv=Linux.0/64bit
+uname(Linux localhost 3.10.0-1160.108.1.el7.x86_64 #1 SMP Thu Jan 25 16:17:31 UTC 2024 x86_64)
+---------------
+Process Size: 627703808 bytes
+nWave detected abnormal termination.
+Log information written to
+/home/t112830043/synaptic-core-asic/rtl/lif_neuron_for_local/spike_generator/nWaveLog/sysinfo_Jan17_0249.tar.
+Please send this file to customer support.

@@ -2,8 +2,10 @@
 // File created by:  xmverilog
 // Do not modify this file
 //
-lif_layer1_tb.v
-lif_layer1_top.v
+layer1_buffer_wrapper_tb.v
+layer1_buffer_wrapper.v
+spike_buffer_layer1.v
+spike_generator.v
 lif_unit_core.v
 lif_integrator.v
 lif_leak.v

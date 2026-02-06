@@ -1,0 +1,251 @@
+wvSetPosition -win $_nWave1 {("G1" 0)}
+wvOpenFile -win $_nWave1 \
+           {/home/t112830043/synaptic-core-asic/rtl/lif_neuron_for_local/spike_generator/layer1_system_top.fsdb}
+wvGetSignalOpen -win $_nWave1
+wvGetSignalSetScope -win $_nWave1 "/layer1_system_top_tb"
+wvSetPosition -win $_nWave1 {("G1" 2)}
+wvSetPosition -win $_nWave1 {("G1" 2)}
+wvAddSignal -win $_nWave1 -clear
+wvAddSignal -win $_nWave1 -group {"G1" \
+{/layer1_system_top_tb/L2_spike_data\[7:0\]} \
+{/layer1_system_top_tb/step\[31:0\]} \
+}
+wvAddSignal -win $_nWave1 -group {"G2" \
+}
+wvSelectSignal -win $_nWave1 {( "G1" 1 2 )} 
+wvSetPosition -win $_nWave1 {("G1" 2)}
+wvSetPosition -win $_nWave1 {("G1" 2)}
+wvSetPosition -win $_nWave1 {("G1" 2)}
+wvAddSignal -win $_nWave1 -clear
+wvAddSignal -win $_nWave1 -group {"G1" \
+{/layer1_system_top_tb/L2_spike_data\[7:0\]} \
+{/layer1_system_top_tb/step\[31:0\]} \
+}
+wvAddSignal -win $_nWave1 -group {"G2" \
+}
+wvSelectSignal -win $_nWave1 {( "G1" 1 2 )} 
+wvSetPosition -win $_nWave1 {("G1" 2)}
+wvGetSignalClose -win $_nWave1
+wvZoomAll -win $_nWave1
+wvZoom -win $_nWave1 1077307.031250 2264738.781250
+wvZoom -win $_nWave1 1318504.105469 1414240.790312
+wvSelectGroup -win $_nWave1 {G1}
+wvSelectSignal -win $_nWave1 {( "G1" 1 )} 
+wvSelectSignal -win $_nWave1 {( "G1" 1 )} 
+wvSetRadix -win $_nWave1 -format Bin
+wvSetCursor -win $_nWave1 1385114.236668 -snap {("G1" 1)}
+wvSetCursor -win $_nWave1 1375301.226472 -snap {("G1" 1)}
+wvResizeWindow -win $_nWave1 163 649 893 315
+wvResizeWindow -win $_nWave1 1 31 958 1000
+wvSetCursor -win $_nWave1 1366198.290964 -snap {("G2" 0)}
+wvZoomAll -win $_nWave1
+wvSetCursor -win $_nWave1 2101330.329154 -snap {("G1" 2)}
+wvGetSignalOpen -win $_nWave1
+wvGetSignalSetScope -win $_nWave1 "/layer1_system_top_tb"
+wvGetSignalSetScope -win $_nWave1 "/layer1_system_top_tb"
+wvSetPosition -win $_nWave1 {("G1" 4)}
+wvSetPosition -win $_nWave1 {("G1" 4)}
+wvAddSignal -win $_nWave1 -clear
+wvAddSignal -win $_nWave1 -group {"G1" \
+{/layer1_system_top_tb/L2_spike_data\[7:0\]} \
+{/layer1_system_top_tb/step\[31:0\]} \
+{/layer1_system_top_tb/mon_ref\[3:0\]} \
+{/layer1_system_top_tb/mon_v_mem\[7:0\]} \
+}
+wvAddSignal -win $_nWave1 -group {"G2" \
+}
+wvSelectSignal -win $_nWave1 {( "G1" 3 4 )} 
+wvSetPosition -win $_nWave1 {("G1" 4)}
+wvSetPosition -win $_nWave1 {("G1" 4)}
+wvSetPosition -win $_nWave1 {("G1" 4)}
+wvAddSignal -win $_nWave1 -clear
+wvAddSignal -win $_nWave1 -group {"G1" \
+{/layer1_system_top_tb/L2_spike_data\[7:0\]} \
+{/layer1_system_top_tb/step\[31:0\]} \
+{/layer1_system_top_tb/mon_ref\[3:0\]} \
+{/layer1_system_top_tb/mon_v_mem\[7:0\]} \
+}
+wvAddSignal -win $_nWave1 -group {"G2" \
+}
+wvSelectSignal -win $_nWave1 {( "G1" 3 4 )} 
+wvSetPosition -win $_nWave1 {("G1" 4)}
+wvGetSignalClose -win $_nWave1
+wvSetCursor -win $_nWave1 1464927.429467 -snap {("G1" 3)}
+wvSetCursor -win $_nWave1 3542242.554859 -snap {("G1" 4)}
+wvSetCursor -win $_nWave1 3506219.749216 -snap {("G1" 3)}
+wvSetCursor -win $_nWave1 1332843.808777 -snap {("G1" 3)}
+wvZoom -win $_nWave1 1236782.993730 1560988.244514
+wvZoom -win $_nWave1 1345020.796891 1364330.827502
+wvGetSignalOpen -win $_nWave1
+wvGetSignalSetScope -win $_nWave1 "/layer1_system_top_tb"
+wvGetSignalSetScope -win $_nWave1 "/layer1_system_top_tb"
+wvSetPosition -win $_nWave1 {("G1" 5)}
+wvSetPosition -win $_nWave1 {("G1" 5)}
+wvAddSignal -win $_nWave1 -clear
+wvAddSignal -win $_nWave1 -group {"G1" \
+{/layer1_system_top_tb/L2_spike_data\[7:0\]} \
+{/layer1_system_top_tb/step\[31:0\]} \
+{/layer1_system_top_tb/mon_ref\[3:0\]} \
+{/layer1_system_top_tb/mon_v_mem\[7:0\]} \
+{/layer1_system_top_tb/pixel_data_in\[63:0\]} \
+}
+wvAddSignal -win $_nWave1 -group {"G2" \
+}
+wvSelectSignal -win $_nWave1 {( "G1" 5 )} 
+wvSetPosition -win $_nWave1 {("G1" 5)}
+wvSetPosition -win $_nWave1 {("G1" 5)}
+wvSetPosition -win $_nWave1 {("G1" 5)}
+wvAddSignal -win $_nWave1 -clear
+wvAddSignal -win $_nWave1 -group {"G1" \
+{/layer1_system_top_tb/L2_spike_data\[7:0\]} \
+{/layer1_system_top_tb/step\[31:0\]} \
+{/layer1_system_top_tb/mon_ref\[3:0\]} \
+{/layer1_system_top_tb/mon_v_mem\[7:0\]} \
+{/layer1_system_top_tb/pixel_data_in\[63:0\]} \
+}
+wvAddSignal -win $_nWave1 -group {"G2" \
+}
+wvSelectSignal -win $_nWave1 {( "G1" 5 )} 
+wvSetPosition -win $_nWave1 {("G1" 5)}
+wvGetSignalClose -win $_nWave1
+wvSetPosition -win $_nWave1 {("G1" 0)}
+wvMoveSelected -win $_nWave1
+wvSetPosition -win $_nWave1 {("G1" 0)}
+wvSetPosition -win $_nWave1 {("G1" 1)}
+wvSelectSignal -win $_nWave1 {( "G1" 3 )} 
+wvSelectSignal -win $_nWave1 {( "G1" 2 )} 
+wvResizeWindow -win $_nWave1 1 31 1112 1000
+wvSelectGroup -win $_nWave1 {G2}
+wvSelectGroup -win $_nWave1 {G2}
+wvZoomAll -win $_nWave1
+wvSetCursor -win $_nWave1 4642939.393939 -snap {("G1" 4)}
+wvSetCursor -win $_nWave1 1363863.446970 -snap {("G1" 4)}
+wvSelectSignal -win $_nWave1 {( "G1" 2 )} 
+wvSetCursor -win $_nWave1 4633266.603535 -snap {("G1" 4)}
+wvSetCursor -win $_nWave1 5697273.547980 -snap {("G1" 4)}
+wvResizeWindow -win $_nWave1 1 31 1112 1000
+wvSetCursor -win $_nWave1 4616973.129496 -snap {("G1" 4)}
+wvSetCursor -win $_nWave1 4878860.260791
+wvSetCursor -win $_nWave1 5218343.579137
+wvSetCursor -win $_nWave1 5470531.187050
+wvSelectSignal -win $_nWave1 {( "G1" 4 )} 
+wvSelectSignal -win $_nWave1 {( "G1" 2 )} 
+wvSetCursor -win $_nWave1 5887610.692446
+wvSetCursor -win $_nWave1 5693620.224820 -snap {("G1" 4)}
+wvZoom -win $_nWave1 5577225.944245 5780915.935252
+wvZoomAll -win $_nWave1
+wvSetCursor -win $_nWave1 1322736.690647 -snap {("G1" 4)}
+wvZoom -win $_nWave1 1256599.856115 1399896.330935
+wvResizeWindow -win $_nWave1 163 649 893 315
+wvSelectSignal -win $_nWave1 {( "G1" 4 )} 
+wvResizeWindow -win $_nWave1 1 31 958 1000
+wvZoom -win $_nWave1 1352881.127512 1357031.182314
+wvZoom -win $_nWave1 1354898.621806 1355136.425315
+wvSelectSignal -win $_nWave1 {( "G1" 2 )} 
+wvSetPosition -win $_nWave1 {("G1" 2)}
+wvExpandBus -win $_nWave1
+wvZoom -win $_nWave1 1354990.490444 1355007.633395
+wvZoom -win $_nWave1 1354999.331263 1355000.693826
+wvZoom -win $_nWave1 1354999.930689 1355000.061657
+wvZoomOut -win $_nWave1
+wvZoomOut -win $_nWave1
+wvZoomOut -win $_nWave1
+wvZoomOut -win $_nWave1
+wvZoomOut -win $_nWave1
+wvZoomOut -win $_nWave1
+wvZoomOut -win $_nWave1
+wvZoomOut -win $_nWave1
+wvZoomOut -win $_nWave1
+wvZoomOut -win $_nWave1
+wvZoomOut -win $_nWave1
+wvZoomOut -win $_nWave1
+wvZoomOut -win $_nWave1
+wvZoomOut -win $_nWave1
+wvZoomOut -win $_nWave1
+wvZoomOut -win $_nWave1
+wvSetCursor -win $_nWave1 1345215.320800 -snap {("G1" 10)}
+wvSetCursor -win $_nWave1 1355269.827269 -snap {("G1" 10)}
+wvSetCursor -win $_nWave1 1344973.043536 -snap {("G1" 10)}
+wvSetCursor -win $_nWave1 1355390.965902 -snap {("G1" 10)}
+wvSelectSignal -win $_nWave1 {( "G1" 12 )} 
+wvSetCursor -win $_nWave1 1345094.182168 -snap {("G1" 11)}
+wvZoomOut -win $_nWave1
+wvZoomOut -win $_nWave1
+wvZoomOut -win $_nWave1
+wvZoomOut -win $_nWave1
+wvZoomOut -win $_nWave1
+wvZoomOut -win $_nWave1
+wvZoomOut -win $_nWave1
+wvZoomOut -win $_nWave1
+wvZoomOut -win $_nWave1
+wvSelectSignal -win $_nWave1 {( "G1" 2 )} 
+wvSetPosition -win $_nWave1 {("G1" 2)}
+wvCollapseBus -win $_nWave1
+wvSetPosition -win $_nWave1 {("G1" 2)}
+wvSetCursor -win $_nWave1 5749177.634011 -snap {("G1" 4)}
+wvZoom -win $_nWave1 5480127.449168 5862461.922366
+wvZoom -win $_nWave1 5696383.177077 5733132.516460
+wvGetSignalOpen -win $_nWave1
+wvGetSignalSetScope -win $_nWave1 "/layer1_system_top_tb"
+wvGetSignalSetScope -win $_nWave1 "/layer1_system_top_tb"
+wvGetSignalSetScope -win $_nWave1 "/layer1_system_top_tb/u_dut"
+wvGetSignalSetScope -win $_nWave1 "/layer1_system_top_tb/u_dut/u_generator"
+wvGetSignalSetScope -win $_nWave1 \
+           "/layer1_system_top_tb/u_dut/u_generator/lif_gen\[0\]"
+wvGetSignalSetScope -win $_nWave1 "/layer1_system_top_tb/u_dut/u_generator"
+wvGetSignalSetScope -win $_nWave1 \
+           "/layer1_system_top_tb/u_dut/u_generator/lif_gen\[0\]"
+wvGetSignalSetScope -win $_nWave1 \
+           "/layer1_system_top_tb/u_dut/u_generator/lif_gen\[0\]/u_core"
+wvSetPosition -win $_nWave1 {("G1" 5)}
+wvSetPosition -win $_nWave1 {("G1" 5)}
+wvAddSignal -win $_nWave1 -clear
+wvAddSignal -win $_nWave1 -group {"G1" \
+{/layer1_system_top_tb/pixel_data_in\[63:0\]} \
+{/layer1_system_top_tb/L2_spike_data\[7:0\]} \
+{/layer1_system_top_tb/u_dut/u_generator/lif_gen\[0\]/u_core/ref_active} \
+{/layer1_system_top_tb/u_dut/u_generator/lif_gen\[0\]/u_core/spike_detected} \
+{/layer1_system_top_tb/u_dut/u_generator/lif_gen\[0\]/u_core/spike_out} \
+{/layer1_system_top_tb/step\[31:0\]} \
+{/layer1_system_top_tb/mon_ref\[3:0\]} \
+{/layer1_system_top_tb/mon_v_mem\[7:0\]} \
+}
+wvAddSignal -win $_nWave1 -group {"G2" \
+}
+wvSelectSignal -win $_nWave1 {( "G1" 3 4 5 )} 
+wvSetPosition -win $_nWave1 {("G1" 5)}
+wvSetPosition -win $_nWave1 {("G1" 5)}
+wvSetPosition -win $_nWave1 {("G1" 5)}
+wvAddSignal -win $_nWave1 -clear
+wvAddSignal -win $_nWave1 -group {"G1" \
+{/layer1_system_top_tb/pixel_data_in\[63:0\]} \
+{/layer1_system_top_tb/L2_spike_data\[7:0\]} \
+{/layer1_system_top_tb/u_dut/u_generator/lif_gen\[0\]/u_core/ref_active} \
+{/layer1_system_top_tb/u_dut/u_generator/lif_gen\[0\]/u_core/spike_detected} \
+{/layer1_system_top_tb/u_dut/u_generator/lif_gen\[0\]/u_core/spike_out} \
+{/layer1_system_top_tb/step\[31:0\]} \
+{/layer1_system_top_tb/mon_ref\[3:0\]} \
+{/layer1_system_top_tb/mon_v_mem\[7:0\]} \
+}
+wvAddSignal -win $_nWave1 -group {"G2" \
+}
+wvSelectSignal -win $_nWave1 {( "G1" 3 4 5 )} 
+wvSetPosition -win $_nWave1 {("G1" 5)}
+wvGetSignalClose -win $_nWave1
+wvSelectSignal -win $_nWave1 {( "G1" 5 )} 
+wvSelectSignal -win $_nWave1 {( "G1" 3 )} 
+wvSelectSignal -win $_nWave1 {( "G1" 5 )} 
+wvSelectSignal -win $_nWave1 {( "G1" 4 )} 
+wvSelectSignal -win $_nWave1 {( "G1" 3 )} 
+wvSelectSignal -win $_nWave1 {( "G1" 4 )} 
+wvSelectSignal -win $_nWave1 {( "G1" 5 )} 
+wvResizeWindow -win $_nWave1 163 649 893 315
+wvResizeWindow -win $_nWave1 0 23 1920 1009
+wvZoomAll -win $_nWave1
+wvSetCursor -win $_nWave1 1366006.520293 -snap {("G1" 7)}
+wvZoom -win $_nWave1 1289550.931470 1437365.069860
+wvResizeWindow -win $_nWave1 602 167 893 315
+wvResizeWindow -win $_nWave1 0 23 1920 1009
+wvResizeWindow -win $_nWave1 598 131 893 315
+wvResizeWindow -win $_nWave1 598 131 1073 517
+wvExit

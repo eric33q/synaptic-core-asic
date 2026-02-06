@@ -28,11 +28,13 @@ module lif_unit_core #(
     wire [D_WIDTH-1:0] v_integrated;
     wire spike_detected;
 
+    assign spike_out = spike_detected & (~ref_active);
+
     // A. 不應期邏輯與計數更新
     lif_refrac_logic #( .REF_WIDTH(REF_WIDTH), .REF_PERIOD(REF_PERIOD) ) 
     u_refrac (
         .cnt_old    (ref_cnt_old),
-        .post_spike (spike_detected), // 迴授：看「當下」是否發火
+        .post_spike (spike_out), // 迴授：看「當下」是否發火
         .cnt_new    (ref_cnt_new),
         .ref_active (ref_active)
     );
@@ -61,7 +63,6 @@ module lif_unit_core #(
 
     // E. 輸出邏輯與狀態重置 (MUX)
     // 如果在不應期，強制不發火
-    assign spike_out = spike_detected & (~ref_active);
 
     always @(*) begin
         if (ref_active) begin
