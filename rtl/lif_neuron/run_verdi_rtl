@@ -1,0 +1,1 @@
+verdi -sv -f flist.f -top lif_unit_tb -ssf lif_sim.fsdb &
