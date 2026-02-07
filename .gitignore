@@ -1,1 +1,14 @@
-/.idea
+# 模擬工具產生的目錄
+INCA_libs/
+xcelium.d/
+nWaveLog/
+novas.conf
+novas.rc
+novas_dump.log
+
+# 模擬結果檔案
+*.fsdb
+*.vcd
+*.log
+*.history
+*.key
