@@ -5,7 +5,6 @@
 ## 1. 目錄結構架構
 為了保持專案整潔，請務必按照以下結構存放檔案：
 
-```text
 synaptic-core-asic/
 ├── run_rtl.sh           # 自動化模擬與啟動 Verdi 的主腳本
 ├── filelist.f           # 存放所有 RTL 電路檔案路徑的清單
@@ -36,4 +35,5 @@ initial begin
     $fsdbDumpfile("lif_unit_tb.fsdb"); 
     $fsdbDumpvars(0, lif_unit_tb);
     $fsdbDumpMDA;
+
 end
