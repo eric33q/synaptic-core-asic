@@ -400,3 +400,4 @@ wvSetRadix -win $_nWave2 -format UDec
 wvDisplayGridCount -win $_nWave2 -off
 wvGetSignalClose -win $_nWave2
 wvReloadFile -win $_nWave2
+debExit

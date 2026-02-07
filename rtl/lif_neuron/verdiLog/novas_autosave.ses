@@ -26,11 +26,9 @@ fdb_campaign =
 fdb_tool = 
 [hb]
 postSimFile = /home/t112810019/synaptic_core/synaptic-core-asic/rtl/lif_neuron/lif_sim.fsdb
-syncTime = 0
-viewport = 0 23 1536 793 0 0 230 898
-activeNode = "lif_unit_784to1"
-activeScope = "lif_unit_784to1"
-activeFile = "/home/t112810019/synaptic_core/synaptic-core-asic/rtl/lif_neuron/lif_unit_784to1.v"
+syncTime = 124574.335
+viewport = 0 23 1536 793 0 0 77 851
+activeFile = "/home/t112810019/synaptic_core/synaptic-core-asic/rtl/lif_neuron/lif_th_cmp.v"
 interactiveMode = False
 viewType = Source
 simulatorMode = False
@@ -51,23 +49,17 @@ DnDtraceCrossHierOnly = True
 traceIncTopPort = False
 leadingZero = False
 signalPane = False
-Scope1 = "lif_unit_784to1"
 sdfCheckUndef = FALSE
 simFlow = FALSE
-[hb.design]
-importCmd = "/home/t112810019/synaptic_core/synaptic-core-asic/rtl/lif_neuron/lif_unit_784to1.v" 
-workPath = /home/t112810019/synaptic_core/synaptic-core-asic/rtl/lif_neuron
-invokeDir = /home/t112810019/synaptic_core/synaptic-core-asic/rtl/lif_neuron
 [hb.sourceTab.1]
-scope = lif_unit_784to1
-File = /home/t112810019/synaptic_core/synaptic-core-asic/rtl/lif_neuron/lif_unit_784to1.v
+File = /home/t112810019/synaptic_core/synaptic-core-asic/rtl/lif_neuron/lif_th_cmp.v
 Line = 1
 [nMemoryManager]
 WaveformFile = /home/t112810019/synaptic_core/synaptic-core-asic/rtl/lif_neuron/lif_sim.fsdb
 UserActionNum = 0
 nMemWindowNum = 0
 [wave.0]
-viewPort = 0 25 1536 304 152 65
+viewPort = 0 25 1536 434 175 65
 primaryWindow = TRUE
 SessionFile = /home/t112810019/synaptic_core/synaptic-core-asic/rtl/lif_neuron/verdiLog/novas_autosave.ses.wave.0
 displayGrid = FALSE

@@ -2,7 +2,7 @@ Magic 271485
 Revision Verdi_Q-2020.03
 
 ; Window Layout <x> <y> <width> <height> <signalwidth> <valuewidth>
-viewPort 0 25 1536 304 152 65
+viewPort 0 25 1536 434 175 65
 
 ; File list:
 ; openDirFile [-d delimiter] [-s time_offset] [-rf auto_bus_rule_file] path_name file_name
@@ -16,16 +16,16 @@ signalSpacing 5
 
 ; windowTimeUnit is used for zoom, cursor & marker
 ; waveform viewport range
-zoom 948948.431823 1219486.319406
-cursor 0.000000
+zoom 1896420.473965 2156613.647255
+cursor 124574.33525635322
 marker 0.000000
 
 ; user define markers
 ; userMarker time_pos marker_name color linestyle
 ; visible top row signal index
-top 2
+top 0
 ; marker line index
-markerPos 9
+markerPos 11
 
 ; event list
 ; addEvent event_name event_expression
@@ -47,15 +47,17 @@ curSTATUS ByChange
 
 addGroup "G1"
 activeDirFile "" "/home/t112810019/synaptic_core/synaptic-core-asic/rtl/lif_neuron/lif_sim.fsdb"
-addSignal -h 15 /lif_unit_tb/dut/clk
-addSignal -h 15 -holdScope rst_n
-addSignal -h 15 -UNSIGNED -UDEC -holdScope i_syn_accum[17:0]
-addSignal -h 15 -holdScope V_mem[18:0]
-addSignal -h 15 -holdScope V_mem_leak[18:0]
-addSignal -h 15 -holdScope V_mem_next[18:0]
-addSignal -h 15 -UNSIGNED -HEX -holdScope weight_mem[63:0]
+addSignal -h 15 -UNSIGNED -UDEC /lif_unit_tb/dut/i_syn_accum[17:0]
 addSignal -h 15 -UNSIGNED -UDEC -holdScope weight_grp_cnt[6:0]
+addSignal -h 15 -UNSIGNED -UDEC -holdScope V_mem[18:0]
+addSignal -h 15 -UNSIGNED -UDEC -holdScope V_mem_leak[18:0]
+addSignal -h 15 -UNSIGNED -UDEC -holdScope V_mem_next[18:0]
 addSignal -h 15 -holdScope post_spike
+addSignal -h 15 -holdScope ref_active
+addSignal -h 15 -UNSIGNED -BIN -holdScope weight_mem[63:0]
+addSignal -h 15 -holdScope state_next[1:0]
+addSignal -h 15 -holdScope i_syn_group[17:0]
+addSignal -h 15 -UNSIGNED -UDEC -holdScope i_syn_hold[17:0]
 addGroup "G2"
 
 ; getSignalForm Scope Hierarchy Status
@@ -67,10 +69,12 @@ getSignalForm close
 
 "/lif_unit_tb"
 "/lif_unit_tb/dut"
+"/lif_unit_tb/dut/u_int"
 
 SCOPE_LIST_BEGIN
 "/lif_unit_tb"
 "/lif_unit_tb/dut"
+"/lif_unit_tb/dut/u_int"
 SCOPE_LIST_END
 
 GETSIGNALFORM_SCOPE_HIERARCHY_END
