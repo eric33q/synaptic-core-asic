@@ -55,7 +55,7 @@ module lif_unit_tb;
     initial begin
         // --- NC-Verilog / Verdi FSDB Dump ---
         // 確保環境變數有設好，否則 NC-Verilog 可能報錯找不到此系統函數
-        $fsdbDumpfile("lif_sim.fsdb");
+        $fsdbDumpfile("lif_unit_tb.fsdb");
         $fsdbDumpvars(0, lif_unit_tb);
         $fsdbDumpMDA; // 傾倒多維陣列（如模組內部的 weight 陣列）
 
