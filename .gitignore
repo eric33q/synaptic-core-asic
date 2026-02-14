@@ -31,3 +31,4 @@ snapshot/
 #Configuration
 novas.rc
 novas.conf
+BSSLib.lib++/
