@@ -1,4 +1,17 @@
-module top (
+module top #(
+    parameter D_WIDTH      = 8,    // 數據位寬 (如權重與像素) [cite: 1, 36, 42]
+    
+    // --- Spike Generator / Batch 參數 ---
+    parameter BATCH_NUM    = 98,   // 處理的資料批次數量 (對應 98 組 64-bit) [cite: 36]
+    parameter ADDR_WIDTH   = 7,    // SRAM 位址位元寬 (128 抽頭需 7-bit) [cite: 42]
+    
+    // --- LIF 神經元核心參數 ---
+    parameter I_WIDTH      = 18,   // 電流累積運算位寬 [cite: 1]
+    parameter V_WIDTH      = 19,   // 膜電位運算位寬 [cite: 1]
+    parameter THRESHOLD    = 800,  // 發火閾值 (V_th) [cite: 1]
+    parameter LEAK_SHIFT   = 3,    // 漏電率係數 (V_leak >> LEAK_SHIFT) [cite: 1]
+    parameter REF_PERIOD   = 3     // 不應期週期數 [cite: 1]
+    )(
     input  wire        clk,
     input  wire        rst_n,
     input  wire [1:0]  mode_sel,    // 01: 載入數據, 10: 推論與學習
@@ -62,8 +75,8 @@ module top (
     // 3. 脈衝產生器 (Layer 1 Spike Generator)
     // ============================================================
     layer1_system_top #(
-        .D_WIDTH(8),
-        .BATCH_NUM(98)
+        .D_WIDTH(D_WIDTH),
+        .BATCH_NUM(BATCH_NUM)
     ) u_spike_gen (
         .clk            (clk),
         .rst_n          (rst_n),
@@ -138,7 +151,7 @@ module top (
         // 讀取埠
         .rd_en      (w_l2_valid),      
         .rd_row     (w_req_addr),      
-        .pre_mask   (8'hFF),           
+        .pre_mask   (w_l2_spike),           
         .rd_weight  (w_weight_data),   
         // 寫入埠 (接仲裁訊號)
         .wr_en      (final_wr_en),     

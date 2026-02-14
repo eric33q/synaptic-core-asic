@@ -10,8 +10,7 @@ module lif_unit_784to1 #(
     input  wire rst_n,
     input  wire accum_en,//啟用訊號
     input  wire [63:0] weight_mem, // 64 個 8 位元權重平坦化輸入
-    output wire post_spike,
-    output wire [V_WIDTH-1:0] V_mem_out
+    output wire post_spike
 );
     reg  [V_WIDTH-1:0] V_mem;
     wire [V_WIDTH-1:0] V_mem_leak;
@@ -25,7 +24,6 @@ module lif_unit_784to1 #(
     reg                i_syn_valid;
     wire [I_WIDTH-1:0] i_syn_to_int; // 輸出給積分器的突觸電流
 
-    assign V_mem_out = V_mem;
     localparam ST_LEAK      = 2'b00;
     localparam ST_INTEGRATE = 2'b01;
     localparam ST_RESET     = 2'b10;
