@@ -1,6 +1,6 @@
 module lif_integrator #(
-    parameter V_WIDTH = 15,  // 膜電位位寬
-    parameter I_WIDTH = 15  // 總突觸電流位寬
+    parameter V_WIDTH = 19,  // 膜電位位寬
+    parameter I_WIDTH = 18  // 總突觸電流位寬
 )(
     input  wire [V_WIDTH-1:0] V_leak,
     input  wire [I_WIDTH-1:0] i_syn,
