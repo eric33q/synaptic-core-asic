@@ -4,7 +4,8 @@ module post_synaptic_block #(
 )(
     input  wire          clk,
     input  wire          rst_n,
-    
+    input  wire         update_en,  //post trace更新
+
     // --- 來自系統的控制訊號 ---
     input  wire          accum_en,      // 接到 LIF 的新埠口
     input  wire [63:0]   weight_mem_in, // 經過 Masking 的權重
@@ -34,6 +35,7 @@ module post_synaptic_block #(
     ) u_post_trace (
         .clk            (clk),
         .rst_n          (rst_n),
+        .update_en      (update_en),
         .fire_in        (w_post_spike),
         .trace_out_flat (w_single_trace)
     );
