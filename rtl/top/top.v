@@ -14,24 +14,46 @@ module top #(
     )(
     input  wire        clk,
     input  wire        rst_n,
-    input  wire [1:0]  mode_sel,    // 01: 載入數據 (影像或權重), 10: 開始推論
-    input  wire [6:0]  addr_in,     // SRAM 位址輸入
-    input  wire [7:0]  mask_in,     // STDP 寫入遮罩 (8-bit)
-    input  wire [15:0] data_in,     // 16-bit 多工輸入 (需 4 拍完成 64-bit)
+    input  wire [1:0]  mode_sel,    // 01: 載入數據, 10: 推論與學習
+    input  wire [6:0]  addr_in,     // SRAM 位址輸入 (載入模式用)
+    input  wire [7:0]  mask_in,     // STDP 寫入遮罩 (載入模式用)
+    input  wire [15:0] data_in,     // 16-bit 多工輸入
     output wire        spike_out,   // 神經元最終發火信號
     output wire        busy,        // 系統忙碌
     output wire        finish       // 運算完成
 );
 
-    // --- 內部連線與暫存器 ---
+    // ============================================================
+    // 1. 內部訊號宣告 (Internal Signals)
+    // ============================================================
+    // 資料載入相關
     reg  [63:0] data_64bit_reg;
     reg  [1:0]  data_cnt;
-    wire [63:0] w_weight_data;      // 從 SRAM 讀出的權重
-    wire [7:0]  w_l2_spike;         // 來自產生器的脈衝數據 
-    wire        w_l2_valid;         // 脈衝有效信號 
-    wire [6:0]  w_req_addr;         // 產生器要求的位址 
 
-    // --- 1. 16-bit 轉 64-bit 多工邏輯 (符合 40-pin) ---
+    // SRAM 讀取相關
+    wire [63:0] w_weight_data;      // 從 SRAM 讀出的權重
+    wire [6:0]  w_req_addr;         // Spike Gen 請求的讀取位址
+
+    // Layer 1 Spike Gen 相關
+    wire [7:0]  w_l2_spike;         // 8 路像素脈衝
+    wire        w_l2_valid;         // 脈衝有效 (accumulate_en)
+
+    // Post-Synaptic 相關
+    wire [63:0] w_post_trace_8x;    // 鎖存後的 Post-trace (給 STDP 用)
+
+    // STDP 相關
+    wire [63:0] w_stdp_new_weight;  // 8 個引擎算出的新權重
+    wire [7:0]  w_stdp_wr_be;       // 8 個引擎的寫入請求 (Byte Mask)
+
+    // 寫入仲裁相關
+    wire        final_wr_en;
+    wire [7:0]  final_wr_mask;
+    wire [63:0] final_wr_data;
+    wire [6:0]  final_wr_addr;
+
+    // ============================================================
+    // 2. 16-bit 轉 64-bit 多工邏輯 (Data Assembly)
+    // ============================================================
     always @(posedge clk or negedge rst_n) begin
         if (!rst_n) begin
             data_64bit_reg <= 64'd0;
@@ -49,7 +71,9 @@ module top #(
         end
     end
 
-    // --- 2. 脈衝產生器 (Spike Generator) ---
+    // ============================================================
+    // 3. 脈衝產生器 (Layer 1 Spike Generator)
+    // ============================================================
     layer1_system_top #(
         .D_WIDTH(D_WIDTH),
         .BATCH_NUM(BATCH_NUM)
@@ -58,44 +82,82 @@ module top #(
         .rst_n          (rst_n),
         .start          (mode_sel == 2'b10), // 推論模式下啟動 
         .accumulate_en  (1'b0),
-        .pixel_data_in  (data_64bit_reg),    // 影像像素輸入 
-        .req_addr       (w_req_addr),        // 自動產生的讀取位址 
-        .L2_spike_data  (w_l2_spike),        // 輸出脈衝 
-        .L2_valid       (w_l2_valid),        // 脈衝有效 
-        .L1_busy        (busy),              // 
-        .L1_done        (finish)             // 
+        .pixel_data_in  (data_64bit_reg),    
+        .req_addr       (w_req_addr),        // 驅動 SRAM 讀取地址
+        .L2_spike_data  (w_l2_spike),        // 輸出給 STDP
+        .L2_valid       (w_l2_valid),        // 驅動 LIF 積分 & SRAM 讀取
+        .L1_busy        (busy),              
+        .L1_done        (finish)             // 驅動 Trace 更新 & SRAM 寫回
     );
 
-    // --- 3. 權重記憶體 (Weight Memory) ---
+    // ============================================================
+    // 4. Post-Synaptic Block (整合 LIF Neuron + Trace Latching)
+    // ============================================================
+    post_synaptic_block #(
+        .V_WIDTH(19),
+        .T_WIDTH(8)
+    ) u_post_block (
+        .clk            (clk),
+        .rst_n          (rst_n),
+        // 98 batch 結束後更新 Trace
+        .update_en      (finish),       
+        // 有效脈衝輸入時才積分
+        .accum_en       (w_l2_valid),   
+        .weight_mem_in  (w_weight_data),     // 來自 SRAM
+        .spike_out      (spike_out),         // 系統輸出
+        .post_trace_8x  (w_post_trace_8x)    // 輸出給 STDP
+    );
+
+    // ============================================================
+    // 5. STDP 學習引擎 (8 路平行運算)
+    // ============================================================
+    genvar i;
+    generate
+        for (i = 0; i < 8; i = i + 1) begin : stdp_group
+            stdp #(
+                .SHIFT_LTP(2),
+                .SHIFT_LTD(3)
+            ) u_stdp (
+                .clk           (clk),
+                .rst_n         (rst_n),
+                .pre_spike_in  (w_l2_spike[i]),           // 來自 Spike Gen
+                .post_spike_in (spike_out),               // 來自 Post Block
+                .weight_old    (w_weight_data[i*8 +: 8]), // 來自 SRAM
+                .pre_trace     (8'hFF),                   // 簡化：Pre-trace 設為 Max
+                .post_trace    (w_post_trace_8x[i*8 +: 8]), 
+                .weight_new    (w_stdp_new_weight[i*8 +: 8]),
+                .write_en      (w_stdp_wr_be[i])          // 產生 Byte Mask
+            );
+        end
+    endgenerate
+
+    // ============================================================
+    // 6. 權重記憶體寫入仲裁 (Write Arbitration)
+    // ============================================================
+    // 判斷寫入來源是 "外部載入" (Mode 01) 還是 "STDP 更新" (Mode 10 + Finish)
+    
+    assign final_wr_en   = (mode_sel == 2'b01) ? (data_cnt == 2'd3) : (finish && |w_stdp_wr_be);
+    assign final_wr_mask = (mode_sel == 2'b01) ? mask_in            : w_stdp_wr_be;
+    assign final_wr_data = (mode_sel == 2'b01) ? data_64bit_reg     : w_stdp_new_weight;
+    // STDP 更新時，寫回地址必須等於當前讀取地址 (w_req_addr)
+    assign final_wr_addr = (mode_sel == 2'b01) ? addr_in            : w_req_addr;
+
+    // ============================================================
+    // 7. 權重記憶體 (Weight Memory)
+    // ============================================================
     we_unit_98x64 u_weight_mem (
         .clk        (clk),
         .rst_n      (rst_n),
-        // 讀取：追隨產生器的位址與有效信號
-        .rd_en      (w_l2_valid),            // 有脈衝時才讀權重 
-        .rd_row     (w_req_addr),            // 讀取對應的權重行 
-        .pre_mask   (w_l2_spike),            // 來自產生器的脈衝作為讀取遮罩
-        .rd_weight  (w_weight_data),         // 輸出 64-bit 權重 
-        // 寫入：用於 STDP 或初始載入
-        .wr_en      (mode_sel == 2'b01 && data_cnt == 2'd3),
-        .wr_mask    (mask_in),               // 支援 Byte Mask 
-        .wr_row     (addr_in),
-        .wr_weight  (data_64bit_reg)
-    );
-
-    // --- 4. LIF 神經元 (LIF Unit) ---
-    lif_unit_784to1 #(
-        .D_WIDTH(D_WIDTH),
-        .I_WIDTH(I_WIDTH),
-        .V_WIDTH(V_WIDTH),
-        .THRESHOLD(THRESHOLD),
-        .LEAK_SHIFT(LEAK_SHIFT),
-        .REF_PERIOD(REF_PERIOD)
-    ) u_lif_core (
-        .clk        (clk),
-        .rst_n      (rst_n),
-        // 注意：這裡假設 lif_unit 接收 64-bit 權重並在內部根據脈衝加權
-        .weight_mem (w_weight_data),         // 接收來自 SRAM 的權重 [cite: 1]
-        .post_spike (spike_out),             // 神經元發火 [cite: 2]
+        // 讀取埠
+        .rd_en      (w_l2_valid),      
+        .rd_row     (w_req_addr),      
+        .pre_mask   (w_l2_spike),           
+        .rd_weight  (w_weight_data),   
+        // 寫入埠 (接仲裁訊號)
+        .wr_en      (final_wr_en),     
+        .wr_mask    (final_wr_mask),   
+        .wr_row     (final_wr_addr),   
+        .wr_weight  (final_wr_data)    
     );
 
 endmodule
