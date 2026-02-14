@@ -1,5 +1,5 @@
 module lif_refrac_ctrl #(
-    parameter REF_PERIOD = 3
+    parameter REF_PERIOD = 3     // 不應期週期數
 )(
     input  wire clk,
     input  wire rst_n,

@@ -5,7 +5,7 @@ module lif_unit_tb;
     parameter D_WIDTH    = 8;
     parameter I_WIDTH    = 18;
     parameter V_WIDTH    = 19;
-    parameter THRESHOLD  = 800;
+    parameter THRESHOLD  = 600;
     parameter LEAK_SHIFT = 3;
     parameter REF_PERIOD = 3;
 
