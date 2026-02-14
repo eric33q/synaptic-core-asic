@@ -24,8 +24,7 @@ module post_synaptic_block #(
         .rst_n      (rst_n),
         .accum_en   (accum_en),       
         .weight_mem (weight_mem_in),
-        .post_spike (w_post_spike),
-        .V_mem_out  ()                
+        .post_spike (w_post_spike)              
     );
 
     post_trace #(
@@ -44,3 +43,4 @@ module post_synaptic_block #(
     //8 個像素全部都連到 同一個神經元 (Neuron 0)
     assign post_trace_8x = {8{w_single_trace}}; //將單一的 trace 複製 8 次
 endmodule
+
