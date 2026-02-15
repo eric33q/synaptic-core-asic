@@ -75,8 +75,8 @@ module top #(
     // 3. 脈衝產生器 (Layer 1 Spike Generator)
     // ============================================================
     layer1_system_top #(
-        .D_WIDTH(8),
-        .BATCH_NUM(98)
+        .D_WIDTH(D_WIDTH),
+        .BATCH_NUM(BATCH_NUM)
     ) u_spike_gen (
         .clk            (clk),
         .rst_n          (rst_n),
@@ -90,22 +90,20 @@ module top #(
         .L1_done        (finish)             // 驅動 Trace 更新 & SRAM 寫回
     );
 
-    // ============================================================
+ // ============================================================
     // 4. Post-Synaptic Block (整合 LIF Neuron + Trace Latching)
     // ============================================================
     post_synaptic_block #(
-        .V_WIDTH(19),
-        .T_WIDTH(8)
+        .V_WIDTH(V_WIDTH),    // 修正：使用頂層參數 V_WIDTH (19)
+        .T_WIDTH(T_WIDTH)     // 修正：使用頂層參數 T_WIDTH (8)
     ) u_post_block (
         .clk            (clk),
         .rst_n          (rst_n),
-        // 98 batch 結束後更新 Trace
         .update_en      (finish),       
-        // 有效脈衝輸入時才積分
         .accum_en       (w_l2_valid),   
-        .weight_mem_in  (w_weight_data),     // 來自 SRAM
-        .spike_out      (spike_out),         // 系統輸出
-        .post_trace_8x  (w_post_trace_8x)    // 輸出給 STDP
+        .weight_mem_in  (w_weight_data),
+        .spike_out      (spike_out),    
+        .post_trace_8x  (w_post_trace_8x)
     );
 
     // ============================================================
@@ -117,16 +115,18 @@ module top #(
             stdp #(
                 .SHIFT_LTP(2),
                 .SHIFT_LTD(3)
+                // 如果 stdp.v 內部也有 T_WIDTH 參數，建議一併加上：
+                // .T_WIDTH(T_WIDTH) 
             ) u_stdp (
                 .clk           (clk),
                 .rst_n         (rst_n),
-                .pre_spike_in  (w_l2_spike[i]),           // 來自 Spike Gen
-                .post_spike_in (spike_out),               // 來自 Post Block
-                .weight_old    (w_weight_data[i*8 +: 8]), // 來自 SRAM
-                .pre_trace     (8'hFF),                   // 簡化：Pre-trace 設為 Max
-                .post_trace    (w_post_trace_8x[i*8 +: 8]), 
-                .weight_new    (w_stdp_new_weight[i*8 +: 8]),
-                .write_en      (w_stdp_wr_be[i])          // 產生 Byte Mask
+                .pre_spike_in  (w_l2_spike[i]),
+                .post_spike_in (spike_out),
+                .weight_old    (w_weight_data[i*D_WIDTH +: D_WIDTH]), // 修正：使用 D_WIDTH
+                .pre_trace     ({T_WIDTH{1'b1}}),                     // 修正：動態生成全 1 (8'hFF)
+                .post_trace    (w_post_trace_8x[i*T_WIDTH +: T_WIDTH]), // 修正：使用 T_WIDTH
+                .weight_new    (w_stdp_new_weight[i*D_WIDTH +: D_WIDTH]), // 修正：使用 D_WIDTH
+                .write_en      (w_stdp_wr_be[i])
             );
         end
     endgenerate
