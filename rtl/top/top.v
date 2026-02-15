@@ -68,7 +68,7 @@ module top (
         .clk            (clk),
         .rst_n          (rst_n),
         .start          (mode_sel == 2'b10), // 推論模式下啟動 
-        .accumulate_en  (1'b0),
+        .accumulate_en  (mode_sel == 2'b10),
         .pixel_data_in  (data_64bit_reg),    
         .req_addr       (w_req_addr),        // 驅動 SRAM 讀取地址
         .L2_spike_data  (w_l2_spike),        // 輸出給 STDP
