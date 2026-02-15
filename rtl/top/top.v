@@ -1,17 +1,17 @@
 module top #(
-    parameter D_WIDTH      = 8,    // 數據位寬 (如權重與像素) [cite: 1, 36, 42]
-    
+    parameter D_WIDTH      = 8,    // 數據位寬 (如權重與像素)
     // --- Spike Generator / Batch 參數 ---
-    parameter BATCH_NUM    = 98,   // 處理的資料批次數量 (對應 98 組 64-bit) [cite: 36]
-    parameter ADDR_WIDTH   = 7,    // SRAM 位址位元寬 (128 抽頭需 7-bit) [cite: 42]
-    
+    parameter BATCH_NUM    = 98,   // 處理的資料批次數量 (對應 98 組 64-bit)
+    parameter ADDR_WIDTH   = 7,    // SRAM 位址位元寬 (128 抽頭需 7-bit)
     // --- LIF 神經元核心參數 ---
-    parameter I_WIDTH      = 18,   // 電流累積運算位寬 [cite: 1]
-    parameter V_WIDTH      = 19,   // 膜電位運算位寬 [cite: 1]
-    parameter THRESHOLD    = 800,  // 發火閾值 (V_th) [cite: 1]
-    parameter LEAK_SHIFT   = 3,    // 漏電率係數 (V_leak >> LEAK_SHIFT) [cite: 1]
-    parameter REF_PERIOD   = 3     // 不應期週期數 [cite: 1]
-    )(
+    parameter I_WIDTH      = 18,   // 電流累積運算位寬
+    parameter V_WIDTH      = 19,   // 膜電位運算位寬
+    parameter THRESHOLD    = 800,  // 發火閾值 (V_th)
+    parameter LEAK_SHIFT   = 3,    // 漏電率係數 (V_leak >> LEAK_SHIFT)
+    parameter REF_PERIOD   = 3,    // 不應期週期數
+    // --- STDP 參數 (如果需要也可以放在這) ---
+    parameter T_WIDTH      = 8     // Trace 位寬
+)(
     input  wire        clk,
     input  wire        rst_n,
     input  wire [1:0]  mode_sel,    // 01: 載入數據, 10: 推論與學習
@@ -81,7 +81,7 @@ module top #(
         .clk            (clk),
         .rst_n          (rst_n),
         .start          (mode_sel == 2'b10), // 推論模式下啟動 
-        .accumulate_en  (1'b0),
+        .accumulate_en  (mode_sel == 2'b10),
         .pixel_data_in  (data_64bit_reg),    
         .req_addr       (w_req_addr),        // 驅動 SRAM 讀取地址
         .L2_spike_data  (w_l2_spike),        // 輸出給 STDP
@@ -90,22 +90,20 @@ module top #(
         .L1_done        (finish)             // 驅動 Trace 更新 & SRAM 寫回
     );
 
-    // ============================================================
+ // ============================================================
     // 4. Post-Synaptic Block (整合 LIF Neuron + Trace Latching)
     // ============================================================
     post_synaptic_block #(
-        .V_WIDTH(19),
-        .T_WIDTH(8)
+        .V_WIDTH(V_WIDTH),    // 修正：使用頂層參數 V_WIDTH (19)
+        .T_WIDTH(T_WIDTH)     // 修正：使用頂層參數 T_WIDTH (8)
     ) u_post_block (
         .clk            (clk),
         .rst_n          (rst_n),
-        // 98 batch 結束後更新 Trace
         .update_en      (finish),       
-        // 有效脈衝輸入時才積分
         .accum_en       (w_l2_valid),   
-        .weight_mem_in  (w_weight_data),     // 來自 SRAM
-        .spike_out      (spike_out),         // 系統輸出
-        .post_trace_8x  (w_post_trace_8x)    // 輸出給 STDP
+        .weight_mem_in  (w_weight_data),
+        .spike_out      (spike_out),    
+        .post_trace_8x  (w_post_trace_8x)
     );
 
     // ============================================================
@@ -117,16 +115,18 @@ module top #(
             stdp #(
                 .SHIFT_LTP(2),
                 .SHIFT_LTD(3)
+                // 如果 stdp.v 內部也有 T_WIDTH 參數，建議一併加上：
+                // .T_WIDTH(T_WIDTH) 
             ) u_stdp (
                 .clk           (clk),
                 .rst_n         (rst_n),
-                .pre_spike_in  (w_l2_spike[i]),           // 來自 Spike Gen
-                .post_spike_in (spike_out),               // 來自 Post Block
-                .weight_old    (w_weight_data[i*8 +: 8]), // 來自 SRAM
-                .pre_trace     (8'hFF),                   // 簡化：Pre-trace 設為 Max
-                .post_trace    (w_post_trace_8x[i*8 +: 8]), 
-                .weight_new    (w_stdp_new_weight[i*8 +: 8]),
-                .write_en      (w_stdp_wr_be[i])          // 產生 Byte Mask
+                .pre_spike_in  (w_l2_spike[i]),
+                .post_spike_in (spike_out),
+                .weight_old    (w_weight_data[i*D_WIDTH +: D_WIDTH]), // 修正：使用 D_WIDTH
+                .pre_trace     ({T_WIDTH{1'b1}}),                     // 修正：動態生成全 1 (8'hFF)
+                .post_trace    (w_post_trace_8x[i*T_WIDTH +: T_WIDTH]), // 修正：使用 T_WIDTH
+                .weight_new    (w_stdp_new_weight[i*D_WIDTH +: D_WIDTH]), // 修正：使用 D_WIDTH
+                .write_en      (w_stdp_wr_be[i])
             );
         end
     endgenerate
