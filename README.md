@@ -7,16 +7,18 @@
 ## 1. 目錄結構架構
 
 為了保持專案整潔，請務必按照以下結構存放檔案：
-
+```text
 synaptic-core-asic/
 ├── run_rtl.sh           # 自動化模擬與啟動 Verdi 的主腳本
 ├── filelist.f           # 存放所有 RTL 電路檔案路徑的清單
 ├── rtl/                 # 存放電路原始碼 (.v)
-│   └── lif_neuron/      # LIF 相關模組資料夾
+├── syn/                 # 存放合成相關檔案 
 ├── tb/                  # 存放測試平台 (.v)
 └── sim/                 # [自動生成] 存放模擬產生的 Log 與波形檔
 
 ```
+
+---
 ## 2. 環境設定
 
 在使用前，請確保：
@@ -67,3 +69,46 @@ initial begin
 end
 
 ```
+---
+
+## 5. 邏輯綜合流程 (Synthesis)
+
+在 RTL 模擬驗證無誤後，需將電路轉換為 Netlist。本專案採用 **TSMC 180nm (TSRI T180)** 製程進行綜合。
+
+### 綜合目錄結構
+
+```text
+syn/
+├── .synopsys_dc.setup   # TSRI T180 製程庫設定 (隱藏檔)
+├── scripts/
+│   └── dc_syn.tcl       # 合成核心腳本 (含分析、編譯與產出設定)
+├── data/
+│   └── TOP.sdc          # 時序約束 (設定 Clock 週期與 I/O 延遲)
+├── netlist/             # [自動生成] 存放合成後的 .v 與 .sdf
+└── reports/             # [自動生成] 存放面積 (Area) 與時序 (Timing) 報表
+
+```
+
+### 執行綜合指令
+
+在根目錄下執行自動化合成腳本：
+
+```bash
+chmod +x run_syn.sh
+./run_syn.sh
+
+```
+
+> **注意**：腳本會自動進入 `syn/` 目錄執行，並將執行日誌存於 `syn/reports/dc_exec.log` 以利除錯。
+
+---
+
+## 6. 時序與面積檢查
+
+合成完成後，請務必檢查 `syn/reports/` 下的報表：
+
+* **`timing.log`**：檢查 **Slack** 是否為正值。若出現 `VIOLATED`，需調整電路邏輯或放寬時序目標。
+* **`area.log`**：查看總體面積與 Gate Count，這對於論文中評估硬體成本至關重要。
+
+
+
