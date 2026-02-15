@@ -31,7 +31,7 @@ module lif_unit_core #(
     assign spike_out = spike_detected & (~ref_active);
 
     // A. 不應期邏輯與計數更新
-    lif_refrac_logic #( .REF_WIDTH(REF_WIDTH), .REF_PERIOD(REF_PERIOD) ) 
+    layer1_lif_refrac_logic #( .REF_WIDTH(REF_WIDTH), .REF_PERIOD(REF_PERIOD) ) 
     u_refrac (
         .cnt_old    (ref_cnt_old),
         .post_spike (spike_out), // 迴授：看「當下」是否發火
@@ -40,14 +40,14 @@ module lif_unit_core #(
     );
 
     // B. 漏電計算
-    lif_leak #( .D_WIDTH(D_WIDTH), .LEAK_SHIFT(LEAK_SHIFT) ) 
+    layer1_lif_leak #( .D_WIDTH(D_WIDTH), .LEAK_SHIFT(LEAK_SHIFT) ) 
     u_leak (
         .V_in   (v_mem_old),
         .V_leak (v_leaked)
     );
 
     // C. 積分計算 (加入輸入電流)
-    lif_integrator #( .D_WIDTH(D_WIDTH) ) 
+    layer1_lif_integrator #( .D_WIDTH(D_WIDTH) ) 
     u_int (
         .V_leak (v_leaked),
         .i_syn  (i_syn),
@@ -55,7 +55,7 @@ module lif_unit_core #(
     );
 
     // D. 閾值判斷 (注意：判斷的是積分後的 v_integrated)
-    lif_th_cmp #( .D_WIDTH(D_WIDTH), .THRESHOLD(THRESHOLD) ) 
+    layer1_lif_th_cmp #( .D_WIDTH(D_WIDTH), .THRESHOLD(THRESHOLD) ) 
     u_cmp (
         .V_mem (v_integrated),
         .spike (spike_detected)

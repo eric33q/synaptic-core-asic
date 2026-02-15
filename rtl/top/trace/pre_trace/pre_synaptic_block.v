@@ -1,6 +1,6 @@
 `timescale 1ns/1ps
 
-module layer1_trace_integration #(
+module pre_synaptic_block #(
     parameter D_WIDTH    = 8,   // 脈衝位寬 (8 pixels)
     parameter BATCH_NUM  = 98,  // 批次數量
     parameter T_WIDTH    = 8,   // Trace 位寬 (8 bits)

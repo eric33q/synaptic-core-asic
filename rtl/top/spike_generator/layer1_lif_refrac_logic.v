@@ -1,6 +1,6 @@
 `timescale 1ns/1ps
 
-module lif_refrac_logic #(
+module layer1_lif_refrac_logic #(
     parameter REF_WIDTH  = 4,
     parameter REF_PERIOD = 3
 )(
