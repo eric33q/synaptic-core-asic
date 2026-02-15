@@ -5,7 +5,8 @@ module post_trace #(
 )(
     input  wire                     clk,
     input  wire                     rst_n,
-    
+    input wire                     update_en,//784 個像素都讀完了才更新一次
+
     // --- 來自 LIF Layer 的輸入 ---
     input  wire [NUM_POST-1:0]      fire_in,
     
@@ -35,7 +36,7 @@ module post_trace #(
         if (!rst_n) begin
             trace_regs <= {(NUM_POST*T_WIDTH){1'b0}};
         end 
-        else begin
+        else if (update_en)begin
             trace_regs <= w_new_trace_flat;
         end
     end
