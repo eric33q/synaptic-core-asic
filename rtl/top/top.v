@@ -1,4 +1,17 @@
-module top (
+module top #(
+    parameter D_WIDTH      = 8,    // 數據位寬 (如權重與像素)
+    // --- Spike Generator / Batch 參數 ---
+    parameter BATCH_NUM    = 98,   // 處理的資料批次數量 (對應 98 組 64-bit)
+    parameter ADDR_WIDTH   = 7,    // SRAM 位址位元寬 (128 抽頭需 7-bit)
+    // --- LIF 神經元核心參數 ---
+    parameter I_WIDTH      = 18,   // 電流累積運算位寬
+    parameter V_WIDTH      = 19,   // 膜電位運算位寬
+    parameter THRESHOLD    = 800,  // 發火閾值 (V_th)
+    parameter LEAK_SHIFT   = 3,    // 漏電率係數 (V_leak >> LEAK_SHIFT)
+    parameter REF_PERIOD   = 3,    // 不應期週期數
+    // --- STDP 參數 (如果需要也可以放在這) ---
+    parameter T_WIDTH      = 8     // Trace 位寬
+)(
     input  wire        clk,
     input  wire        rst_n,
     input  wire [1:0]  mode_sel,    // 01: 載入數據, 10: 推論與學習
