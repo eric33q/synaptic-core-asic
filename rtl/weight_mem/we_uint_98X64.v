@@ -5,13 +5,13 @@ module we_unit_98x64(
     // 讀取權重介面
     input  wire         rd_en,
     input  wire [6:0]   rd_row,
-    input  wire [7:0]   pre_mask,    
+    input  wire [7:0]   pre_mask,   // 從產生器來的pre_spike 
     output reg  [63:0]  rd_weight,
     output reg          rd_valid,
 
     // 寫入權重介面
     input  wire         wr_en,
-    input  wire [7:0]   wr_mask,    // 8-bit 寫入遮罩，對應 8 個 Byte
+    input  wire [7:0]   wr_mask,    // 從STDP來的訊號，8-bit 寫入遮罩，對應 8 個 Byte
     input  wire [6:0]   wr_row,
     input  wire [63:0]   wr_weight
 );
