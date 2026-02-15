@@ -138,7 +138,7 @@ module top (
         // 讀取埠
         .rd_en      (w_l2_valid),      
         .rd_row     (w_req_addr),      
-        .pre_mask   (8'hFF),           
+        .pre_mask   (w_l2_spike),           
         .rd_weight  (w_weight_data),   
         // 寫入埠 (接仲裁訊號)
         .wr_en      (final_wr_en),     

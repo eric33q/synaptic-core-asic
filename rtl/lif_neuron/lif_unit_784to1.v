@@ -1,13 +1,14 @@
 module lif_unit_784to1 #(
-    parameter D_WIDTH   = 8,   // 數據位寬
+    parameter D_WIDTH    = 8,   // 數據位寬
     parameter I_WIDTH    = 18,  // 電流位寬
     parameter V_WIDTH    = 19,   // 電位位寬
     parameter THRESHOLD  = 800, // 發火閾值
     parameter LEAK_SHIFT = 3,   // 漏電移位
-    parameter REF_PERIOD     = 3     // 不應期週期數
+    parameter REF_PERIOD = 3    // 不應期週期數
 )(
     input  wire clk,
     input  wire rst_n,
+    input  wire accum_en,//啟用訊號
     input  wire [63:0] weight_mem, // 64 個 8 位元權重平坦化輸入
     output wire post_spike
 );
@@ -66,9 +67,11 @@ module lif_unit_784to1 #(
                 i_syn_valid     <= 1'b0;
                 weight_grp_cnt  <= 7'd0;
             end else begin
-                i_syn_valid <= 1'b0; // 預設為 0，數到第 98 組時拉高
-                if (weight_mem != 64'd0 || weight_grp_cnt > 7'd0) begin
-                    if (weight_grp_cnt == 7'd98) begin 
+                i_syn_valid <= 1'b0;
+                
+                // 改為檢查 accum_en
+                if (accum_en) begin
+                    if (weight_grp_cnt == 7'd97) begin 
                         i_syn_hold     <= i_syn_accum + i_syn_group;
                         i_syn_accum    <= {I_WIDTH{1'b0}};
                         i_syn_valid    <= 1'b1;
