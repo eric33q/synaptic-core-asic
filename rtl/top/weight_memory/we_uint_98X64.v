@@ -19,41 +19,28 @@ module we_unit_98x64(
     // --- 1. 內部信號定義 ---
     wire [63:0] sram_q;         // SRAM 輸出的原始數據
     wire [63:0] sram_d;         // 準備寫入 SRAM 的數據
-    wire [63:0] sram_bw_en;     // Byte Write Enable (通常低位元有效)
+    wire [7:0] sram_bw_en;     // Byte Write Enable (通常低位元有效)
     wire [6:0]  sram_addr;
     wire        sram_cen;       // Chip Enable
     wire        sram_wen;       // Write Enable
 
     // --- 2. 寫入邏輯：Byte Write Enable 設定 ---
-    // 將 wr_mask (0~7) 轉換為 64-bit 的寫入遮罩
-    // 假設 SRAM 的 BWEN 是 Active Low (0 表示寫入，1 表示遮蔽)
-    assign sram_bw_en = {
-    {8{!wr_mask[7]}},
-    {8{!wr_mask[6]}},
-    {8{!wr_mask[5]}},
-    {8{!wr_mask[4]}},
-    {8{!wr_mask[3]}},
-    {8{!wr_mask[2]}},
-    {8{!wr_mask[1]}},
-    {8{!wr_mask[0]}}
-};
-    
-    // 寫入數據對齊到對應的 Byte 位置
+    assign sram_bw_en = ~wr_mask;
     assign sram_d = wr_weight; 
 
-    // 單埠 SRAM 位址多工：寫入優先於讀取 (或視你的仲裁邏輯而定)
+    // 單埠 SRAM 位址多工：寫入優先於讀取
     assign sram_addr = wr_en ? wr_row : rd_row;
     assign sram_cen  = !(rd_en || wr_en); // 有讀或寫才啟動
     assign sram_wen  = !wr_en;            // 0 為寫入, 1 為讀取
 
-    // --- 3. 實例化 SRAM IP (此名稱需對應你 Compiler 產出的模組名) ---
-    sram_sp_128x64 your_instance_name (
+    // --- 3. 實例化 SRAM ---
+    sram_sp_128x64 u_sram (
         .CLK  (clk),
         .CEN  (sram_cen),
         .WEN  (sram_wen),
-        .BWEN (sram_bw_en), // 這裡使用了 Byte Write 功能
+        .BWEN (sram_bw_en), // 這裡現在是 8-bit 對 8-bit
         .A    (sram_addr),
-        .D    (sram_d),
+        .D    (wr_weight),
         .Q    (sram_q)
     );
 

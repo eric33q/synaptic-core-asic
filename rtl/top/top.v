@@ -33,10 +33,11 @@ module top #(
     // SRAM 讀取相關
     wire [63:0] w_weight_data;      // 從 SRAM 讀出的權重
     wire [6:0]  w_req_addr;         // Spike Gen 請求的讀取位址
-
+    wire        w_weight_valid;     // 用來接收 SRAM 讀取有效的訊號
     // Layer 1 Spike Gen 相關
     wire [7:0]  w_l2_spike;         // 8 路像素脈衝
     wire        w_l2_valid;         // 脈衝有效 (accumulate_en)
+    wire [D_WIDTH*T_WIDTH-1:0] w_l1_trace; // 用來接收 Layer 1 產生的 Pre-trace
 
     // Post-Synaptic 相關
     wire [63:0] w_post_trace_8x;    // 鎖存後的 Post-trace (給 STDP 用)
@@ -47,7 +48,7 @@ module top #(
 
     // 寫入仲裁相關
     wire        final_wr_en;
-    wire [7:0]  final_wr_mask;
+    wire [7:0] final_wr_mask;
     wire [63:0] final_wr_data;
     wire [6:0]  final_wr_addr;
 
@@ -72,25 +73,34 @@ module top #(
     end
 
     // ============================================================
-    // 3. 脈衝產生器 (Layer 1 Spike Generator)
+    // 3. 整合脈衝產生與軌跡 (Pre-Synaptic Block)
     // ============================================================
-    layer1_system_top #(
-        .D_WIDTH(D_WIDTH),
-        .BATCH_NUM(BATCH_NUM)
+    pre_synaptic_block #(
+        .D_WIDTH      (D_WIDTH),    // 8 pixels
+        .BATCH_NUM    (BATCH_NUM),  // 98 batches
+        .T_WIDTH      (T_WIDTH),    // 8 bits
+        .ADDR_WIDTH   (ADDR_WIDTH)  // 7 bits
     ) u_spike_gen (
-        .clk            (clk),
-        .rst_n          (rst_n),
-        .start          (mode_sel == 2'b10), // 推論模式下啟動 
-        .accumulate_en  (mode_sel == 2'b10),
-        .pixel_data_in  (data_64bit_reg),    
-        .req_addr       (w_req_addr),        // 驅動 SRAM 讀取地址
-        .L2_spike_data  (w_l2_spike),        // 輸出給 STDP
-        .L2_valid       (w_l2_valid),        // 驅動 LIF 積分 & SRAM 讀取
-        .L1_busy        (busy),              
-        .L1_done        (finish)             // 驅動 Trace 更新 & SRAM 寫回
+        .clk             (clk),
+        .rst_n           (rst_n),
+        .start           (mode_sel == 2'b10), 
+        .accumulate_en   (mode_sel == 2'b10),
+        
+        // 外部記憶體介面
+        .pixel_data_in   (data_64bit_reg),    
+        .req_addr        (w_req_addr),    
+        
+        // 狀態輸出
+        .L1_busy         (busy),              
+        .L1_done         (finish),            
+
+        // 核心輸出：對接 STDP 與 Neuron
+        .spike_data_out  (w_l2_spike),    // 輸出原始脈衝
+        .spike_valid_out (w_l2_valid),    // 輸出有效訊號
+        .trace_data_out  (w_l1_trace)     // 輸出計算好的 Pre-trace (64 bits)
     );
 
- // ============================================================
+    // ============================================================
     // 4. Post-Synaptic Block (整合 LIF Neuron + Trace Latching)
     // ============================================================
     post_synaptic_block #(
@@ -115,32 +125,29 @@ module top #(
             stdp #(
                 .SHIFT_LTP(2),
                 .SHIFT_LTD(3)
-                // 如果 stdp.v 內部也有 T_WIDTH 參數，建議一併加上：
-                // .T_WIDTH(T_WIDTH) 
             ) u_stdp (
                 .clk           (clk),
                 .rst_n         (rst_n),
                 .pre_spike_in  (w_l2_spike[i]),
                 .post_spike_in (spike_out),
                 .weight_old    (w_weight_data[i*D_WIDTH +: D_WIDTH]), // 修正：使用 D_WIDTH
-                .pre_trace     ({T_WIDTH{1'b1}}),                     // 修正：動態生成全 1 (8'hFF)
-                .post_trace    (w_post_trace_8x[i*T_WIDTH +: T_WIDTH]), // 修正：使用 T_WIDTH
-                .weight_new    (w_stdp_new_weight[i*D_WIDTH +: D_WIDTH]), // 修正：使用 D_WIDTH
+                .pre_trace     (w_l1_trace[i*T_WIDTH +: T_WIDTH]), 
+                .post_trace    (w_post_trace_8x[i*T_WIDTH +: T_WIDTH]),
+                .weight_new    (w_stdp_new_weight[i*D_WIDTH +: D_WIDTH]),
                 .write_en      (w_stdp_wr_be[i])
             );
         end
     endgenerate
-
+    
     // ============================================================
     // 6. 權重記憶體寫入仲裁 (Write Arbitration)
     // ============================================================
-    // 判斷寫入來源是 "外部載入" (Mode 01) 還是 "STDP 更新" (Mode 10 + Finish)
-    
+    // 寫入致能訊號
     assign final_wr_en   = (mode_sel == 2'b01) ? (data_cnt == 2'd3) : (finish && |w_stdp_wr_be);
-    assign final_wr_mask = (mode_sel == 2'b01) ? mask_in            : w_stdp_wr_be;
-    assign final_wr_data = (mode_sel == 2'b01) ? data_64bit_reg     : w_stdp_new_weight;
-    // STDP 更新時，寫回地址必須等於當前讀取地址 (w_req_addr)
-    assign final_wr_addr = (mode_sel == 2'b01) ? addr_in            : w_req_addr;
+    // 8-bit 遮罩直接傳遞
+    assign final_wr_mask = (mode_sel == 2'b01) ? mask_in : w_stdp_wr_be; 
+    assign final_wr_data = (mode_sel == 2'b01) ? data_64bit_reg : w_stdp_new_weight; 
+    assign final_wr_addr = (mode_sel == 2'b01) ? addr_in : w_req_addr;
 
     // ============================================================
     // 7. 權重記憶體 (Weight Memory)
@@ -148,16 +155,15 @@ module top #(
     we_unit_98x64 u_weight_mem (
         .clk        (clk),
         .rst_n      (rst_n),
-        // 讀取埠
         .rd_en      (w_l2_valid),      
         .rd_row     (w_req_addr),      
         .pre_mask   (w_l2_spike),           
-        .rd_weight  (w_weight_data),   
-        // 寫入埠 (接仲裁訊號)
+        .rd_weight  (w_weight_data),
+	.rd_valid   (w_weight_valid),  
         .wr_en      (final_wr_en),     
-        .wr_mask    (final_wr_mask),   
+        .wr_mask    (final_wr_mask), 
         .wr_row     (final_wr_addr),   
         .wr_weight  (final_wr_data)    
     );
 
-endmodule
+endmodule // 確保最後有這行
