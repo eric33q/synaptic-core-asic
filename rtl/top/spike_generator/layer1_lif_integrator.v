@@ -1,6 +1,6 @@
 `timescale 1ns/1ps
 
-module lif_integrator #(
+module layer1_lif_integrator #(
     parameter D_WIDTH = 8
 )(
     input  wire [D_WIDTH-1:0] V_leak,

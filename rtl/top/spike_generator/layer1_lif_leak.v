@@ -1,6 +1,6 @@
 `timescale 1ns/1ps
 
-module lif_leak #(
+module layer1_lif_leak #(
     parameter D_WIDTH    = 8,
     parameter LEAK_SHIFT = 3
 )(
