@@ -1,6 +1,6 @@
 `timescale 1ns/1ps
 
-module lif_th_cmp #(
+module layer1_lif_th_cmp #(
     parameter D_WIDTH   = 8,
     parameter THRESHOLD = 200
 )(
