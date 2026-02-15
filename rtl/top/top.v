@@ -96,7 +96,6 @@ module top #(
         // 注意：這裡假設 lif_unit 接收 64-bit 權重並在內部根據脈衝加權
         .weight_mem (w_weight_data),         // 接收來自 SRAM 的權重 [cite: 1]
         .post_spike (spike_out),             // 神經元發火 [cite: 2]
-        .V_mem_out  ()
     );
 
 endmodule
