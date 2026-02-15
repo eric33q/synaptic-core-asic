@@ -32,3 +32,20 @@ snapshot/
 novas.rc
 novas.conf
 BSSLib.lib++/
+#Design Compiler (DC) Specific
+# # DC 產生的二進位設計資料庫，體積大且無法 Diff
+*.ddc
+# # 形式驗證用的設定檔，每次合成都會變動
+*.svf
+# # DC 自動生成的元件庫緩存資料夾
+alib-*/
+# # 記錄下達過哪些 TCL 指令的紀錄檔
+command.log
+# # 紀錄讀取過哪些檔案名稱的清單
+filenames.log
+# # 針對特定專案的啟動紀錄
+ desc.txt
+#
+#Synthesis Outputs (Optional)
+syn/netlist/
+syn/reports/
