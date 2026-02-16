@@ -30,7 +30,7 @@ FSDB_NAME="${DIR_NAME}.fsdb"
 if [ -f "$FSDB_NAME" ]; then
     echo "==== 模擬完成，正在啟動 Verdi 載入 $FSDB_NAME ===="
     # 這裡會同時載入原始碼與波形
-    verdi -f "$PROJ_ROOT/filelist.f" -ssf "$FSDB_NAME" &
+    verdi "$PROJ_ROOT/tb/$1" -f "$PROJ_ROOT/filelist.f" -ssf "$FSDB_NAME" &
 else
     echo "警告: 找不到波形檔 $FSDB_NAME，請檢查 TB 中的 \$fsdbDumpfile 設定。"
 fi

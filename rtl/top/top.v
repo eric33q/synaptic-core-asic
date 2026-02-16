@@ -111,12 +111,13 @@ module top #(
             data_64bit_reg <= 64'd0;
             data_cnt <= 2'd0;
         end else if (current_mode == 2'b01||current_mode == 2'b10) begin
-            case(data_cnt)
-                2'd0: data_64bit_reg[15:0]  <= data_in;
-                2'd1: data_64bit_reg[31:16] <= data_in;
-                2'd2: data_64bit_reg[47:32] <= data_in;
-                2'd3: data_64bit_reg[63:48] <= data_in;
-            endcase
+                data_64bit_reg[63:0]  <= {data_in[15:0],data_64bit_reg[63:16]};
+           // case(data_cnt)
+           //     2'd0: data_64bit_reg[15:0]  <= data_in;
+        //	2'd1: data_64bit_reg[31:16] <= data_in;
+         //       2'd2: data_64bit_reg[47:32] <= data_in;
+           //    2'd3: data_64bit_reg[63:48] <= data_in;
+           // endcase
             data_cnt <= data_cnt + 1'b1;
         end else begin
             data_cnt <= 2'd0;
@@ -180,11 +181,11 @@ module top #(
     
     // Write Arbitration
     // 只有在 Mode 10 且真的有 Byte 要寫入時才拉高
-    assign final_wr_en = (current_mode == 2'b01) ? (data_cnt == 2'd3) : 
-                         (current_mode == 2'b10 && finish) ? (|w_stdp_wr_be === 1'b1) : 1'b0;
-    assign final_wr_mask = (current_mode == 2'b01) ? 8'hFF: w_stdp_wr_be; 
-    assign final_wr_data = (current_mode == 2'b01) ? data_64bit_reg : w_stdp_new_weight; 
-    assign final_wr_addr = (current_mode == 2'b01) ? addr_in : addr_pipe_n2;
+    assign final_wr_en = (current_mode == ST_LOAD) ? (data_cnt == 2'd3) : 
+                         (current_mode == ST_WORK && finish) ? (|w_stdp_wr_be === 1'b1) : 1'b0;
+    assign final_wr_mask = (current_mode == ST_LOAD) ? 8'hFF: w_stdp_wr_be; 
+    assign final_wr_data = (current_mode == ST_LOAD) ? data_64bit_reg : w_stdp_new_weight; 
+    assign final_wr_addr = (current_mode == ST_LOAD) ? addr_in : addr_pipe_n2;
  
     // Weight Memory
     we_unit_98x64 u_weight_mem (
