@@ -28,6 +28,7 @@ module top #(
     // ============================================================
     // 資料載入相關
     reg  [63:0] data_64bit_reg;
+    wire [63:0] load_data; 
     reg  [1:0]  data_cnt;
 
     // SRAM 讀取相關
@@ -71,6 +72,7 @@ module top #(
             data_cnt <= 2'd0;
         end
     end
+    assign load_data = (data_cnt == 2'd3) ? {data_in, data_64bit_reg[47:0]} : data_64bit_reg;
 
     // ============================================================
     // 3. 整合脈衝產生與軌跡 (Pre-Synaptic Block)
@@ -146,7 +148,7 @@ module top #(
     assign final_wr_en   = (mode_sel == 2'b01) ? (data_cnt == 2'd3) : (finish && |w_stdp_wr_be);
     // 8-bit 遮罩直接傳遞
     assign final_wr_mask = (mode_sel == 2'b01) ? mask_in : w_stdp_wr_be; 
-    assign final_wr_data = (mode_sel == 2'b01) ? data_64bit_reg : w_stdp_new_weight; 
+    assign final_wr_data = (mode_sel == 2'b01) ? load_data : w_stdp_new_weight; 
     assign final_wr_addr = (mode_sel == 2'b01) ? addr_in : w_req_addr;
 
     // ============================================================

@@ -44,6 +44,8 @@ module top_tb;
     always #(CLK_PERIOD/2) clk = ~clk;
 
     integer i;
+    
+    integer val_idx;
 
     // --- 測試程序 ---
     initial begin
@@ -53,23 +55,25 @@ module top_tb;
         addr_in = 0;
         mask_in = 8'hFF;
         data_in = 0;
+        val_idx = 0; // 初始化索引
 
         #(CLK_PERIOD * 5);
         rst_n = 1;
         #(CLK_PERIOD * 2);
 
         // 2. Mode 01: 載入 98 組基礎權重到 SRAM (0~97)
-        // 為了讓波形有數值變化，給予規律的初始權重
         $display("Status: Starting Mode 01 - Full Data Loading (98 Batches)...");
         mode_sel = 2'b01;
         
         for (i = 0; i < BATCH_NUM; i = i + 1) begin
             addr_in = i[6:0];
+            
             // 每個 Addr 輸入四次 16-bit 以組成 64-bit 
-            data_in = 16'h1111; #(CLK_PERIOD);
-            data_in = 16'h2222; #(CLK_PERIOD);
-            data_in = 16'h3333; #(CLK_PERIOD);
-            data_in = 16'h4444; #(CLK_PERIOD);
+            repeat (4) begin
+                data_in = (val_idx % 9 + 1) * 16'h1111; 
+                #(CLK_PERIOD);
+                val_idx = val_idx + 1;
+            end
         end
         
         mode_sel = 2'b00;
