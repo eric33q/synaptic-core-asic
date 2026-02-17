@@ -60,20 +60,25 @@ module top_tb;
 
         // 2. 第一階段：Mode 01 載入初始權重 (只做一次)
         $display("Round 1: Mode 01 - Loading Initial Weights...");
-        @(posedge clk);
-        start_loading = 1;
-        @(posedge clk);
-        start_loading = 0;
+        //@(posedge clk);
+        //start_loading = 1;
 
         for (i = 0; i < BATCH_NUM; i = i + 1) begin
-            addr_in = i[6:0];
+        @(posedge clk);
+        start_loading = 1;
+            addr_in = #1 i[6:0];
             // 這裡模擬餵入初始權重，例如 16'h1111, 2222...
-            data_in = 16'h1111; #(CLK_PERIOD);
-            data_in = 16'h2222; #(CLK_PERIOD);
-            data_in = 16'h3333; #(CLK_PERIOD);
-            data_in = 16'h4444; #(CLK_PERIOD);
+            data_in = #1 16'h1111;
+        @(posedge clk);
+            data_in = #1 16'h2222; 
+        @(posedge clk);
+            data_in = #1 16'h3333; 
+        @(posedge clk);
+            data_in = #1 16'h4444; 
         end
         
+        @(posedge clk);
+        start_loading = #1 0;
         // 等待第一輪運算結束 (Mode 10 會接著 Mode 01 自動啟動)
         // 注意：第一輪 Mode 10 因為沒餵像素，Trace 可能是 0，這是正常的
         wait(finish == 1);
@@ -86,9 +91,9 @@ module top_tb;
             
             #(CLK_PERIOD * 5);
             @(posedge clk);
-            start_loading = 1;
+            start_loading = #1 1;
             @(posedge clk);
-            start_loading = 0; 
+            start_loading = #1 0; 
 
             fork
                 // 程序 A：負責餵資料 (總共 392 拍)

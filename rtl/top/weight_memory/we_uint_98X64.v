@@ -20,18 +20,24 @@ module we_unit_98x64(
     wire [63:0] sram_q;         // SRAM 輸出的原始數據
     wire [63:0] sram_d;         // 準備寫入 SRAM 的數據
     wire [7:0] sram_bw_en;     // Byte Write Enable (通常低位元有效)
-    wire [6:0]  sram_addr;
-    wire        sram_cen;       // Chip Enable
-    wire        sram_wen;       // Write Enable
+    reg  [6:0] sram_addr;
+    reg        sram_cen;       // Chip Enable
+    reg        sram_wen;       // Write Enable
 
     // --- 2. 寫入邏輯：Byte Write Enable 設定 ---
     assign sram_bw_en = ~wr_mask;
     assign sram_d = wr_weight; 
 
     // 單埠 SRAM 位址多工：寫入優先於讀取
-    assign sram_addr = wr_en ? wr_row : rd_row;
-    assign sram_cen  = !(rd_en || wr_en); // 有讀或寫才啟動
-    assign sram_wen  = !wr_en;            // 0 為寫入, 1 為讀取
+    //assign sram_addr = wr_en ? wr_row : rd_row;
+    //assign sram_cen  = !(rd_en || wr_en); // 有讀或寫才啟動
+    //assign sram_wen  = !wr_en;            // 0 為寫入, 1 為讀取
+
+    always @(posedge clk) begin
+           sram_wen <= !wr_en;
+           sram_addr <= wr_en ? wr_row : rd_row;
+           sram_cen  <= !(rd_en || wr_en); // 有讀或寫才啟動
+    end
 
     // --- 3. 實例化 SRAM ---
     sram_sp_128x64 u_sram (

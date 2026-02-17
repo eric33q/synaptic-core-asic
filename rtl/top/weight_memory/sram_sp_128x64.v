@@ -6,12 +6,14 @@ module sram_sp_128x64 (
     input  wire [7:0]  BWEN, // 輸入改為 8-bit Byte Mask (Active Low)
     input  wire [6:0]  A,    // Address
     input  wire [63:0] D,    // Data In
-    output reg  [63:0] Q     // Data Out
+    output wire [63:0] Q     // Data Out
 );
 
     reg [63:0] mem [0:127];
     integer i;
 
+    // --- 讀取操作 ---
+    assign Q = mem[A];
     always @(posedge CLK) begin
         if (!CEN) begin
             // --- 寫入操作 ---
@@ -26,10 +28,6 @@ module sram_sp_128x64 (
                     // 否則保持原值
                 end
             end 
-            // --- 讀取操作 ---
-            else begin
-                Q <= mem[A];
-            end
         end
     end
 
