@@ -2,7 +2,7 @@ Magic 271485
 Revision Verdi_Q-2020.03
 
 ; Window Layout <x> <y> <width> <height> <signalwidth> <valuewidth>
-viewPort 0 25 2560 590 205 65
+viewPort 0 25 1536 388 205 65
 
 ; File list:
 ; openDirFile [-d delimiter] [-s time_offset] [-rf auto_bus_rule_file] path_name file_name
@@ -16,8 +16,8 @@ signalSpacing 5
 
 ; windowTimeUnit is used for zoom, cursor & marker
 ; waveform viewport range
-zoom 36621.785880 188437.339431
-cursor 75000.000000
+zoom 3904896.334511 4044999.446385
+cursor 3995000.000000
 marker 0.000000
 
 ; user define markers
@@ -25,7 +25,7 @@ marker 0.000000
 ; visible top row signal index
 top 0
 ; marker line index
-markerPos 13
+markerPos 5
 
 ; event list
 ; addEvent event_name event_expression
@@ -50,17 +50,15 @@ activeDirFile "" "/home/t112810019/synaptic_core/synaptic-core-asic/sim/top_tb/t
 addSignal -h 15 /top_tb/clk
 addSignal -h 15 -holdScope start_loading
 addSignal -h 15 -holdScope data_in[15:0]
-addSignal -h 15 -holdScope addr_in[6:0]
+addSignal -h 15 -UNSIGNED -UDEC -holdScope addr_in[6:0]
+addSignal -h 15 /top_tb/uut/finish
 addGroup "G2"
-addSignal -h 15 /top_tb/uut/current_mode[1:0]
+addSignal -h 15 -UNSIGNED -UDEC /top_tb/uut/current_mode[1:0]
 addSignal -h 15 -holdScope data_cnt[1:0]
 addGroup "G3"
 addSignal -h 15 /top_tb/uut/data_64bit_reg[63:0]
-addSignal -h 15 /top_tb/uut/u_weight_mem/u_sram/mem[0:127]
+addSignal -expanded -h 15 /top_tb/uut/u_weight_mem/u_sram/mem[0:127]
 addGroup "G4"
-addSignal -h 15 /top_tb/uut/u_weight_mem/u_sram/WEN
-addSignal -h 15 -holdScope D[63:0]
-addGroup "G5"
 
 ; getSignalForm Scope Hierarchy Status
 ; active file of getSignalForm

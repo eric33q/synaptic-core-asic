@@ -46,7 +46,7 @@ module top_tb;
     // --- 測試程序 ---
     initial begin
         // 0. 載入 MNIST 像素資料文件
-        $readmemh("/home/t112830022/synaptic-core-asic/data/mnist_input.hex", pixel_data_mem);
+        $readmemh("../../data/mnist_input.hex", pixel_data_mem);
         
         // 1. 系統重置
         $display("System Reset...");
@@ -58,7 +58,7 @@ module top_tb;
         rst_n = 1;
         #(CLK_PERIOD * 2);
 
-        // 2. 第一階段：Mode 01 載入初始權重 (只做一次)
+        // 2. 第一階段：Mode 02 載入初始權重 (只做一次)
         $display("Round 1: Mode 01 - Loading Initial Weights...");
         //@(posedge clk);
         //start_loading = 1;
@@ -70,7 +70,7 @@ module top_tb;
             // 這裡模擬餵入初始權重，例如 16'h1111, 2222...
             data_in = #1 16'h1111;
         @(posedge clk);
-            data_in = #1 16'h2222; 
+            data_in = #2 16'h2222; 
         @(posedge clk);
             data_in = #1 16'h3333; 
         @(posedge clk);

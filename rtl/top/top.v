@@ -69,7 +69,7 @@ module top #(
                 ST_LOAD: begin
                     // 確保資料組裝完成後再移動地址 
                     if (data_cnt == 2'd3) begin
-                        if (load_counter == 7'd97) begin
+                        if (load_counter == BATCH_NUM) begin
                             current_mode   <= ST_WORK;
                             is_initialized <= 1'b1;
                             load_counter   <= 7'd0;
@@ -112,12 +112,6 @@ module top #(
             data_cnt <= 2'd0;
         end else if (current_mode == 2'b01||current_mode == 2'b10) begin
                 data_64bit_reg[63:0]  <= {data_in[15:0],data_64bit_reg[63:16]};
-           // case(data_cnt)
-           //     2'd0: data_64bit_reg[15:0]  <= data_in;
-        //	2'd1: data_64bit_reg[31:16] <= data_in;
-         //       2'd2: data_64bit_reg[47:32] <= data_in;
-           //    2'd3: data_64bit_reg[63:48] <= data_in;
-           // endcase
             data_cnt <= data_cnt + 1'b1;
         end else begin
             data_cnt <= 2'd0;
