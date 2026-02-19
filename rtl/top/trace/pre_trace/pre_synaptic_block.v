@@ -15,6 +15,7 @@ module pre_synaptic_block #(
     
     // --- 外部記憶體介面 (讀取圖片) ---
     input  wire [63:0] pixel_data_in, // 從 Image ROM 讀回的數據
+    input wire pixel_valid_in, // 新增
     output wire [6:0]  req_addr,      // 請求地址 (給 Image ROM，也給 Trace RAM)
     
     // --- 系統狀態 ---
@@ -50,7 +51,7 @@ module pre_synaptic_block #(
         .rst_n          (rst_n),
         .start          (start),
         .accumulate_en  (accumulate_en),
-        
+        .pixel_valid_in (pixel_valid_in),
         // 外部記憶體 IO
         .pixel_data_in  (pixel_data_in),
         .req_addr       (w_req_addr),    // 輸出地址，存到 wire

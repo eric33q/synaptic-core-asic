@@ -9,6 +9,7 @@ module layer1_system_top #(
     input  wire rst_n,
     input  wire start,
     input wire accumulate_en,
+    input wire pixel_valid_in, // 新增
     // --- 輸入：像素數據 ---
     input  wire [63:0] pixel_data_in,
     output wire [6:0]  req_addr,
@@ -31,6 +32,7 @@ module layer1_system_top #(
         .rst_n          (rst_n),
         .start          (start),
         .accumulate_en  (accumulate_en),
+        .pixel_valid_in (pixel_valid_in),
         // 直接將頂層 Output 連接到子模組 Output
         .busy           (L1_busy),
         .finish         (L1_done),     

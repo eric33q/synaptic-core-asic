@@ -16,9 +16,6 @@
 ../../rtl/top/spike_generator/layer1_lif_leak.v
 ../../rtl/top/spike_generator/layer1_lif_th_cmp.v
 ../../rtl/top/spike_generator/layer1_lif_refrac_logic.v
-// 若有用到 Buffer 包裝器請保留以下 (根據 Git Log 應存在)
-../../rtl/top/spike_generator/spike_buffer_layer1.v
-../../rtl/top/spike_generator/layer1_buffer_wrapper.v
 
 // --- 4. Layer 2: LIF Neuron ---
 ../../rtl/top/lif_neuron/lif_integrator.v
