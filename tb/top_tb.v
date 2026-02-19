@@ -2,27 +2,24 @@
 
 module top_tb;
 
-    // --- 參數定義 ---
     parameter CLK_PERIOD = 10;
     parameter D_WIDTH    = 8;
     parameter BATCH_NUM  = 98; 
 
-    // --- 訊號宣告 ---
     reg         clk;
     reg         rst_n;
     reg         start_loading;
     reg  [6:0]  addr_in;
     reg  [15:0] data_in;
+    reg  [63:0] pixel_data_in; 
     
+    wire [6:0]  req_addr_out;  
     wire        spike_out;
     wire        busy;
     wire        finish;
 
-    // --- 像素資料記憶體 (用來讀取 hex 文件) ---
     reg [63:0] pixel_data_mem [0:97];
     reg [63:0] current_pixel_batch;
-
-    // --- 實例化頂層模組 ---
     top #(
         .D_WIDTH(D_WIDTH),
         .BATCH_NUM(BATCH_NUM)
@@ -37,19 +34,53 @@ module top_tb;
         .finish(finish)
     );
 
-    // --- 時脈產生 ---
     initial clk = 0;
     always #(CLK_PERIOD/2) clk = ~clk;
 
-    integer i, round;
+    // 模擬 ROM 行為
+    always @(posedge clk) begin
+        if (!rst_n) pixel_data_in <= 64'd0;
+        else        pixel_data_in <= pixel_data_mem[req_addr_out];
+    end
 
-    // --- 測試程序 ---
+    // =======================================================
+    // 🚨 Debug 監控區 (這會自動印出 FSM 的一舉一動)
+    // =======================================================
+    
+    // 1. 監聽 Top FSM 的狀態切換
+    always @(uut.current_mode) begin
+        case (uut.current_mode)
+            2'b00: $display("[FSM Tracker] T=%7t | Top entered ST_IDLE", $time);
+            2'b01: $display("[FSM Tracker] T=%7t | Top entered ST_LOAD", $time);
+            2'b10: $display("[FSM Tracker] T=%7t | Top entered ST_WORK", $time);
+            2'b11: $display("[FSM Tracker] T=%7t | Top entered ST_FINISH", $time);
+        endcase
+    end
+
+    // 2. 監聽 Spike Generator 吐出的 finish 訊號
+    always @(posedge finish) begin
+        $display("[Pulse Tracker] T=%7t | Spike Generator fired 'finish'!", $time);
+    end
+
+    // 3. 看門狗 (Watchdog Timer) - 防止無限卡死
     initial begin
-        // 0. 載入 MNIST 像素資料文件
+        #(CLK_PERIOD * 50000); // 如果模擬超過 500,000 ns 還沒結束，強制中斷
+        $display("\n=======================================================");
+        $display(" ❌ ERROR: WATCHDOG TIMEOUT! SIMULATION HUNG! ");
+        $display("=======================================================\n");
+        $finish;
+    end
+
+    integer i, frame;
+    integer wait_timeout;
+
+    // =======================================================
+    // 主測試流程
+    // =======================================================
+    initial begin
         $readmemh("../../data/mnist_input.hex", pixel_data_mem);
         
-        // 1. 系統重置
-        $display("System Reset...");
+        $display("\n=== System Reset ===");
         start_loading = 0;
         rst_n = 0;
         addr_in = 0;
@@ -58,45 +89,41 @@ module top_tb;
         rst_n = 1;
         #(CLK_PERIOD * 2);
 
-        // 2. 第一階段：Mode 02 載入初始權重 (只做一次)
-        $display("Round 1: Mode 01 - Loading Initial Weights...");
-        //@(posedge clk);
-        //start_loading = 1;
-
+        // --- Phase 1 ---
+        $display("\n=== Phase 1: Initialization ===");
         for (i = 0; i < BATCH_NUM; i = i + 1) begin
-        @(posedge clk);
-        start_loading = 1;
+            @(posedge clk);
+            start_loading = 1;
             addr_in = #1 i[6:0];
-            // 這裡模擬餵入初始權重，例如 16'h1111, 2222...
             data_in = #1 16'h1111;
-        @(posedge clk);
-            data_in = #2 16'h2222; 
-        @(posedge clk);
-            data_in = #1 16'h3333; 
-        @(posedge clk);
-            data_in = #1 16'h4444; 
+            @(posedge clk); data_in = #2 16'h2222; 
+            @(posedge clk); data_in = #1 16'h3333; 
+            @(posedge clk); data_in = #1 16'h4444; 
         end
         
         @(posedge clk);
         start_loading = #1 0;
-        // 等待第一輪運算結束 (Mode 10 會接著 Mode 01 自動啟動)
-        // 注意：第一輪 Mode 10 因為沒餵像素，Trace 可能是 0，這是正常的
-        wait(finish == 1);
+        
+        // 【重要】這裡「不要」加 wait(finish == 1)，因為 ST_LOAD 不會產生 finish
+        $display("[TB] Phase 1 loop ended, waiting 10 clocks...");
         #(CLK_PERIOD * 10);
 
-        // 3. 第二階段：連續學習 (重複執行 Mode 10)
-        // 從這輪開始，我們真正餵入 mnist_input.hex 的像素
- 	for (round = 2; round <= 3; round = round + 1) begin
-            $display("Round %0d: Mode 10 - Feeding Pixels & Learning...", round);
+        // =======================================================
+        // 3. Phase 2: Learning & Inference
+        // =======================================================
+        $display("\n=== Phase 2: Learning & Inference ===");
+        
+        for (frame = 1; frame <= 6; frame = frame + 1) begin
+            $display("--- Start Frame %0d ---", frame);
             
             #(CLK_PERIOD * 5);
             @(posedge clk);
-            start_loading = #1 1;
+            start_loading = #1 1; 
             @(posedge clk);
             start_loading = #1 0; 
 
+            // 因為現在是 Option A，我們必須在這裡負責每 4 拍餵 64-bit
             fork
-                // 程序 A：負責餵資料 (總共 392 拍)
                 begin
                     for (i = 0; i < BATCH_NUM; i = i + 1) begin
                         current_pixel_batch = pixel_data_mem[i];
@@ -106,25 +133,31 @@ module top_tb;
                         data_in = current_pixel_batch[63:48]; #(CLK_PERIOD);
                     end
                 end
-                // 程序 B：負責監控 finish 脈衝
+                
+                // 監控 finish 訊號
                 begin
-                    @(posedge finish); // 改用邊緣觸發，更安全
+                    wait_timeout = 0;
+                    while (finish == 0 && wait_timeout < 600) begin // 時間放寬，因為 1 個 Frame 變 392 拍了
+                        @(posedge clk);
+                        wait_timeout = wait_timeout + 1;
+                    end
                 end
             join
 
-            $display("Round %0d Finished. Weight evolution check point.", round);
+            if (wait_timeout >= 600) $display("❌ [Error] Frame %0d stuck!", frame);
+            else                     $display("✅ Frame %0d Finished.", frame);
+
             #(CLK_PERIOD * 20);
         end
 
-        $display("Simulation Done.");
+        $display("\n=== Simulation Done ===");
         $finish;
     end
 
-    // --- 波形產生 ---
     initial begin
         $fsdbDumpfile("top_tb.fsdb");
         $fsdbDumpvars(0, top_tb);
-        $fsdbDumpMDA; // 記得加上這個才能看 SRAM 陣列
+        $fsdbDumpMDA;
     end
 
 endmodule

@@ -23,17 +23,5 @@ echo "==== 正在執行模擬: $1 ===="
 # 注意：這裡我們依然使用絕對路徑讀取 filelist
 xmverilog "$PROJ_ROOT/tb/$1" -f "$PROJ_ROOT/filelist.f" +access+r
 
-# 5. 檢查波形檔是否存在並自動開啟 Verdi
-# 根據你的設定，檔名應該是 lif_unit_tb.fsdb
-FSDB_NAME="${DIR_NAME}.fsdb"
-
-if [ -f "$FSDB_NAME" ]; then
-    echo "==== 模擬完成，正在啟動 Verdi 載入 $FSDB_NAME ===="
-    # 這裡會同時載入原始碼與波形
-    verdi "$PROJ_ROOT/tb/$1" -f "$PROJ_ROOT/filelist.f" -ssf "$FSDB_NAME" &
-else
-    echo "警告: 找不到波形檔 $FSDB_NAME，請檢查 TB 中的 \$fsdbDumpfile 設定。"
-fi
-
 # 6. 回到根目錄
 cd "$PROJ_ROOT"

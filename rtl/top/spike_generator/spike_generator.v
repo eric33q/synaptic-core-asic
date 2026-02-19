@@ -14,6 +14,7 @@ module spike_generator #(
     // --- 控制介面 ---
     input  wire start,          
     input  wire accumulate_en,
+    input  wire        pixel_valid_in, // 👈 新增這個 Port
     output reg  busy,           
     output reg  finish,         
     
@@ -98,20 +99,20 @@ module spike_generator #(
                 end
             end
             S_CLEAR: begin
-                if (cur_batch_cnt == BATCH_NUM - 1) next_state = S_PREFETCH;
+                if (cur_batch_cnt == BATCH_NUM - 1) next_state = S_IDLE;
             end
             S_PREFETCH: begin
                 next_state = S_RUN;
             end
             S_RUN: begin
-                if (cur_batch_cnt == BATCH_NUM - 1) next_state = S_IDLE;
+                if (pixel_valid_in && cur_batch_cnt == BATCH_NUM - 1) next_state = S_IDLE;
             end
             default: next_state = S_IDLE;
         endcase
     end
 
     // [修正2] 這行原本是對的，現在配合 output wire 使用
-    assign spike_valid = (state == S_RUN);
+    assign spike_valid = (state == S_RUN) && pixel_valid_in;
 
     // =======================================================
     // Output Logic
@@ -141,6 +142,7 @@ module spike_generator #(
                     if (cur_batch_cnt == BATCH_NUM - 1) begin
                         cur_batch_cnt <= 0;
                         req_addr      <= 0;
+                        finish        <= 0;
                     end else begin
                         cur_batch_cnt <= cur_batch_cnt + 1;
                     end
@@ -153,10 +155,9 @@ module spike_generator #(
                 end
 
                 S_RUN: begin
-                    busy <= 1;
-                    // spike_valid <= 1; // [修正3] 刪除這裡
-                    
-                    // 寫回計算結果
+                busy <= 1;
+                // 👈 只有資料準備好，才執行運算與換下一筆
+                if (pixel_valid_in) begin 
                     state_sram[cur_batch_cnt] <= sram_wdata_comb;
 
                     if (cur_batch_cnt == BATCH_NUM - 1) begin
@@ -169,6 +170,7 @@ module spike_generator #(
                             req_addr <= req_addr + 1;
                         else
                             req_addr <= 0;
+                        end
                     end
                 end
             endcase
