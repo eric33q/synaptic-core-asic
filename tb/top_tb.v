@@ -147,7 +147,7 @@ module top_tb;
             if (wait_timeout >= 600) $display("❌ [Error] Frame %0d stuck!", frame);
             else                     $display("✅ Frame %0d Finished.", frame);
 
-            #(CLK_PERIOD * 20);
+            #(CLK_PERIOD * 10);
         end
 
         $display("\n=== Simulation Done ===");
