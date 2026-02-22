@@ -2,7 +2,7 @@ Magic 271485
 Revision Verdi_Q-2020.03
 
 ; Window Layout <x> <y> <width> <height> <signalwidth> <valuewidth>
-viewPort 0 25 1920 760 354 133
+viewPort 0 25 1920 760 354 159
 
 ; File list:
 ; openDirFile [-d delimiter] [-s time_offset] [-rf auto_bus_rule_file] path_name file_name
@@ -16,8 +16,8 @@ signalSpacing 5
 
 ; windowTimeUnit is used for zoom, cursor & marker
 ; waveform viewport range
-zoom 5212438.133051 5257871.248994
-cursor 5255000.000000
+zoom 0.000000 28992050.000000
+cursor 9625000.000000
 marker 0.000000
 
 ; user define markers
@@ -89,8 +89,8 @@ getSignalForm close
 
 "/top_tb"
 "/top_tb/uut"
-"/top_tb/uut/u_spike_gen"
-"/top_tb/uut/u_spike_gen/u_trace_manager"
+"/top_tb/uut/u_post_block"
+"/top_tb/uut/u_post_block/u_lif_neuron"
 "/top_tb/uut/u_weight_mem"
 
 SCOPE_LIST_BEGIN
@@ -105,6 +105,7 @@ SCOPE_LIST_BEGIN
 "/top_tb/uut/u_spike_gen/u_trace_manager/trace_cores[0]"
 "/top_tb/uut/u_spike_gen/u_trace_manager/trace_cores[2]"
 "/top_tb/uut/u_spike_gen/u_trace_manager/trace_cores[1]"
+"/top_tb/uut/u_post_block/u_lif_neuron"
 SCOPE_LIST_END
 
 GETSIGNALFORM_SCOPE_HIERARCHY_END
