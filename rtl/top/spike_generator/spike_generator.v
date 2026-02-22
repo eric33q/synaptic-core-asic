@@ -72,7 +72,7 @@ module spike_generator #(
         end
     endgenerate
 
-    assign spike_data_out = spikes_internal;
+    assign spike_data_out = spikes_internal & {8{spike_valid}};
 
     // =======================================================
     // FSM
