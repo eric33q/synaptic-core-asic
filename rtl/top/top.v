@@ -214,7 +214,7 @@ module top #(
         .clk        (clk),
         .rst_n      (rst_n),
         .rd_en      (w_l2_valid),      
-        .rd_row     (w_req_addr),      
+        .rd_row     (w_req_addr-7'd1),      
         .pre_mask   (w_l2_spike),           
         .rd_weight  (w_weight_data),
         .rd_valid   (w_weight_valid),  
