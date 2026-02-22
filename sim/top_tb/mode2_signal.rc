@@ -1,0 +1,77 @@
+Magic 271485
+Revision Verdi_Q-2020.03
+
+; Window Layout <x> <y> <width> <height> <signalwidth> <valuewidth>
+viewPort 769 31 766 784 205 65
+
+; File list:
+; openDirFile [-d delimiter] [-s time_offset] [-rf auto_bus_rule_file] path_name file_name
+openDirFile -d / "" "/home/t112810019/synaptic_core/synaptic-core-asic/sim/top_tb/top_tb.fsdb"
+
+; file time scale:
+; fileTimeScale ### s|ms|us|ns|ps
+
+; signal spacing:
+signalSpacing 5
+
+; windowTimeUnit is used for zoom, cursor & marker
+; waveform viewport range
+zoom 4167669.779567 4237897.647623
+cursor 4205000.000000
+marker 0.000000
+
+; user define markers
+; userMarker time_pos marker_name color linestyle
+; visible top row signal index
+top 0
+; marker line index
+markerPos 23
+
+; event list
+; addEvent event_name event_expression
+; curEvent event_name
+
+
+
+COMPLEX_EVENT_BEGIN
+
+
+COMPLEX_EVENT_END
+
+
+
+; toolbar current search type
+; curSTATUS search_type
+curSTATUS ByChange
+
+
+addGroup "G1"
+activeDirFile "" "/home/t112810019/synaptic_core/synaptic-core-asic/sim/top_tb/top_tb.fsdb"
+addSignal -h 15 /top_tb/uut/current_mode[1:0]
+addSignal -h 15 -holdScope pixel_valid
+addSignal -h 15 -holdScope data_cnt[1:0]
+addGroup "u_generator"
+addSignal -h 15 /top_tb/uut/u_spike_gen/u_layer1_top/u_generator/clk
+addSignal -h 15 -holdScope start
+addSignal -h 15 -holdScope accumulate_en
+addSignal -h 15 -holdScope pixel_valid_in
+addSignal -h 15 -holdScope busy
+addSignal -h 15 -holdScope finish
+addSignal -h 15 -holdScope pixel_data_in[63:0]
+addSignal -h 15 -holdScope req_addr[6:0]
+addSignal -h 15 -holdScope spike_data_out[7:0]
+addSignal -h 15 -holdScope spike_valid
+addGroup "u_core"
+addSignal -h 15 /top_tb/uut/u_spike_gen/u_layer1_top/u_generator/lif_gen[0]/u_core/v_mem_old[7:0]
+addSignal -h 15 -holdScope ref_cnt_old[3:0]
+addSignal -h 15 -holdScope i_syn[7:0]
+addSignal -h 15 -holdScope v_mem_new[7:0]
+addSignal -h 15 -holdScope ref_cnt_new[3:0]
+addSignal -h 15 -holdScope spike_out
+addGroup "G4"
+addSignal -h 15 /top_tb/uut/u_spike_gen/u_layer1_top/u_generator/state_sram[0:97]
+addGroup "G5"
+
+; getSignalForm Scope Hierarchy Status
+; active file of getSignalForm
+
