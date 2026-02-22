@@ -86,8 +86,6 @@ module we_unit_98x64(
             rd_valid <= rd_en_d1;
             if (rd_en_d1) begin
                 rd_weight <= sram_q & mask64_d1;
-            end else begin
-                rd_weight <= 64'd0;
             end
         end
     end
