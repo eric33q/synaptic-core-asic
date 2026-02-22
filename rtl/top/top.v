@@ -216,7 +216,7 @@ module top #(
         .clk        (clk),
         .rst_n      (rst_n),
         .rd_en      (spike_valid_out),      
-        .rd_row     (req_addr),      
+        .rd_row     (req_addr-7'd1),      
         .pre_mask   (spike_data_out),           
         .rd_weight  (rd_weight),
         .rd_valid   (rd_valid),  
