@@ -29,10 +29,6 @@ module we_unit_98x64(
     assign sram_d = wr_weight; 
 
     // 單埠 SRAM 位址多工：寫入優先於讀取
-    //assign sram_addr = wr_en ? wr_row : rd_row;
-    //assign sram_cen  = !(rd_en || wr_en); // 有讀或寫才啟動
-    //assign sram_wen  = !wr_en;            // 0 為寫入, 1 為讀取
-
     always @(posedge clk) begin
            sram_wen <= !wr_en;
            sram_addr <= wr_en ? wr_row : rd_row;
@@ -51,30 +47,17 @@ module we_unit_98x64(
     );
 
     // --- 4. 處理讀取 Latency 與 Mask ---
-    reg [7:0] pre_mask_d1;
-    reg       rd_en_d1;
-
-    // 將 Mask 與讀取訊號延遲一拍，以對齊 SRAM 輸出的數據 Q
-    always @(posedge clk or negedge rst_n) begin
-        if (!rst_n) begin
-            rd_en_d1    <= 1'b0;
-            pre_mask_d1 <= 8'd0;
-        end else begin
-            rd_en_d1    <= rd_en;
-            pre_mask_d1 <= pre_mask;
-        end
-    end
 
     // 展開 Mask (對齊延遲後的 pre_mask)
-    wire [63:0] mask64_d1 = {
-        {8{pre_mask_d1[7]}}, 
-        {8{pre_mask_d1[6]}}, 
-        {8{pre_mask_d1[5]}}, 
-        {8{pre_mask_d1[4]}},
-        {8{pre_mask_d1[3]}}, 
-        {8{pre_mask_d1[2]}}, 
-        {8{pre_mask_d1[1]}}, 
-        {8{pre_mask_d1[0]}}
+    wire [63:0] mask64 = {
+        {8{pre_mask[7]}}, 
+        {8{pre_mask[6]}}, 
+        {8{pre_mask[5]}}, 
+        {8{pre_mask[4]}},
+        {8{pre_mask[3]}}, 
+        {8{pre_mask[2]}}, 
+        {8{pre_mask[1]}}, 
+        {8{pre_mask[0]}}
     };
 
     // 最終輸出
@@ -83,9 +66,9 @@ module we_unit_98x64(
             rd_weight <= 64'd0;
             rd_valid  <= 1'b0;
         end else begin
-            rd_valid <= rd_en_d1;
-            if (rd_en_d1) begin
-                rd_weight <= sram_q & mask64_d1;
+            rd_valid <= rd_en;
+            if (rd_en) begin
+                rd_weight <= sram_q & mask64;
             end else begin
                 rd_weight <= 64'd0;
             end
