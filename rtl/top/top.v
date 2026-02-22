@@ -172,7 +172,7 @@ module top #(
         .clk            (clk),
         .rst_n          (rst_n),
         .update_en      (finish),       
-        .accum_en       (spike_valid_out),   
+        .accum_en       (rd_valid),   
         .weight_mem_in  (rd_weight),
         .spike_out      (spike_out),    
         .post_trace_8x  (post_trace_8x)
@@ -227,3 +227,4 @@ module top #(
     );
 
 endmodule
+
