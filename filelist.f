@@ -16,7 +16,7 @@
 ../../rtl/top/spike_generator/layer1_lif_leak.v
 ../../rtl/top/spike_generator/layer1_lif_th_cmp.v
 ../../rtl/top/spike_generator/layer1_lif_refrac_logic.v
-
+../../rtl/top/spike_generator/spike_buffer_layer1.v
 // --- 4. Layer 2: LIF Neuron ---
 ../../rtl/top/lif_neuron/lif_integrator.v
 ../../rtl/top/lif_neuron/lif_leak.v
