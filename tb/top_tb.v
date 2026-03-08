@@ -45,10 +45,13 @@ module top_tb;
     // =======================================================
     always @(uut.current_mode) begin
         case (uut.current_mode)
-            2'b00: $display("[FSM] T=%7t | ST_IDLE", $time);
-            2'b01: $display("[FSM] T=%7t | ST_LOAD", $time);
-            2'b10: $display("[FSM] T=%7t | ST_WORK", $time);
-            2'b11: $display("[FSM] T=%7t | ST_FINISH", $time);
+            3'd0: $display("[FSM] T=%7t | ST_IDLE", $time);
+            3'd1: $display("[FSM] T=%7t | ST_LOAD (Weight Init)", $time);
+            3'd2: $display("[FSM] T=%7t | ST_INTEGRATE (Phase 1)", $time);
+            3'd3: $display("[FSM] T=%7t | ST_CHECK", $time);
+            3'd4: $display("[FSM] T=%7t | ST_UPDATE (Phase 2)", $time);
+            3'd5: $display("[FSM] T=%7t | ST_FINISH", $time);
+    default: $display("[FSM] T=%7t | UNKNOWN (%d)", $time, uut.current_mode);
         endcase
     end
 
@@ -118,14 +121,14 @@ module top_tb;
                 
                 begin
                     wait_timeout = 0;
-                    while (finish == 0 && wait_timeout < 1000) begin
+                    while (finish == 0 && wait_timeout < 2000) begin
                         @(posedge clk);
                         wait_timeout = wait_timeout + 1;
                     end
                 end
             join
 
-            if (wait_timeout >= 1000) begin
+            if (wait_timeout >= 2000) begin
                 $display("[Error] Frame %0d stuck!", frame);
                 $finish;
             end else begin

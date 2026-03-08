@@ -16,6 +16,11 @@ module pre_synaptic_block #(
     // --- 外部記憶體介面 (讀取圖片) ---
     input  wire [63:0] pixel_data_in, // 從 Image ROM 讀回的數據
     input wire pixel_valid_in, // 新增
+
+    // 新增：供階段二讀取 Trace 的控制
+    input  wire [6:0]  ext_addr,
+    input  wire        is_update_phase,
+
     output wire [6:0]  req_addr,      // 請求地址 (給 Image ROM，也給 Trace RAM)
     
     // --- 系統狀態 ---
@@ -65,6 +70,8 @@ module pre_synaptic_block #(
         .L2_valid       (w_spike_valid)
     );
 
+    //根據不同階段切換地址來源，並在第二階段保護不被寫入
+    wire [6:0] trace_addr = ext_addr;    
     // ============================================================
     // 2. 實例化 Pre_Trace (軌跡管理器)
     // ============================================================
@@ -78,8 +85,9 @@ module pre_synaptic_block #(
         .rst_n          (rst_n),
         
         // 控制訊號來自 Layer 1
-        .update_en      (w_spike_valid), // L1 說有效，Trace 就更新
-        .addr_in        (w_req_addr),    // Trace 的地址跟隨 L1 的讀取地址
+        // 階段二不准更新，純讀取
+        .update_en      (w_spike_valid && !is_update_phase),
+        .addr_in        (trace_addr),    // Trace 的地址跟隨 L1 的讀取地址
         .spikes_in      (w_spike_data),  // 輸入脈衝
         
         // 輸出計算好的 Trace

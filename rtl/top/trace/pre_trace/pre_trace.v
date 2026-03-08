@@ -18,24 +18,59 @@ module pre_trace #(
 );
 
     // ============================================================
-    // 1. 記憶體宣告 (Distributed RAM)
-    // ============================================================
-    // 雖然總量是 784 bytes，但我們以 "8 bytes (64 bits)" 為一個單位存取
-    // 這樣可以一次讀寫 8 個像素的資料
-    reg [N_PARALLEL*T_WIDTH-1:0] trace_mem [0:BATCH_NUM-1];
-
-    // ============================================================
-    // 2. 內部訊號
+    // 1. 內部訊號
     // ============================================================
     wire [N_PARALLEL*T_WIDTH-1:0] w_old_trace_flat; // 從記憶體讀出的舊值
     wire [N_PARALLEL*T_WIDTH-1:0] w_new_trace_flat; // 算完的新值
 
-    // [讀取操作] 非同步讀取 (Distributed RAM 特性)
-    // 只要 addr_in 改變，舊資料馬上出現在 w_old_trace_flat
-    assign w_old_trace_flat = trace_mem[addr_in];
+    // ============================================================
+    // 2. 管線化暫存器
+    // ============================================================
+    reg [ADDR_WIDTH-1:0]         addr_in_d1;
+    reg                          update_en_d1;
+    reg [N_PARALLEL-1:0]         spikes_in_d1;
+    reg [N_PARALLEL*T_WIDTH-1:0] trace_out_d2; 
+
+    always @(posedge clk or negedge rst_n) begin
+        if (!rst_n) begin
+            addr_in_d1   <= 0;
+            update_en_d1 <= 0;
+            spikes_in_d1 <= 0;
+            trace_out_d2 <= 0;
+        end else begin
+            // --- 第一拍延遲 --- 
+            // 保存輸入訊號，提供給 SRAM 讀取舊值與後續計算新值
+            addr_in_d1   <= addr_in;
+            update_en_d1 <= update_en;
+            spikes_in_d1 <= spikes_in;
+            
+            // --- 第二拍延遲 ---
+            // 保存 SRAM 吐出來的舊資料，確保輸出給 STDP 時擁有精準的 2 拍延遲
+            trace_out_d2 <= w_old_trace_flat; 
+        end
+    end
 
     // ============================================================
-    // 3. 實例化 8 個運算核心 (平行運算)
+    // 3. 實例化 128x64 單埠 SRAM (取代原本的 trace_mem)
+    // ============================================================
+    wire sram_cen = 1'b0;          // 永遠致能 (Active Low)
+    
+    // 關鍵：將寫入致能訊號延遲 1 拍。
+    // 等到第 1 拍算出新 Trace 後，才在下一個正緣寫回 SRAM
+    wire sram_wen = ~update_en_d1; // Active Low
+
+    sram_sp_128x64 u_trace_sram (
+        .CLK  (clk),
+        .CEN  (sram_cen),
+        .WEN  (sram_wen),
+        .BWEN (8'h00),             // 全開不遮罩 (Active Low，0 為寫入)
+        .A    (addr_in_d1),        // 使用延遲 1 拍的地址
+        .D    (w_new_trace_flat),  // 寫入運算後的新值
+        .Q    (w_old_trace_flat)   // 讀出舊值
+    );
+
+    // ============================================================
+    // 4. 實例化 8 個運算核心 (平行運算)
     // ============================================================
     genvar i;
     generate
@@ -45,8 +80,8 @@ module pre_trace #(
             trace_core #(
                 .T_WIDTH(T_WIDTH)
             ) u_core (
-                // 拆解 input vector: 取出第 i 個像素的 Spike
-                .spike_in      (spikes_in[i]),
+                // 拿延遲 1 拍的脈衝，配上 SRAM 剛讀出來的舊資料進行計算
+                .spike_in      (spikes_in_d1[i]),
                 
                 // 拆解 input vector: 取出第 i 個像素的 Old Trace
                 // 語法 [base +: width] 代表從 base 開始往上數 width 個 bit
@@ -59,27 +94,9 @@ module pre_trace #(
     endgenerate
 
     // ============================================================
-    // 4. 寫回邏輯 (Update Memory)
-    // ============================================================
-    integer j;
-    always @(posedge clk or negedge rst_n) begin
-        if (!rst_n) begin
-            // 重置所有記憶體為 0
-            for (j = 0; j < BATCH_NUM; j = j + 1) begin
-                trace_mem[j] <= 0;
-            end
-        end 
-        else if (update_en) begin
-            // 只有當 Layer 1 數據有效時才更新
-            // 將計算完的新值寫回同一個地址
-            trace_mem[addr_in] <= w_new_trace_flat;
-        end
-    end
-
-    // ============================================================
     // 5. 輸出給 Layer 5
     // ============================================================
-    // Layer 5 需要的是 "更新後" 的 Trace 值 (也就是當下最新的狀態)
-    assign trace_out_flat = w_new_trace_flat;
+    // 輸出經過 trace_out_d2 打拍後的資料，達成完美的 2 拍讀取延遲
+    assign trace_out_flat = trace_out_d2;
 
 endmodule
