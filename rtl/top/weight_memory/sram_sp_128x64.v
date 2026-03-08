@@ -11,7 +11,11 @@ module sram_sp_128x64 (
 
     reg [63:0] mem [0:127];
     integer i;
-
+    initial begin
+        for (i = 0; i < 128; i = i + 1) begin
+            mem[i] = 64'd0;
+        end
+    end
     // --- 讀取操作 ---
     assign Q = mem[A];
     always @(posedge CLK) begin
