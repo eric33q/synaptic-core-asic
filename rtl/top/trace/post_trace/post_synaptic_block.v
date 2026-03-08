@@ -9,7 +9,9 @@ module post_synaptic_block #(
     // --- 來自系統的控制訊號 ---
     input  wire          accum_en,      // 接到 LIF 的新埠口
     input  wire [63:0]   weight_mem_in, // 經過 Masking 的權重
-    
+    // 接收頂層鎖存的發火狀態
+    // 確保在 ST_FINISH 更新時，能讀取到「本輪積分是否有發火」的紀錄
+    input  wire          fire_in_latched,    
     // --- 輸出介面 ---
     output wire          spike_out,     // 輸出脈衝
     output wire [63:0]   post_trace_8x  // 輸出給 STDP 的 Trace (8份)
@@ -35,7 +37,7 @@ module post_synaptic_block #(
         .clk            (clk),
         .rst_n          (rst_n),
         .update_en      (update_en),
-        .fire_in        (w_post_spike),
+        .fire_in        (fire_in_latched), //用鎖存後的訊號
         .trace_out_flat (w_single_trace)
     );
 

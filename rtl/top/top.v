@@ -226,10 +226,11 @@ module top #(
     ) u_post_syn_blk (
         .clk            (clk),
         .rst_n          (rst_n),
-        .update_en      (l1_done_wire), 
+        .update_en       (finish),           // 僅在最後一拍更新
         .accum_en       (rd_valid && current_mode == ST_INTEGRATE),   
         .weight_mem_in  (rd_weight),
-        .spike_out      (spike_out),    
+        .spike_out      (spike_out),  
+        .fire_in_latched (post_spike_latched), // 餵入本輪發火紀錄
         .post_trace_8x  (post_trace_8x)
     );
 
