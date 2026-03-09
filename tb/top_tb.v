@@ -100,7 +100,7 @@ module top_tb;
         // MNIST data
         $readmemh("../../data/mnist_input.hex", pixel_data_mem);
 
-        for (frame = 1; frame <= 3; frame = frame + 1) begin
+        for (frame = 1; frame <= 10; frame = frame + 1) begin
             $display("--- Frame %0d ---", frame);
             
             @(posedge clk);

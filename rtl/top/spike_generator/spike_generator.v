@@ -166,7 +166,7 @@ module spike_generator #(
                         req_addr      <= 0;
                     end else begin
                         cur_batch_cnt <= cur_batch_cnt + 1;
-                        if (req_addr < BATCH_NUM - 1)
+                        if (req_addr < BATCH_NUM )
                             req_addr <= req_addr + 1;
                         else
                             req_addr <= 0;
