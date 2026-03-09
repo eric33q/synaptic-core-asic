@@ -48,7 +48,7 @@ module lif_unit_784to1 #(
             // 如果有外部電流輸入，下一刻進入積分狀態
             state_next = ST_INTEGRATE;
         end
-        else if(accum_en) begin
+        else if(accum_en && weight_grp_cnt == 7'd0) begin
             // 沒有輸入且不在不應期，進入漏電狀態
             state_next = ST_LEAK;
         end

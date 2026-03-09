@@ -57,6 +57,7 @@ module top #(
     wire        l1_done_wire;
     wire [783:0] L2_input_vector;
     
+    reg [3:0] check_wait_cnt;
     // 第二階段專用暫存器
     reg [6:0] update_addr;
     reg [1:0] upd_cnt; // 4-Cycle 狀態計數器
@@ -106,10 +107,19 @@ module top #(
                     end
                 end
                 ST_INTEGRATE: begin
-                    if (l1_done_wire) current_mode <= ST_CHECK;
-                end
+                        if (l1_done_wire) begin 
+                            current_mode <= ST_CHECK;
+                            check_wait_cnt <= 4'd0; // 重置計數器
+                        end
+                    end
                 ST_CHECK: begin
-                    current_mode <= ST_UPDATE;
+                    // 等待 5 個 Cycle，確保 Layer 2 的 post_spike 已經順利產生並被 latch
+                    if (check_wait_cnt == 4'd5) begin
+                        current_mode  <= ST_UPDATE;
+                        accumulate_en <= 1'b0; 
+                    end else begin
+                        check_wait_cnt <= check_wait_cnt + 1'b1;
+                    end
                 end
                 ST_UPDATE: begin
                     // 等待最後一個寫入週期完成後結束

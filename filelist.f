@@ -6,7 +6,8 @@
 
 // --- 2. Weight Memory System ---
 ../../rtl/top/weight_memory/we_uint_98X64.v
-../../rtl/top/weight_memory/sram_sp_128x64.v
+// ../../rtl/top/weight_memory/sram_sp_128x64.v
+../../rtl/top/weight_memory/sram_sp_128x64_rf.v
 
 // --- 3. Layer 1: Spike Generator (注意: 檔名已有 layer1_ 前綴) ---
 ../../rtl/top/spike_generator/layer1_system_top.v
