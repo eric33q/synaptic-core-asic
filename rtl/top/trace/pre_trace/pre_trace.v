@@ -61,7 +61,7 @@ module pre_trace #(
     // 關鍵魔法：在 action_pipe 的第 3 拍才拉低 (發動寫入)，完美錯開讀取
     wire sram_wen = ~action_pipe[2]; 
 
-    sram_sp_128x64 u_trace_sram (
+    pre_trace_mem u_trace_sram (
         .CLK  (clk),
         .CEN  (sram_cen),
         .WEN  (sram_wen),
