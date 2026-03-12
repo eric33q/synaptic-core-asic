@@ -65,10 +65,10 @@ module pre_trace #(
         .CLK  (clk),
         .CEN  (sram_cen),
         .WEN  (sram_wen),
-        .BWEN (8'h00),             // 全開不遮罩 (Active Low，0 為寫入)
         .A    (sram_addr),         // 使用仲裁後的地址
         .D    (w_new_trace_flat),  // 寫入運算後的新值
-        .Q    (w_old_trace_flat)   // 讀出舊值
+        .Q    (w_old_trace_flat),   // 讀出舊值
+        .EMA  ()
     );
 
     // ============================================================
