@@ -203,4 +203,5 @@ module spike_generator #(
         end
     end
 
+
 endmodule
