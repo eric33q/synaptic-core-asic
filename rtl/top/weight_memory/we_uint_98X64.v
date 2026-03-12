@@ -20,9 +20,9 @@ module we_unit_98x64(
 
     // --- 1. SRAM 控制組合邏輯 ---
     wire [63:0] sram_q;
-    reg  [6:0]  sram_addr = wr_en ? wr_row : rd_row;
-    reg         sram_cen  = !(rd_en || wr_en); 
-    reg  [7:0]  sram_wen  = wr_en ? ~wr_mask : 8'hFF;
+    reg  [6:0]  sram_addr;
+    reg         sram_cen ; 
+    reg  [7:0]  sram_wen ;
 
     always @(posedge clk) begin
            sram_wen <= !wr_en;
