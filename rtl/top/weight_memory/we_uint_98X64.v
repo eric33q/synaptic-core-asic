@@ -25,7 +25,7 @@ module we_unit_98x64(
     reg  [7:0]  sram_wen ;
 
     always @(posedge clk) begin
-           sram_wen <= !wr_en;
+           sram_wen <=  wr_en ? ~wr_mask : 8'hFF; // 寫入時，mask 位為 0；不寫入時，全 1
            sram_addr <= wr_en ? wr_row : rd_row;
            sram_cen  <= !(rd_en || wr_en); // 有讀或寫才啟動
     end
