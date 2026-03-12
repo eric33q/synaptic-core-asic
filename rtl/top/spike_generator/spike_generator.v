@@ -42,7 +42,19 @@ module spike_generator #(
     wire        sram_wen;           // 單一 bit Write Enable (Active Low)
     wire [95:0] sram_d;             
 
+
     // 控制邏輯：
+
+    // =======================================================
+    // FSM 與狀態機邏輯
+    // =======================================================
+    localparam S_IDLE     = 3'd0;
+    localparam S_CLEAR    = 3'd1;
+    localparam S_PREFETCH = 3'd2;
+    localparam S_RUN      = 3'd3;
+
+    reg [2:0] state, next_state;
+        // 控制邏輯：
     // - S_IDLE 時關閉 SRAM (cen = 1) 節省功耗。
     // - S_CLEAR 時寫入全 0 (wen = 0)。
     // - S_RUN 且 pixel_valid_in 時寫入計算結果 (wen = 0)。
@@ -106,17 +118,6 @@ module spike_generator #(
             assign sram_wdata_comb[(i*12)+8 +: REF_WIDTH] = ref_new;
         end
     endgenerate
-
-    // =======================================================
-    // FSM 與狀態機邏輯
-    // =======================================================
-    localparam S_IDLE     = 3'd0;
-    localparam S_CLEAR    = 3'd1;
-    localparam S_PREFETCH = 3'd2;
-    localparam S_RUN      = 3'd3;
-    
-    reg [2:0] state, next_state;
-
     always @(posedge clk or negedge rst_n) begin
         if (!rst_n) state <= S_IDLE;
         else        state <= next_state;
@@ -202,5 +203,6 @@ module spike_generator #(
             endcase
         end
     end
+
 
 endmodule
