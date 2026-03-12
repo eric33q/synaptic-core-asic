@@ -20,9 +20,15 @@ module we_unit_98x64(
 
     // --- 1. SRAM 控制組合邏輯 ---
     wire [63:0] sram_q;
-    wire [6:0]  sram_addr = wr_en ? wr_row : rd_row;
-    wire        sram_cen  = !(rd_en || wr_en); 
-    wire [7:0]  sram_wen  = wr_en ? ~wr_mask : 8'hFF;
+    reg  [6:0]  sram_addr = wr_en ? wr_row : rd_row;
+    reg         sram_cen  = !(rd_en || wr_en); 
+    reg  [7:0]  sram_wen  = wr_en ? ~wr_mask : 8'hFF;
+
+    always @(posedge clk) begin
+           sram_wen <= !wr_en;
+           sram_addr <= wr_en ? wr_row : rd_row;
+           sram_cen  <= !(rd_en || wr_en); // 有讀或寫才啟動
+    end
 
     // --- 2. 解決 RTL 模擬 Hold Violation 的絕招：人工線延遲 ---
     // 讓訊號在 Clock 邊緣後 1ns 才改變，完美滿足 0.5ns 的 Hold Time 要求
