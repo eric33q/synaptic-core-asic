@@ -59,7 +59,7 @@ module pre_trace #(
     // 等到第 1 拍算出新 Trace 後，才在下一個正緣寫回 SRAM
     wire sram_wen = ~update_en_d1; // Active Low
 
-    sram_sp_128x64 u_trace_sram (
+    pre_trace_mem u_trace_sram (
         .CLK  (clk),
         .CEN  (sram_cen),
         .WEN  (sram_wen),
