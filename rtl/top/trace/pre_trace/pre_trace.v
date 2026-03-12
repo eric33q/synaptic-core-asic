@@ -59,14 +59,25 @@ module pre_trace #(
     wire sram_cen = 1'b0; // 永遠致能
 
     // 關鍵魔法：在 action_pipe 的第 3 拍才拉低 (發動寫入)，完美錯開讀取
-    wire sram_wen = ~action_pipe[2]; 
+    wire sram_wen = ~action_pipe[2];
+    
+    //暫時
+    wire [6:0]  sram_addr_dly;
+    wire        sram_cen_dly;
+    wire        sram_wen_dly;
+    wire [63:0] sram_d_dly;
+
+    assign #1 sram_addr_dly = sram_addr;
+    assign #1 sram_cen_dly  = sram_cen;
+    assign #1 sram_wen_dly  = sram_wen;
+    assign #1 sram_d_dly    = w_new_trace_flat; // 這裡先寫一半，剩下的會在 trace_core 裡計算好後接上
 
     pre_trace_mem u_trace_sram (
         .CLK  (clk),
-        .CEN  (sram_cen),
-        .WEN  (sram_wen),
-        .A    (sram_addr),         // 使用仲裁後的地址
-        .D    (w_new_trace_flat),  // 寫入運算後的新值
+        .CEN  (sram_cen_dly),
+        .WEN  (sram_wen_dly),
+        .A    (sram_addr_dly),         // 使用仲裁後的地址
+        .D    (sram_d_dly),  // 寫入運算後的新值
         .Q    (w_old_trace_flat),   // 讀出舊值
         .EMA  ()
     );
