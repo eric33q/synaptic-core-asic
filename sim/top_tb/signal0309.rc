@@ -2,11 +2,11 @@ Magic 271485
 Revision Verdi_Q-2020.03
 
 ; Window Layout <x> <y> <width> <height> <signalwidth> <valuewidth>
-viewPort 0 25 1536 350 206 65
+viewPort 0 25 1920 445 251 237
 
 ; File list:
 ; openDirFile [-d delimiter] [-s time_offset] [-rf auto_bus_rule_file] path_name file_name
-openDirFile -d / "" "/home/t112830022/synaptic-core-asic/sim/top_tb/top_tb.fsdb"
+openDirFile -d / "" "/home/t112830043/synaptic-core-asic/sim/top_tb/top_tb.fsdb"
 
 ; file time scale:
 ; fileTimeScale ### s|ms|us|ns|ps
@@ -16,16 +16,16 @@ signalSpacing 5
 
 ; windowTimeUnit is used for zoom, cursor & marker
 ; waveform viewport range
-zoom 5912623.021113 5969199.034375
-cursor 6015000.000000
+zoom 9232203.185314 9847685.995598
+cursor 9385000.000000
 marker 0.000000
 
 ; user define markers
 ; userMarker time_pos marker_name color linestyle
 ; visible top row signal index
-top 10
+top 2
 ; marker line index
-markerPos 18
+markerPos 19
 
 ; event list
 ; addEvent event_name event_expression
@@ -46,49 +46,48 @@ curSTATUS ByChange
 
 
 addGroup "G1"
-activeDirFile "" "/home/t112830022/synaptic-core-asic/sim/top_tb/top_tb.fsdb"
+activeDirFile "" "/home/t112830043/synaptic-core-asic/sim/top_tb/top_tb.fsdb"
 addSignal -h 15 /top_tb/uut/clk
-addSignal -h 15 -UNSIGNED -UDEC -holdScope current_mode[1:0]
+addSignal -h 15 -holdScope current_mode[2:0]
+addSignal -h 15 -holdScope accumulate_en
+addSignal -h 15 -holdScope post_spike_latched
+addSignal -h 15 -UNSIGNED -UDEC -holdScope update_addr[6:0]
+addSignal -h 15 -holdScope upd_cnt[1:0]
+addSignal -h 15 -holdScope st_update_wr_trigger
+addSignal -h 15 -holdScope wr_weight_latched[63:0]
+addSignal -h 15 -holdScope wr_mask_latched[7:0]
 addSignal -h 15 -holdScope data_cnt[1:0]
+addSignal -h 15 -holdScope data_in[15:0]
 addSignal -h 15 -holdScope pixel_data_in[63:0]
 addSignal -h 15 -holdScope pixel_valid_in
 addGroup "G2"
-addSignal -h 15 /top_tb/uut/we_unit_98x64/rd_en
-addSignal -h 15 -holdScope rd_valid
-addSignal -h 15 -holdScope rd_weight[63:0]
-addSignal -h 15 -holdScope wr_en
-addSignal -h 15 -holdScope wr_row[6:0]
+addSignal -h 15 /top_tb/uut/u_spike_buf/l1_spike_data[7:0]
+addSignal -h 15 -holdScope l2_full_spike_vector[783:0]
 addGroup "G3"
-addSignal -h 15 /top_tb/uut/pre_synaptic_block/req_addr[6:0]
-addSignal -h 15 -holdScope spike_data_out[7:0]
-addSignal -h 15 -holdScope trace_data_out[63:0]
+addSignal -h 15 /top_tb/uut/u_we/wr_weight[63:0]
+addSignal -h 15 /top_tb/uut/u_we/u_sram/mem[0:127]
 addGroup "G4"
-addSignal -h 15 /top_tb/uut/wr_en
-addSignal -h 15 -holdScope wr_row[6:0]
-addGroup "G5"
-addGroup "G6"
-addGroup "G7"
 
 ; getSignalForm Scope Hierarchy Status
 ; active file of getSignalForm
-activeDirFile "" "/home/t112830022/synaptic-core-asic/sim/top_tb/top_tb.fsdb"
+activeDirFile "" "/home/t112830043/synaptic-core-asic/sim/top_tb/top_tb.fsdb"
 
 GETSIGNALFORM_SCOPE_HIERARCHY_BEGIN
 getSignalForm close
 
 "/top_tb"
 "/top_tb/uut"
-"/top_tb/uut/pre_synaptic_block"
-"/top_tb/uut/we_unit_98x64"
+"/top_tb/uut/u_pre_syn_blk"
+"/top_tb/uut/u_spike_buf"
+"/top_tb/uut/u_we"
 
 SCOPE_LIST_BEGIN
 "/top_tb"
 "/top_tb/uut"
-"/top_tb/uut/we_unit_98x64"
-"/top_tb/uut/pre_synaptic_block"
-"/top_tb/uut/stdp_group[0]"
-"/top_tb/uut/stdp_group[3]"
-"/top_tb/uut/stdp_group[7]"
+"/top_tb/uut/u_spike_buf"
+"/top_tb/uut/u_pre_syn_blk"
+"/top_tb/uut/u_we"
+"/top_tb/uut/u_we/u_sram"
 SCOPE_LIST_END
 
 GETSIGNALFORM_SCOPE_HIERARCHY_END

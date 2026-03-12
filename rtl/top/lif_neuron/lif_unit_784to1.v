@@ -27,6 +27,7 @@ module lif_unit_784to1 #(
     localparam ST_LEAK      = 2'b00;
     localparam ST_INTEGRATE = 2'b01;
     localparam ST_RESET     = 2'b10;
+    localparam ST_HOLD      = 2'b11;
     reg [1:0] state_reg;
     reg [1:0] state_next;
 
@@ -47,9 +48,13 @@ module lif_unit_784to1 #(
             // 如果有外部電流輸入，下一刻進入積分狀態
             state_next = ST_INTEGRATE;
         end
-        else begin
+        else if(accum_en && weight_grp_cnt == 7'd0) begin
             // 沒有輸入且不在不應期，進入漏電狀態
             state_next = ST_LEAK;
+        end
+        else begin
+            // 其他情況保持當前狀態
+            state_next = ST_HOLD;
         end
     end
 
@@ -102,8 +107,11 @@ module lif_unit_784to1 #(
                 ST_LEAK: begin
                     V_mem <= V_mem_leak;      // 更新漏電結果
                 end
+                ST_HOLD: begin
+                    V_mem <= V_mem;           // 保持不變
+                end
                 default: begin
-                    V_mem <= V_mem_leak;
+                    V_mem <= V_mem;           // 預設保持不變
                 end
             endcase
         end
