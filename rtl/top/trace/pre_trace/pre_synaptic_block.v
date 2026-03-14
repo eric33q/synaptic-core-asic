@@ -21,7 +21,7 @@ module pre_synaptic_block #(
     input  wire [6:0]  ext_addr,
     input  wire        is_update_phase,
 
-    output wire [6:0]  req_addr,      // 請求地址 (給 Image ROM，也給 Trace RAM)
+    output wire [6:0]  cur_batch_cnt,      // 請求地址 (給 Image ROM，也給 Trace RAM)
     
     // --- 系統狀態 ---
     output wire L1_busy,
@@ -59,7 +59,7 @@ module pre_synaptic_block #(
         .pixel_valid_in (pixel_valid_in),
         // 外部記憶體 IO
         .pixel_data_in  (pixel_data_in),
-        .req_addr       (w_req_addr),    // 輸出地址，存到 wire
+        .cur_batch_cnt      (w_req_addr),    // 輸出地址，存到 wire
         
         // 狀態
         .L1_busy        (L1_busy),
@@ -98,7 +98,7 @@ module pre_synaptic_block #(
     // 3. 輸出指派
     // ============================================================
     // 將內部訊號拉到頂層輸出，方便後端模組使用
-    assign req_addr        = w_req_addr;
+    assign cur_batch_cnt        = w_req_addr;
     assign spike_data_out  = w_spike_data;
     assign spike_valid_out = w_spike_valid;
 
