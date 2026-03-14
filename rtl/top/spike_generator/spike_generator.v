@@ -20,7 +20,7 @@ module spike_generator #(
     
     // --- 數據輸入介面 ---
     input  wire [63:0] pixel_data_in,
-    output reg  [6:0]  req_addr, 
+    output reg  [6:0]  cur_batch_cnt,
     
     // --- 數據輸出介面 ---
     output wire [7:0]  spike_data_out,
@@ -30,7 +30,7 @@ module spike_generator #(
     // =======================================================
     // 內部暫存器與組合邏輯信號
     // =======================================================
-    reg  [6:0]  cur_batch_cnt;      
+    reg  [6:0]  req_addr;      
     wire [95:0] sram_wdata_comb;    
     wire [7:0]  spikes_internal;
 
