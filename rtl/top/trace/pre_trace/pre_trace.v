@@ -23,7 +23,8 @@ module pre_trace #(
     // ============================================================
     wire [N_PARALLEL*T_WIDTH-1:0] w_old_trace_flat; // 從記憶體讀出的舊值
     wire [N_PARALLEL*T_WIDTH-1:0] w_new_trace_flat; // 算完的新值
-
+    reg [ADDR_WIDTH-1:0] init_counter;
+    reg                  init_done; 
     // ============================================================
     // 2. 管線化暫存器 (3-Stage Shift Register for Read-Modify-Write)
     // ============================================================
@@ -36,12 +37,21 @@ module pre_trace #(
             action_pipe <= 3'd0;
             hold_addr   <= {ADDR_WIDTH{1'b0}};
             hold_spikes <= {N_PARALLEL{1'b0}};
+            init_counter <= {ADDR_WIDTH{1'b0}};
+            init_done    <= 1'b0;
         end else begin
+            // 初始化
+            if (!init_done) begin
+                if (init_counter == BATCH_NUM - 1) begin
+                    init_done <= 1'b1; // 全位址寫入完成
+                end else begin
+                    init_counter <= init_counter + 1'b1;
+                end
+            end
             // Shift register 推動時間軸 (每個 Cycle 往左移)
-            action_pipe <= {action_pipe[1:0], update_en};
-            
+            action_pipe <= {action_pipe[1:0], (update_en && init_done)};
             // Cycle 0: 在 Valid 的第一拍，將地址與輸入脈衝「死死鎖住」，供後續 3 拍使用
-            if (update_en) begin
+            if (update_en&& init_done) begin
                 hold_addr   <= addr_in;
                 hold_spikes <= spikes_in;
             end
@@ -54,13 +64,13 @@ module pre_trace #(
     // 記憶體存取位址仲裁：
     // - Phase 1 正在更新 (|action_pipe 為 1) 時，鎖定 hold_addr 避免被外界干擾
     // - Phase 2 純讀取時，直接根據 addr_in 即時給出位址
-    wire [ADDR_WIDTH-1:0] sram_addr = (|action_pipe) ? hold_addr : addr_in;
+    wire [ADDR_WIDTH-1:0] sram_addr = (!init_done)   ? init_counter : 
+                                      (|action_pipe) ? hold_addr    : addr_in;
 
     wire sram_cen = 1'b0; // 永遠致能
 
     // 關鍵魔法：在 action_pipe 的第 3 拍才拉低 (發動寫入)，完美錯開讀取
-    wire sram_wen = ~action_pipe[2];
-    
+    wire sram_wen = (!init_done) ? 1'b0 : ~action_pipe[2];
     //暫時
     wire [6:0]  sram_addr_dly;
     wire        sram_cen_dly;
@@ -70,7 +80,7 @@ module pre_trace #(
     assign #1 sram_addr_dly = sram_addr;
     assign #1 sram_cen_dly  = sram_cen;
     assign #1 sram_wen_dly  = sram_wen;
-    assign #1 sram_d_dly    = w_new_trace_flat; // 這裡先寫一半，剩下的會在 trace_core 裡計算好後接上
+    assign #1 sram_d_dly    = (!init_done) ? 64'd0 : w_new_trace_flat;
 
     pre_trace_mem u_trace_sram (
         .CLK  (clk),
@@ -79,7 +89,7 @@ module pre_trace #(
         .A    (sram_addr_dly),         // 使用仲裁後的地址
         .D    (sram_d_dly),  // 寫入運算後的新值
         .Q    (w_old_trace_flat),   // 讀出舊值
-        .EMA  ()
+        .EMA  (3'd0)
     );
 
     // ============================================================
