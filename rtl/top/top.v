@@ -217,7 +217,8 @@ module top #(
     // Write 仲裁
     assign wr_en     = (current_mode == ST_LOAD) ? (data_cnt == 2'd3) : (st_update_wr_trigger) ? any_stdp_write : 1'b0;
     assign wr_mask   = (current_mode == ST_LOAD) ? 8'hFF : wr_mask_latched; 
-    assign wr_weight = (current_mode == ST_LOAD) ? pixel_data_in : wr_weight_latched; 
+   // assign wr_weight = (current_mode == ST_LOAD) ? pixel_data_in : wr_weight_latched; 
+    assign wr_weight = (current_mode == ST_LOAD) ? {data_in[15:0], pixel_data_in[63:16]} : wr_weight_latched;
     assign wr_row    = (current_mode == ST_LOAD) ? load_counter : update_addr;
     
     // Read 仲裁
