@@ -16,7 +16,8 @@ module pre_synaptic_block #(
     // --- 外部記憶體介面 (讀取圖片) ---
     input  wire [63:0] pixel_data_in, // 從 Image ROM 讀回的數據
     input wire pixel_valid_in, // 新增
-
+    input  wire                 trace_init_en,   
+    input  wire [ADDR_WIDTH-1:0] trace_init_addr,
     // 新增：供階段二讀取 Trace 的控制
     input  wire [6:0]  ext_addr,
     input  wire        is_update_phase,
@@ -83,7 +84,8 @@ module pre_synaptic_block #(
     ) u_trace_manager (
         .clk            (clk),
         .rst_n          (rst_n),
-        
+        .init_en        (trace_init_en),   
+        .init_addr      (trace_init_addr),        
         // 控制訊號來自 Layer 1
         // 階段二不准更新，純讀取
         .update_en      (w_spike_valid && !is_update_phase),
