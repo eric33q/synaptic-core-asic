@@ -38,7 +38,7 @@ module top #(
     reg        pixel_valid_in; 
 
     wire [63:0] rd_weight;      
-    wire [6:0]  req_addr;         
+    wire [6:0]  cur_batch_cnt;         
     wire        rd_valid;     
     
     wire [7:0]  spike_data_out;         
@@ -149,7 +149,7 @@ module top #(
     ) u_spike_buf (
         .clk(clk), .rst_n(rst_n),
         .l1_spike_data(spike_data_out),
-        .l1_valid(spike_valid_out && current_mode == ST_INTEGRATE), 
+        .l1_valid(spike_valid_out), 
         .buf_ready(),
         .l2_full_spike_vector(L2_input_vector),
         .l2_valid(),
@@ -197,7 +197,7 @@ module top #(
 
     // --- 寫入數據穩定器 ---
     // 在 Cycle 3 算出結果後將其鎖存，確保 Cycle 0 SRAM 寫入時數據絕對穩定
-    wire st_update_wr_trigger = (current_mode == ST_UPDATE) && (upd_cnt == 2'd3) && (update_addr < BATCH_NUM);
+    wire st_update_wr_trigger = (current_mode == ST_UPDATE) && (upd_cnt == 2'd2) && (update_addr < BATCH_NUM);
     reg [63:0] wr_weight_latched;
     reg [7:0]  wr_mask_latched;
 
@@ -217,13 +217,13 @@ module top #(
     // Write 仲裁
     assign wr_en     = (current_mode == ST_LOAD) ? (data_cnt == 2'd3) : (st_update_wr_trigger) ? any_stdp_write : 1'b0;
     assign wr_mask   = (current_mode == ST_LOAD) ? 8'hFF : wr_mask_latched; 
-    assign wr_weight = (current_mode == ST_LOAD) ? pixel_data_in : wr_weight_latched; 
+    assign wr_weight = (current_mode == ST_LOAD) ? {data_in[15:0], pixel_data_in[63:16]} : wr_weight_latched;
     assign wr_row    = (current_mode == ST_LOAD) ? load_counter : update_addr;
     
     // Read 仲裁
     wire phase2_rd_en     = (current_mode == ST_UPDATE) && (update_addr < BATCH_NUM);
     wire effective_rd_en  = (current_mode == ST_UPDATE) ? phase2_rd_en : spike_valid_out;
-    wire [6:0] effective_rd_row = (current_mode == ST_UPDATE) ? update_addr : (req_addr - 7'd1);
+    wire [6:0] effective_rd_row = (current_mode == ST_UPDATE) ? update_addr : (current_mode == ST_INTEGRATE) ? cur_batch_cnt : 7'd0;
     wire [7:0] we_pre_mask      = (current_mode == ST_UPDATE) ? 8'hFF : spike_data_out;
 
     // =======================================================
@@ -241,12 +241,14 @@ module top #(
         .accumulate_en   (accumulate_en), 
         .pixel_valid_in  (pixel_valid_in),      
         .pixel_data_in   (pixel_data_in),   
-        .req_addr        (req_addr),    
+        .cur_batch_cnt        (cur_batch_cnt),    
         .L1_busy         (),              
         .L1_done         (l1_done_wire),            
         .spike_data_out  (spike_data_out),    
         .spike_valid_out (spike_valid_out),    
-        .trace_data_out  (trace_data_out),     
+        .trace_data_out  (trace_data_out),
+        .trace_init_en   (current_mode == ST_LOAD && data_cnt == 2'd3 && load_counter < BATCH_NUM), 
+        .trace_init_addr (load_counter),     
         .ext_addr        (effective_rd_row),
         .is_update_phase (current_mode == ST_UPDATE)
     );

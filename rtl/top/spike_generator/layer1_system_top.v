@@ -12,7 +12,7 @@ module layer1_system_top #(
     input wire pixel_valid_in, // 新增
     // --- 輸入：像素數據 ---
     input  wire [63:0] pixel_data_in,
-    output wire [6:0]  req_addr,
+    output wire [6:0]  cur_batch_cnt,
     
     // --- 輸出：給 Layer 2 的介面 ---
     output wire [7:0]  L2_spike_data, 
@@ -38,7 +38,7 @@ module layer1_system_top #(
         .finish         (L1_done),     
         
         .pixel_data_in  (pixel_data_in),
-        .req_addr       (req_addr),
+        .cur_batch_cnt       (cur_batch_cnt),
         
         .spike_data_out (L2_spike_data),
         .spike_valid    (L2_valid)
