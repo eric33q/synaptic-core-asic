@@ -247,7 +247,7 @@ module top #(
         .spike_data_out  (spike_data_out),    
         .spike_valid_out (spike_valid_out),    
         .trace_data_out  (trace_data_out),
-        .trace_init_en   (current_mode == ST_LOAD), 
+        .trace_init_en   (current_mode == ST_LOAD && data_cnt == 2'd3 && load_counter < BATCH_NUM), 
         .trace_init_addr (load_counter),     
         .ext_addr        (effective_rd_row),
         .is_update_phase (current_mode == ST_UPDATE)

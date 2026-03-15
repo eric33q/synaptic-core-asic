@@ -25,8 +25,6 @@ module pre_trace #(
     // ============================================================
     wire [N_PARALLEL*T_WIDTH-1:0] w_old_trace_flat; // 從記憶體讀出的舊值
     wire [N_PARALLEL*T_WIDTH-1:0] w_new_trace_flat; // 算完的新值
-    reg [ADDR_WIDTH-1:0] init_counter;
-    reg                  init_done; 
     // ============================================================
     // 2. 管線化暫存器 (3-Stage Shift Register for Read-Modify-Write)
     // ============================================================
@@ -39,21 +37,11 @@ module pre_trace #(
             action_pipe <= 3'd0;
             hold_addr   <= {ADDR_WIDTH{1'b0}};
             hold_spikes <= {N_PARALLEL{1'b0}};
-            init_counter <= {ADDR_WIDTH{1'b0}};
-            init_done    <= 1'b0;
         end else begin
-            // 初始化
-            if (!init_done) begin
-                if (init_counter == BATCH_NUM - 1) begin
-                    init_done <= 1'b1; // 全位址寫入完成
-                end else begin
-                    init_counter <= init_counter + 1'b1;
-                end
-            end
             // Shift register 推動時間軸 (每個 Cycle 往左移)
-            action_pipe <= {action_pipe[1:0], (update_en && init_done)};
+            action_pipe <= {action_pipe[1:0], update_en};
             // Cycle 0: 在 Valid 的第一拍，將地址與輸入脈衝「死死鎖住」，供後續 3 拍使用
-            if (update_en&& init_done) begin
+            if (update_en) begin
                 hold_addr   <= addr_in;
                 hold_spikes <= spikes_in;
             end
