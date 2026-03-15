@@ -8,6 +8,8 @@ module pre_trace #(
 )(
     input  wire                                 clk,
     input  wire                                 rst_n,
+    input  wire                                 init_en,    
+    input  wire [ADDR_WIDTH-1:0]                init_addr,
     
     // --- 來自 Layer 1 的介面 ---
     input  wire                                 update_en,    // 當 Layer 1 數據有效時拉高 (Valid)
@@ -64,14 +66,13 @@ module pre_trace #(
     // 記憶體存取位址仲裁：
     // - Phase 1 正在更新 (|action_pipe 為 1) 時，鎖定 hold_addr 避免被外界干擾
     // - Phase 2 純讀取時，直接根據 addr_in 即時給出位址
-    wire [ADDR_WIDTH-1:0] sram_addr = (!init_done)   ? init_counter : 
-                                      (|action_pipe) ? hold_addr    : addr_in;
+    wire [ADDR_WIDTH-1:0] sram_addr = (init_en)       ? init_addr : 
+                                      (|action_pipe)  ? hold_addr : addr_in;
 
     wire sram_cen = 1'b0; // 永遠致能
 
     // 關鍵魔法：在 action_pipe 的第 3 拍才拉低 (發動寫入)，完美錯開讀取
-    wire sram_wen = (!init_done) ? 1'b0 : ~action_pipe[2];
-    //暫時
+    wire sram_wen = (init_en) ? 1'b0 : ~action_pipe[2];
     wire [6:0]  sram_addr_dly;
     wire        sram_cen_dly;
     wire        sram_wen_dly;
@@ -80,8 +81,7 @@ module pre_trace #(
     assign #1 sram_addr_dly = sram_addr;
     assign #1 sram_cen_dly  = sram_cen;
     assign #1 sram_wen_dly  = sram_wen;
-    assign #1 sram_d_dly    = (!init_done) ? 64'd0 : w_new_trace_flat;
-
+    assign #1 sram_d_dly    = (init_en) ? 64'd0 : w_new_trace_flat;
     pre_trace_mem u_trace_sram (
         .CLK  (clk),
         .CEN  (sram_cen_dly),
