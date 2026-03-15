@@ -197,7 +197,7 @@ module top #(
 
     // --- 寫入數據穩定器 ---
     // 在 Cycle 3 算出結果後將其鎖存，確保 Cycle 0 SRAM 寫入時數據絕對穩定
-    wire st_update_wr_trigger = (current_mode == ST_UPDATE) && (upd_cnt == 2'd3) && (update_addr < BATCH_NUM);
+    wire st_update_wr_trigger = (current_mode == ST_UPDATE) && (upd_cnt == 2'd2) && (update_addr < BATCH_NUM);
     reg [63:0] wr_weight_latched;
     reg [7:0]  wr_mask_latched;
 

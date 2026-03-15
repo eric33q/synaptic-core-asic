@@ -2,7 +2,7 @@ Magic 271485
 Revision Verdi_Q-2020.03
 
 ; Window Layout <x> <y> <width> <height> <signalwidth> <valuewidth>
-viewPort 514 31 1021 784 225 65
+viewPort 769 31 766 784 225 65
 
 ; File list:
 ; openDirFile [-d delimiter] [-s time_offset] [-rf auto_bus_rule_file] path_name file_name
@@ -16,16 +16,16 @@ signalSpacing 5
 
 ; windowTimeUnit is used for zoom, cursor & marker
 ; waveform viewport range
-zoom 4186617.883672 4478882.616768
-cursor 4316000.000000
+zoom 8238142.220435 8384160.014671
+cursor 8255000.000000
 marker 0.000000
 
 ; user define markers
 ; userMarker time_pos marker_name color linestyle
 ; visible top row signal index
-top 1
+top 10
 ; marker line index
-markerPos 33
+markerPos 25
 
 ; event list
 ; addEvent event_name event_expression
@@ -58,16 +58,20 @@ addSignal -h 15 -holdScope current_mode[2:0]
 addSignal -h 15 -UNSIGNED -UDEC -holdScope load_counter[6:0]
 addSignal -h 15 -holdScope pixel_data_in[63:0]
 addGroup "G2"
-addSignal -expanded -h 15 /top_tb/uut/u_we/u_sram/mem[0:127]
 addSubGroup "u_we"
-addSignal -h 15 /top_tb/uut/data_cnt[1:0]
 addSignal -h 15 /top_tb/uut/u_we/rd_en
 addSignal -h 15 -UNSIGNED -BIN -holdScope pre_mask[7:0]
 addSignal -h 15 -holdScope rd_weight[63:0]
 addSignal -h 15 -holdScope sram_q[63:0]
 addSignal -h 15 -UNSIGNED -UDEC -holdScope rd_row[6:0]
 addSignal -h 15 -holdScope rd_valid
-addSignal -h 15 /top_tb/uut/u_pre_syn_blk/u_trace_manager/trace_out_flat[63:0]
+addSignal -h 15 -holdScope wr_en
+addSignal -h 15 -holdScope wr_row[6:0]
+addSignal -h 15 -holdScope wr_weight[63:0]
+addSignal -h 15 -holdScope sram_addr_dly[6:0]
+addSignal -h 15 -holdScope sram_d_dly[63:0]
+addSignal -expanded -h 15 /top_tb/uut/u_we/u_sram/mem[0:127]
+addSignal -h 15 /top_tb/uut/upd_cnt[1:0]
 endSubGroup "u_we"
 addGroup "G3"
 addSignal -h 15 /top_tb/uut/stdp_group[7]/u_stdp/delta_ltd[7:0]
@@ -83,7 +87,7 @@ addSignal -expanded -h 15 -UNSIGNED -BIN /top_tb/uut/u_spike_buf/buffer_mem[783:
 addSignal -h 15 -holdScope l1_valid
 addSignal -h 15 -holdScope l2_full_spike_vector[783:0]
 addSignal -h 15 -UNSIGNED -BIN /top_tb/uut/current_pre_spike[7:0]
-addGroup "u_lif_neuron"
+addGroup "u_lif_neuron" -e FALSE
 addSignal -h 15 /top_tb/uut/u_post_syn_blk/u_lif_neuron/accum_en
 addSignal -h 15 -holdScope weight_mem[63:0]
 addSignal -h 15 -holdScope post_spike
