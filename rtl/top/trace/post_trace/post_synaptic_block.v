@@ -4,7 +4,8 @@ module post_synaptic_block #(
 )(
     input  wire          clk,
     input  wire          rst_n,
-    input  wire         update_en,  //post trace更新
+    input  wire          update_en,  //post trace更新
+    input  wire          start_loading,
 
     // --- 來自系統的控制訊號 ---
     input  wire          accum_en,      // 接到 LIF 的新埠口
@@ -26,6 +27,7 @@ module post_synaptic_block #(
         .rst_n      (rst_n),
         .accum_en   (accum_en),       
         .weight_mem (weight_mem_in),
+        .start_loading(start_loading),
         .post_spike (w_post_spike)              
     );
 
