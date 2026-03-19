@@ -62,10 +62,10 @@ module top_tb;
     // =======================================================
     initial begin
         // 0. 初始化數據：位址關聯編碼 {Addr, 04, Addr, 03, Addr, 02, Addr, 01}
-        for (i = 0; i < BATCH_NUM; i = i + 1) begin
-            pixel_data_mem[i] ={ 8{8'h20} };
-        end
-
+        //for (i = 0; i < BATCH_NUM; i = i + 1) begin
+            //pixel_data_mem[i] ={ 8{8'h20} };
+        //end
+        $readmemh("../../data/mnist_input_8.hex", pixel_data_mem);
         $display("\n=== System Reset ===");
         start_loading = 0;
         rst_n = 0;
@@ -109,7 +109,7 @@ module top_tb;
         
         // 載入 MNIST 測試圖 (假設只有 1 張圖)
         // 註: 如果有多張圖，這個 $readmemh 應該放在 for 迴圈內，並配合動態檔名
-        $readmemh("../../data/mnist_input.hex", pixel_data_mem);
+        $readmemh("../../data/mnist_input_7.hex", pixel_data_mem);
 
         // 模擬連續送 10 次圖，觀察 STDP 權重收斂狀態
         for (frame = 1; frame <= 10; frame = frame + 1) begin

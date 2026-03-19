@@ -26,7 +26,7 @@ module stdp #(
     wire [WEIGHT_WIDTH-1:0] delta_ltp = post_spike_in ? (pre_trace >> SHIFT_LTP) : 8'd0;
     
     // 當像素脈衝進來時，根據之前的神經元發火狀況減少權重(LTD)
-    wire [WEIGHT_WIDTH-1:0] d  elta_ltd = pre_spike_in  ? (post_trace >> SHIFT_LTD) : 8'd0;
+    wire [WEIGHT_WIDTH-1:0] delta_ltd = pre_spike_in  ? (post_trace >> SHIFT_LTD) : 8'd0;
 
     // 淨值運算 (使用 10-bit 寬度確保加減過程不溢位)
     reg [9:0] w_temp; 
