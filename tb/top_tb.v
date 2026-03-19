@@ -20,6 +20,7 @@ module top_tb;
     // --- 測試數據記憶體 ---
     reg [63:0] pixel_data_mem [0:BATCH_NUM-1];
     integer i, frame, wait_timeout;
+    integer file_out;
 
     // --- 實例化 DUT ---
     top #(
@@ -153,7 +154,18 @@ module top_tb;
             // Frame 之間的休息時間
             #(CLK_PERIOD * 50);
         end
-
+        $display("\n=== Exporting Final Weights to TXT ===");
+        file_out = $fopen("final_weights_frame10.txt", "w");
+        
+        if (file_out) begin
+            for (i = 0; i < BATCH_NUM; i = i + 1) begin
+                $fdisplay(file_out, "%h", uut.u_we.u_sram.mem[i][63:0]); 
+            end
+            $fclose(file_out);
+            $display("Weights exported to 'final_weights_frame10.txt' successfully.");
+        end else begin
+            $display("[Error] Could not open file for writing.");
+        end
         $display("\n=== Simulation Complete ===");
         $finish;
     end
