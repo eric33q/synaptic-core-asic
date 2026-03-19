@@ -59,7 +59,6 @@ module pre_trace #(
 
     wire sram_cen = 1'b0; // 永遠致能
 
-    // 關鍵魔法：在 action_pipe 的第 3 拍才拉低 (發動寫入)，完美錯開讀取
     wire sram_wen = (init_en) ? 1'b0 : ~action_pipe[2];
     wire [6:0]  sram_addr_dly;
     wire        sram_cen_dly;
