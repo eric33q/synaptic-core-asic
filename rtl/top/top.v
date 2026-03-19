@@ -196,28 +196,15 @@ module top #(
     wire [7:0] current_pre_spike = (update_addr < BATCH_NUM) ? L2_input_vector[update_addr * 8 +: 8] : 8'd0;
 
     // --- 寫入數據穩定器 ---
-    // 在 Cycle 3 算出結果後將其鎖存，確保 Cycle 0 SRAM 寫入時數據絕對穩定
     wire st_update_wr_trigger = (current_mode == ST_UPDATE) && (upd_cnt == 2'd2) && (update_addr < BATCH_NUM);
-    reg [63:0] wr_weight_latched;
-    reg [7:0]  wr_mask_latched;
-
-    always @(posedge clk or negedge rst_n) begin
-        if (!rst_n) begin
-            wr_weight_latched <= 64'd0;
-            wr_mask_latched   <= 8'd0;
-        end else if (st_update_wr_trigger) begin
-            wr_weight_latched <= weight_new;
-            wr_mask_latched   <= write_en;
-        end
-    end
 
     // =======================================================
     // 記憶體控制多工 (MUX)
     // =======================================================
     // Write 仲裁
     assign wr_en     = (current_mode == ST_LOAD) ? (data_cnt == 2'd3) : (st_update_wr_trigger) ? any_stdp_write : 1'b0;
-    assign wr_mask   = (current_mode == ST_LOAD) ? 8'hFF : wr_mask_latched; 
-    assign wr_weight = (current_mode == ST_LOAD) ? {data_in[15:0], pixel_data_in[63:16]} : wr_weight_latched;
+    assign wr_mask   = (current_mode == ST_LOAD) ? 8'hFF : write_en; 
+    assign wr_weight = (current_mode == ST_LOAD) ? {data_in[15:0], pixel_data_in[63:16]} : weight_new;
     assign wr_row    = (current_mode == ST_LOAD) ? load_counter : update_addr;
     
     // Read 仲裁

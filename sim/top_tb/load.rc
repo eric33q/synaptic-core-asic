@@ -16,16 +16,16 @@ signalSpacing 5
 
 ; windowTimeUnit is used for zoom, cursor & marker
 ; waveform viewport range
-zoom 8238142.220435 8384160.014671
-cursor 8255000.000000
+zoom 8258373.055426 8338764.323790
+cursor 8285000.000000
 marker 0.000000
 
 ; user define markers
 ; userMarker time_pos marker_name color linestyle
 ; visible top row signal index
-top 10
+top 12
 ; marker line index
-markerPos 25
+markerPos 27
 
 ; event list
 ; addEvent event_name event_expression
@@ -65,13 +65,15 @@ addSignal -h 15 -holdScope rd_weight[63:0]
 addSignal -h 15 -holdScope sram_q[63:0]
 addSignal -h 15 -UNSIGNED -UDEC -holdScope rd_row[6:0]
 addSignal -h 15 -holdScope rd_valid
-addSignal -h 15 -holdScope wr_en
+addSignal -h 15 /top_tb/uut/upd_cnt[1:0]
+addSignal -h 15 /top_tb/uut/u_we/wr_en
 addSignal -h 15 -holdScope wr_row[6:0]
 addSignal -h 15 -holdScope wr_weight[63:0]
 addSignal -h 15 -holdScope sram_addr_dly[6:0]
 addSignal -h 15 -holdScope sram_d_dly[63:0]
+addSignal -h 15 -holdScope sram_wen_dly[7:0]
+addSignal -h 15 -holdScope wr_mask[7:0]
 addSignal -expanded -h 15 /top_tb/uut/u_we/u_sram/mem[0:127]
-addSignal -h 15 /top_tb/uut/upd_cnt[1:0]
 endSubGroup "u_we"
 addGroup "G3"
 addSignal -h 15 /top_tb/uut/stdp_group[7]/u_stdp/delta_ltd[7:0]
