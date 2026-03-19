@@ -4,6 +4,7 @@ module lif_refrac_ctrl #(
     input  wire clk,
     input  wire rst_n,
     input  wire post_spike,
+    input  wire start_loading,
     output wire ref_active
 );
     // 計算不應期
@@ -17,7 +18,7 @@ module lif_refrac_ctrl #(
         end else begin
             if (post_spike) begin
                 cnt <= REF_PERIOD;
-            end else if (cnt > 0) begin
+            end else if (cnt > 0 && start_loading) begin
                 cnt <= cnt - 1'b1;
             end
         end

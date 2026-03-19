@@ -248,6 +248,7 @@ module top #(
         .rst_n          (rst_n),
         .update_en      (finish),           
         .accum_en       (rd_valid && current_mode == ST_INTEGRATE),   
+        .start_loading  (start_loading),
         .weight_mem_in  (rd_weight),
         .spike_out      (spike_out),  
         .fire_in_latched (post_spike_latched), 

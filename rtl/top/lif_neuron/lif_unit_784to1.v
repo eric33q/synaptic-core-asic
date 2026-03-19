@@ -10,6 +10,7 @@ module lif_unit_784to1 #(
     input  wire rst_n,
     input  wire accum_en,//啟用訊號
     input  wire [63:0] weight_mem, // 64 個 8 位元權重平坦化輸入
+    input  wire start_loading,
     output wire post_spike
 );
     reg  [V_WIDTH-1:0] V_mem;
@@ -153,6 +154,7 @@ module lif_unit_784to1 #(
         .clk(clk),
         .rst_n(rst_n),
         .post_spike(post_spike),
+        .start_loading(start_loading),
         .ref_active(ref_active)
     );
 endmodule
