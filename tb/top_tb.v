@@ -21,6 +21,7 @@ module top_tb;
     reg [63:0] pixel_data_mem [0:BATCH_NUM-1];
     integer i, frame, wait_timeout;
     integer file_out;
+    reg [8*50:1] filename;
 
     // --- 實例化 DUT ---
     top #(
@@ -151,6 +152,20 @@ module top_tb;
                 $display("✅ Frame %0d Finished successfully.", frame);
             end
 
+            $sformat(filename, "weights_frame_%0d.txt", frame);
+            
+            file_out = $fopen(filename, "w");
+            if (file_out) begin
+                for (i = 0; i < BATCH_NUM; i = i + 1) begin
+                    $fdisplay(file_out, "%h", uut.u_we.u_sram.mem[i][63:0]); 
+                end
+                $fclose(file_out);
+                // 使用 %0s 印出字串，去掉前面多餘的空白
+                $display("Weights exported to '%0s' successfully.", filename);
+            end else begin
+                $display("[Error] Could not open file for writing.");
+            end
+
             // Frame 之間的休息時間
             #(CLK_PERIOD * 50);
         end
@@ -162,7 +177,7 @@ module top_tb;
                 $fdisplay(file_out, "%h", uut.u_we.u_sram.mem[i][63:0]); 
             end
             $fclose(file_out);
-            $display("Weights exported to 'final_weights_frame10.txt' successfully.");
+            $display("Weights exported to 'final_weights_frame.txt' successfully.");
         end else begin
             $display("[Error] Could not open file for writing.");
         end
