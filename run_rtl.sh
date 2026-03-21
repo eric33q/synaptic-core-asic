@@ -21,7 +21,7 @@ echo "==== 正在執行模擬: $1 ===="
 
 # 4. 執行模擬
 # 注意：這裡我們依然使用絕對路徑讀取 filelist
-xmverilog "$PROJ_ROOT/tb/$1" -f "$PROJ_ROOT/filelist.f" +access+r
+xmverilog "$PROJ_ROOT/tb/$1" -f "$PROJ_ROOT/rtl_filelist.f" +access+r
 
 # 6. 回到根目錄
 cd "$PROJ_ROOT"

@@ -20,10 +20,10 @@ set_drive        1   [all_inputs]
 # 通常 TSRI 的 slow library 名稱為 slow (或是 tsmc18_slow)
 set_operating_conditions -max_library slow -max slow
 
-# 6. 線路負載模型 (關鍵修改：T180 的模型通常稱為 "tsmc18_wl10")
+# 6. 線路負載模型 (關鍵修改：T90 的模型通常稱為 "tsmc090_wl10")
 # 請檢查你的 library 報表確認正確名稱
-set_wire_load_model -name tsmc18_wl10 -library slow 
+set_wire_load_model -name tsmc090_wl10 -library slow 
 
 # 7. 設計規則
 set_max_fanout 20 [all_inputs]
-set_max_fanout 20 [get_designs TOP]
+set_max_fanout 20 [get_designs top]
