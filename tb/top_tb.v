@@ -62,10 +62,10 @@ module top_tb;
     // =======================================================
     initial begin
         // 0. 初始化數據：位址關聯編碼 {Addr, 04, Addr, 03, Addr, 02, Addr, 01}
-        //for (i = 0; i < BATCH_NUM; i = i + 1) begin
-            //pixel_data_mem[i] ={ 8{8'h20} };
-        //end
-        $readmemh("../../data/mnist_input_8.hex", pixel_data_mem);
+        for (i = 0; i < BATCH_NUM; i = i + 1) begin
+            pixel_data_mem[i] ={ 8{8'h20} };
+        end
+        //$readmemh("../../data/mnist_input_8.hex", pixel_data_mem);
         $display("\n=== System Reset ===");
         start_loading = 0;
         rst_n = 0;
