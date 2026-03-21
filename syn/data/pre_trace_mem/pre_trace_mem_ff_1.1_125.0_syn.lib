@@ -1,0 +1,1274 @@
+/*
+ *      CONFIDENTIAL  AND  PROPRIETARY SOFTWARE OF ARM Physical IP, INC.
+ *      
+ *      Copyright (c) 1993-2026  ARM Physical IP, Inc.  All  Rights Reserved.
+ *      
+ *      Use of this Software is subject to the terms and conditions  of the
+ *      applicable license agreement with ARM Physical IP, Inc.  In addition,
+ *      this Software is protected by patents, copyright law and international
+ *      treaties.
+ *      
+ *      The copyright notice(s) in this Software does not indicate actual or
+ *      intended publication of this Software.
+ *      
+ *      name:			Advantage Single-Port Register File Generator
+ *           			TSMC 90nm CLN90G Process
+ *      version:		2007Q2V1
+ *      comment:		
+ *      configuration:	 -instname "pre_trace_mem" -words 128 -bits 64 -frequency 1 -ring_width 2.0 -mux 1 -write_mask off -wp_size 8 -top_layer "met5-9" -power_type rings -horiz met3 -vert met2 -redundancy off -rcols 1 -rrows 0 -bmux off -ema on -cust_comment "" -bus_notation on -left_bus_delim "[" -right_bus_delim "]" -pwr_gnd_rename "VDD:VDD,VSS:VSS" -prefix "" -pin_space 0.0 -name_case upper -check_instname on -diodes on -inside_ring_type VSS -drive 4 -asvm off -libname "pre_trace_mem" -corners ff_1.1_-40.0,ff_1.1_125.0,tt_1.0_25.0,ss_0.9_125.0
+ *
+ *      Synopsys model for Synchronous Single-Port Register File
+ *
+ *      Library Name:   pre_trace_mem
+ *      Instance Name:  pre_trace_mem
+ *      Words:          128
+ *      Word Width:     64
+ *      Mux:            1
+ *      Corner:        ff_1.1_125.0
+ *
+ *      Creation Date:  2026-03-21 14:16:01Z
+ *      Version:        2007Q2V1
+ *
+ *      Verified With: Synopsys Design Compiler
+ *
+ *      Modeling Assumptions: This library contains a black box description
+ *          for a memory element.  At the library level, a
+ *          default_max_transition constraint is set to the maximum
+ *          characterized input slew.  Each output has a max_capacitance
+ *          constraint set to the highest characterized output load.  These two
+ *          constraints force Design Compiler to synthesize circuits that
+ *          operate within the characterization space.  The user can tighten
+ *          these constraints, if desired.  When writing SDF from Design
+ *          Compiler, use the version 2.1 option.  This ensures the SDF will
+ *          annotate to simulation models provided with this generator.
+ *
+ *      Modeling Limitations: 
+ *          Due to limitations of the .lib format, some data reduction was
+ *          necessary.  When reducing data, minimum values were chosen for the
+ *          fast case corner and maximum values were used for the typical and
+ *          best case corners.  It is recommended that critical timing and
+ *          setup and hold times be checked at all corners.
+ *
+ *      Known Bugs: None.
+ *
+ *      Known Work Arounds: N/A
+ *
+ */
+
+library(pre_trace_mem) {
+	delay_model		: table_lookup;
+	revision		: 1.1;	
+	date			: "2026-03-21 14:16:01Z";
+	comment			: "Confidential Information of ARM Physical IP, Inc.  Use subject to ARM Physical IP, Inc. license.  Copyright (c) 1993-2026 ARM Physical IP, Inc.";
+	time_unit		: "1ns";
+	voltage_unit		: "1V";
+	current_unit		: "1mA";
+	leakage_power_unit	: "1mW";
+	nom_process		: 1;
+	nom_temperature		: 125.000;
+	nom_voltage		: 1.100;
+	capacitive_load_unit	 (1,pf);
+
+	pulling_resistance_unit	        : "1kohm";
+
+	/* additional header data */
+	default_cell_leakage_power      : 0;
+	default_fanout_load		: 1;
+	default_inout_pin_cap		: 0.005;
+	default_input_pin_cap		: 0.005;
+	default_output_pin_cap		: 0.0;
+	default_max_transition		: 0.480;
+
+        /* default attributes */
+        default_leakage_power_density : 0.0;
+        slew_derate_from_library      : 1.000;
+        slew_lower_threshold_pct_fall : 10.000;
+        slew_upper_threshold_pct_fall : 90.000;
+        slew_lower_threshold_pct_rise : 10.000;
+        slew_upper_threshold_pct_rise : 90.000;
+        input_threshold_pct_fall      : 50.000;
+        input_threshold_pct_rise      : 50.000;
+        output_threshold_pct_fall     : 50.000;
+        output_threshold_pct_rise     : 50.000;
+
+ 	/* k-factors */
+ 	k_process_cell_fall             : 1;
+ 	k_process_cell_leakage_power    : 0;
+ 	k_process_cell_rise             : 1;
+ 	k_process_fall_transition       : 1;
+ 	k_process_hold_fall             : 1;
+ 	k_process_hold_rise             : 1;
+ 	k_process_internal_power        : 0;
+ 	k_process_min_pulse_width_high  : 1;
+ 	k_process_min_pulse_width_low   : 1;
+ 	k_process_pin_cap               : 0;
+ 	k_process_recovery_fall         : 1;
+ 	k_process_recovery_rise         : 1;
+ 	k_process_rise_transition       : 1;
+ 	k_process_setup_fall            : 1;
+ 	k_process_setup_rise            : 1;
+ 	k_process_wire_cap              : 0;
+ 	k_process_wire_res              : 0;
+	k_temp_cell_fall		: 0.000;
+	k_temp_cell_rise		: 0.000;
+	k_temp_hold_fall                : 0.000;
+	k_temp_hold_rise                : 0.000;
+	k_temp_min_pulse_width_high     : 0.000;
+	k_temp_min_pulse_width_low      : 0.000;
+	k_temp_min_period               : 0.000;
+	k_temp_rise_propagation         : 0.000;
+	k_temp_fall_propagation         : 0.000;
+	k_temp_rise_transition          : 0.0;
+	k_temp_fall_transition          : 0.0;
+	k_temp_recovery_fall            : 0.000;
+	k_temp_recovery_rise            : 0.000;
+	k_temp_setup_fall               : 0.000;
+	k_temp_setup_rise               : 0.000;
+	k_volt_cell_fall                : 0.000;
+	k_volt_cell_rise                : 0.000;
+	k_volt_hold_fall                : 0.000;
+	k_volt_hold_rise                : 0.000;
+	k_volt_min_pulse_width_high     : 0.000;
+	k_volt_min_pulse_width_low      : 0.000;
+	k_volt_min_period               : 0.000;
+	k_volt_rise_propagation         : 0.000;
+	k_volt_fall_propagation         : 0.000;
+	k_volt_rise_transition	        : 0.0;
+	k_volt_fall_transition	        : 0.0;
+	k_volt_recovery_fall            : 0.000;
+	k_volt_recovery_rise            : 0.000;
+	k_volt_setup_fall               : 0.000;
+	k_volt_setup_rise               : 0.000;
+
+
+        operating_conditions(ff_1.1_125.0) {
+		process	 : 1;
+		temperature	 : 125.000;
+		voltage	 : 1.100;
+		tree_type	 : balanced_tree;
+	}
+        default_operating_conditions : ff_1.1_125.0;
+	wire_load("sample") {
+		resistance	 : 1.6e-05;
+		capacitance	 : 0.0002;
+		area	 : 1.7;
+  		slope	 : 500;
+		fanout_length	 (1,500);
+	}
+        lu_table_template(pre_trace_mem_bist_mux_delay_template) {
+           variable_1 : input_net_transition;
+           variable_2 : total_output_net_capacitance;
+               index_1 ("1000, 1001, 1002, 1003, 1004, 1005, 1006");
+               index_2 ("1000, 1001, 1002, 1003, 1004, 1005, 1006");
+        }
+        lu_table_template(pre_trace_mem_mux_mem_out_delay_template) {
+           variable_1 : input_net_transition;
+           variable_2 : total_output_net_capacitance;
+               index_1 ("1000, 1001, 1002, 1003, 1004, 1005, 1006");
+               index_2 ("1000, 1001, 1002, 1003, 1004, 1005, 1006");
+        }
+        lu_table_template(pre_trace_mem_mem_out_delay_template) {
+           variable_1 : input_net_transition;
+           variable_2 : total_output_net_capacitance;
+               index_1 ("1000, 1001, 1002, 1003, 1004, 1005, 1006");
+               index_2 ("1000, 1001, 1002, 1003, 1004, 1005, 1006");
+        }
+	lu_table_template(pre_trace_mem_bist_mux_slew_template) {
+           variable_1 : total_output_net_capacitance;
+               index_1 ("1000, 1001, 1002, 1003, 1004, 1005, 1006");
+        }
+	lu_table_template(pre_trace_mem_mem_out_slew_template) {
+           variable_1 : total_output_net_capacitance;
+               index_1 ("1000, 1001, 1002, 1003, 1004, 1005, 1006");
+        }
+	lu_table_template(pre_trace_mem_clk_setup_constraint_template) {
+           variable_1 : related_pin_transition;
+           variable_2 : constrained_pin_transition;
+               index_1 ("1000, 1001, 1002, 1003, 1004, 1005, 1006");
+               index_2 ("1000, 1001, 1002, 1003, 1004, 1005, 1006");
+        }
+	lu_table_template(pre_trace_mem_constraint_template) {
+           variable_1 : related_pin_transition;
+           variable_2 : constrained_pin_transition;
+               index_1 ("1000, 1001, 1002, 1003, 1004, 1005, 1006");
+               index_2 ("1000, 1001, 1002, 1003, 1004, 1005, 1006");
+        }
+        power_lut_template(pre_trace_mem_energy_template_clkslew_load) {
+           variable_1 : input_transition_time;
+           variable_2 : total_output_net_capacitance;
+               index_1 ("1000, 1001, 1002, 1003, 1004, 1005, 1006");
+               index_2 ("1000, 1001, 1002, 1003, 1004, 1005, 1006");
+        }
+        power_lut_template(pre_trace_mem_energy_template_sigslew_load) {
+           variable_1 : input_transition_time;
+           variable_2 : total_output_net_capacitance;
+               index_1 ("1000, 1001, 1002, 1003, 1004, 1005, 1006");
+               index_2 ("1000, 1001, 1002, 1003, 1004, 1005, 1006");
+        }
+        power_lut_template(pre_trace_mem_energy_template_load) {
+           variable_1 : total_output_net_capacitance;
+               index_1 ("1000, 1001, 1002, 1003, 1004, 1005, 1006");
+        }
+        power_lut_template(pre_trace_mem_energy_template_clkslew) {
+           variable_1 : input_transition_time;
+               index_1 ("1000, 1001, 1002, 1003, 1004, 1005, 1006");
+        }
+        power_lut_template(pre_trace_mem_energy_template_sigslew) {
+           variable_1 : input_transition_time;
+               index_1 ("1000, 1001, 1002, 1003, 1004, 1005, 1006");
+        }
+	library_features(report_delay_calculation);
+	type (pre_trace_mem_DATA) {
+		base_type : array ;
+		data_type : bit ;
+		bit_width : 64;
+		bit_from : 63;
+		bit_to : 0 ;
+		downto : true ;
+	}
+	type (pre_trace_mem_UPM) {
+		base_type : array ;
+		data_type : bit ;
+		bit_width : 3;
+		bit_from : 2;
+		bit_to : 0 ;
+		downto : true ;
+	}
+	type (pre_trace_mem_ADDRESS) {
+		base_type : array ;
+		data_type : bit ;
+		bit_width : 7;
+		bit_from : 6;
+		bit_to : 0 ;
+		downto : true ;
+	}
+cell(pre_trace_mem) {
+	area		 : 26804.241;
+	dont_use	 : TRUE;
+	dont_touch	 : TRUE;
+        interface_timing : TRUE;
+	memory() {
+		type : ram;
+		address_width : 7;
+		word_width : 64;
+	}
+        bus(Q)   {
+                bus_type : pre_trace_mem_DATA;
+		direction : output;
+		max_capacitance : 0.237;
+                memory_read() {
+			address : A;
+		}
+                timing() {
+                        related_pin :   "CLK" ;
+                        timing_type : rising_edge;
+                        timing_sense : non_unate;
+                        when : "(!EMA[2]) & (!EMA[1]) & (!EMA[0])";
+                        sdf_cond : "EMA[2] == 1'b0 && EMA[1] == 1'b0 && EMA[0] == 1'b0";
+                        cell_rise(pre_trace_mem_mem_out_delay_template) {
+                        index_1 ("0.010, 0.025, 0.040, 0.072, 0.170, 0.380, 0.480");
+                        index_2 ("0.001, 0.010, 0.020, 0.040, 0.080, 0.160, 0.320");
+                        values ( \
+                          "0.473, 0.481, 0.490, 0.508, 0.544, 0.616, 0.759", \
+                          "0.470, 0.478, 0.487, 0.505, 0.541, 0.613, 0.757", \
+                          "0.468, 0.476, 0.485, 0.503, 0.539, 0.610, 0.754", \
+                          "0.462, 0.470, 0.479, 0.497, 0.533, 0.605, 0.749", \
+                          "0.445, 0.454, 0.463, 0.480, 0.516, 0.588, 0.732", \
+                          "0.409, 0.417, 0.426, 0.444, 0.480, 0.552, 0.696", \
+                          "0.392, 0.400, 0.409, 0.427, 0.463, 0.535, 0.679" \
+                        )
+                        }
+                        rise_transition(pre_trace_mem_mem_out_slew_template) {
+                        index_1 ("0.001, 0.010, 0.020, 0.040, 0.080, 0.160, 0.320");
+                        values ("0.107, 0.129, 0.155, 0.206, 0.307, 0.511, 0.917")
+                        }
+                        cell_fall(pre_trace_mem_mem_out_delay_template) {
+                        index_1 ("0.010, 0.025, 0.040, 0.072, 0.170, 0.380, 0.480");
+                        index_2 ("0.001, 0.010, 0.020, 0.040, 0.080, 0.160, 0.320");
+                        values ( \
+                          "0.488, 0.496, 0.504, 0.520, 0.553, 0.618, 0.748", \
+                          "0.486, 0.493, 0.501, 0.517, 0.550, 0.615, 0.746", \
+                          "0.483, 0.490, 0.499, 0.515, 0.547, 0.613, 0.743", \
+                          "0.478, 0.485, 0.493, 0.509, 0.542, 0.607, 0.738", \
+                          "0.461, 0.468, 0.476, 0.493, 0.525, 0.590, 0.721", \
+                          "0.425, 0.432, 0.440, 0.457, 0.489, 0.554, 0.685", \
+                          "0.408, 0.415, 0.423, 0.439, 0.472, 0.537, 0.667" \
+                        )
+                        }
+                        fall_transition(pre_trace_mem_mem_out_slew_template) {
+                        index_1 ("0.001, 0.010, 0.020, 0.040, 0.080, 0.160, 0.320");
+                        values ("0.075, 0.094, 0.115, 0.157, 0.241, 0.408, 0.743")
+                        }
+                }
+                timing() {
+                        related_pin :   "CLK" ;
+                        timing_type : rising_edge;
+                        timing_sense : non_unate;
+                        when : "(!EMA[2]) & (!EMA[1]) & (EMA[0])";
+                        sdf_cond : "EMA[2] == 1'b0 && EMA[1] == 1'b0 && EMA[0] == 1'b1";
+                        cell_rise(pre_trace_mem_mem_out_delay_template) {
+                        index_1 ("0.010, 0.025, 0.040, 0.072, 0.170, 0.380, 0.480");
+                        index_2 ("0.001, 0.010, 0.020, 0.040, 0.080, 0.160, 0.320");
+                        values ( \
+                          "0.607, 0.615, 0.624, 0.642, 0.678, 0.750, 0.894", \
+                          "0.605, 0.613, 0.622, 0.640, 0.676, 0.747, 0.891", \
+                          "0.602, 0.610, 0.619, 0.637, 0.673, 0.745, 0.888", \
+                          "0.597, 0.605, 0.614, 0.632, 0.668, 0.739, 0.883", \
+                          "0.580, 0.588, 0.597, 0.615, 0.651, 0.723, 0.866", \
+                          "0.544, 0.552, 0.561, 0.579, 0.615, 0.686, 0.830", \
+                          "0.527, 0.535, 0.544, 0.562, 0.597, 0.669, 0.813" \
+                        )
+                        }
+                        rise_transition(pre_trace_mem_mem_out_slew_template) {
+                        index_1 ("0.001, 0.010, 0.020, 0.040, 0.080, 0.160, 0.320");
+                        values ("0.107, 0.129, 0.155, 0.206, 0.307, 0.511, 0.917")
+                        }
+                        cell_fall(pre_trace_mem_mem_out_delay_template) {
+                        index_1 ("0.010, 0.025, 0.040, 0.072, 0.170, 0.380, 0.480");
+                        index_2 ("0.001, 0.010, 0.020, 0.040, 0.080, 0.160, 0.320");
+                        values ( \
+                          "0.623, 0.630, 0.638, 0.654, 0.687, 0.752, 0.883", \
+                          "0.620, 0.627, 0.636, 0.652, 0.684, 0.750, 0.880", \
+                          "0.617, 0.625, 0.633, 0.649, 0.682, 0.747, 0.877", \
+                          "0.612, 0.619, 0.627, 0.644, 0.676, 0.742, 0.872", \
+                          "0.595, 0.602, 0.611, 0.627, 0.660, 0.725, 0.855", \
+                          "0.559, 0.566, 0.575, 0.591, 0.623, 0.689, 0.819", \
+                          "0.542, 0.549, 0.557, 0.574, 0.606, 0.671, 0.802" \
+                        )
+                        }
+                        fall_transition(pre_trace_mem_mem_out_slew_template) {
+                        index_1 ("0.001, 0.010, 0.020, 0.040, 0.080, 0.160, 0.320");
+                        values ("0.075, 0.094, 0.115, 0.157, 0.241, 0.408, 0.743")
+                        }
+                }
+                timing() {
+                        related_pin :   "CLK" ;
+                        timing_type : rising_edge;
+                        timing_sense : non_unate;
+                        when : "(!EMA[2]) & (EMA[1]) & (!EMA[0])";
+                        sdf_cond : "EMA[2] == 1'b0 && EMA[1] == 1'b1 && EMA[0] == 1'b0";
+                        cell_rise(pre_trace_mem_mem_out_delay_template) {
+                        index_1 ("0.010, 0.025, 0.040, 0.072, 0.170, 0.380, 0.480");
+                        index_2 ("0.001, 0.010, 0.020, 0.040, 0.080, 0.160, 0.320");
+                        values ( \
+                          "0.752, 0.760, 0.769, 0.787, 0.823, 0.895, 1.039", \
+                          "0.750, 0.758, 0.767, 0.785, 0.821, 0.893, 1.036", \
+                          "0.747, 0.755, 0.764, 0.782, 0.818, 0.890, 1.034", \
+                          "0.742, 0.750, 0.759, 0.777, 0.813, 0.884, 1.028", \
+                          "0.725, 0.733, 0.742, 0.760, 0.796, 0.868, 1.011", \
+                          "0.689, 0.697, 0.706, 0.724, 0.760, 0.832, 0.975", \
+                          "0.672, 0.680, 0.689, 0.707, 0.743, 0.814, 0.958" \
+                        )
+                        }
+                        rise_transition(pre_trace_mem_mem_out_slew_template) {
+                        index_1 ("0.001, 0.010, 0.020, 0.040, 0.080, 0.160, 0.320");
+                        values ("0.107, 0.129, 0.155, 0.206, 0.307, 0.511, 0.917")
+                        }
+                        cell_fall(pre_trace_mem_mem_out_delay_template) {
+                        index_1 ("0.010, 0.025, 0.040, 0.072, 0.170, 0.380, 0.480");
+                        index_2 ("0.001, 0.010, 0.020, 0.040, 0.080, 0.160, 0.320");
+                        values ( \
+                          "0.768, 0.775, 0.783, 0.799, 0.832, 0.897, 1.028", \
+                          "0.765, 0.772, 0.781, 0.797, 0.830, 0.895, 1.025", \
+                          "0.763, 0.770, 0.778, 0.794, 0.827, 0.892, 1.022", \
+                          "0.757, 0.764, 0.773, 0.789, 0.821, 0.887, 1.017", \
+                          "0.740, 0.748, 0.756, 0.772, 0.805, 0.870, 1.000", \
+                          "0.704, 0.711, 0.720, 0.736, 0.769, 0.834, 0.964", \
+                          "0.687, 0.694, 0.702, 0.719, 0.751, 0.817, 0.947" \
+                        )
+                        }
+                        fall_transition(pre_trace_mem_mem_out_slew_template) {
+                        index_1 ("0.001, 0.010, 0.020, 0.040, 0.080, 0.160, 0.320");
+                        values ("0.075, 0.094, 0.115, 0.157, 0.241, 0.408, 0.743")
+                        }
+                }
+                timing() {
+                        related_pin :   "CLK" ;
+                        timing_type : rising_edge;
+                        timing_sense : non_unate;
+                        when : "(!EMA[2]) & (EMA[1]) & (EMA[0])";
+                        sdf_cond : "EMA[2] == 1'b0 && EMA[1] == 1'b1 && EMA[0] == 1'b1";
+                        cell_rise(pre_trace_mem_mem_out_delay_template) {
+                        index_1 ("0.010, 0.025, 0.040, 0.072, 0.170, 0.380, 0.480");
+                        index_2 ("0.001, 0.010, 0.020, 0.040, 0.080, 0.160, 0.320");
+                        values ( \
+                          "0.810, 0.819, 0.828, 0.845, 0.881, 0.953, 1.097", \
+                          "0.808, 0.816, 0.825, 0.843, 0.879, 0.951, 1.094", \
+                          "0.805, 0.813, 0.822, 0.840, 0.876, 0.948, 1.092", \
+                          "0.800, 0.808, 0.817, 0.835, 0.871, 0.943, 1.086", \
+                          "0.783, 0.791, 0.800, 0.818, 0.854, 0.926, 1.069", \
+                          "0.747, 0.755, 0.764, 0.782, 0.818, 0.890, 1.033", \
+                          "0.730, 0.738, 0.747, 0.765, 0.801, 0.872, 1.016" \
+                        )
+                        }
+                        rise_transition(pre_trace_mem_mem_out_slew_template) {
+                        index_1 ("0.001, 0.010, 0.020, 0.040, 0.080, 0.160, 0.320");
+                        values ("0.107, 0.129, 0.155, 0.206, 0.307, 0.511, 0.917")
+                        }
+                        cell_fall(pre_trace_mem_mem_out_delay_template) {
+                        index_1 ("0.010, 0.025, 0.040, 0.072, 0.170, 0.380, 0.480");
+                        index_2 ("0.001, 0.010, 0.020, 0.040, 0.080, 0.160, 0.320");
+                        values ( \
+                          "0.826, 0.833, 0.841, 0.858, 0.890, 0.955, 1.086", \
+                          "0.823, 0.831, 0.839, 0.855, 0.888, 0.953, 1.083", \
+                          "0.821, 0.828, 0.836, 0.852, 0.885, 0.950, 1.081", \
+                          "0.815, 0.823, 0.831, 0.847, 0.880, 0.945, 1.075", \
+                          "0.798, 0.806, 0.814, 0.830, 0.863, 0.928, 1.058", \
+                          "0.762, 0.770, 0.778, 0.794, 0.827, 0.892, 1.022", \
+                          "0.745, 0.752, 0.761, 0.777, 0.809, 0.875, 1.005" \
+                        )
+                        }
+                        fall_transition(pre_trace_mem_mem_out_slew_template) {
+                        index_1 ("0.001, 0.010, 0.020, 0.040, 0.080, 0.160, 0.320");
+                        values ("0.075, 0.094, 0.115, 0.157, 0.241, 0.408, 0.743")
+                        }
+                }
+                timing() {
+                        related_pin :   "CLK" ;
+                        timing_type : rising_edge;
+                        timing_sense : non_unate;
+                        when : "(EMA[2]) & (!EMA[1]) & (!EMA[0])";
+                        sdf_cond : "EMA[2] == 1'b1 && EMA[1] == 1'b0 && EMA[0] == 1'b0";
+                        cell_rise(pre_trace_mem_mem_out_delay_template) {
+                        index_1 ("0.010, 0.025, 0.040, 0.072, 0.170, 0.380, 0.480");
+                        index_2 ("0.001, 0.010, 0.020, 0.040, 0.080, 0.160, 0.320");
+                        values ( \
+                          "999.000, 999.000, 999.000, 999.000, 999.000, 999.000, 999.000", \
+                          "999.000, 999.000, 999.000, 999.000, 999.000, 999.000, 999.000", \
+                          "999.000, 999.000, 999.000, 999.000, 999.000, 999.000, 999.000", \
+                          "999.000, 999.000, 999.000, 999.000, 999.000, 999.000, 999.000", \
+                          "999.000, 999.000, 999.000, 999.000, 999.000, 999.000, 999.000", \
+                          "999.000, 999.000, 999.000, 999.000, 999.000, 999.000, 999.000", \
+                          "999.000, 999.000, 999.000, 999.000, 999.000, 999.000, 999.000" \
+                        )
+                        }
+                        rise_transition(pre_trace_mem_mem_out_slew_template) {
+                        index_1 ("0.001, 0.010, 0.020, 0.040, 0.080, 0.160, 0.320");
+                        values ("0.107, 0.129, 0.155, 0.206, 0.307, 0.511, 0.917")
+                        }
+                        cell_fall(pre_trace_mem_mem_out_delay_template) {
+                        index_1 ("0.010, 0.025, 0.040, 0.072, 0.170, 0.380, 0.480");
+                        index_2 ("0.001, 0.010, 0.020, 0.040, 0.080, 0.160, 0.320");
+                        values ( \
+                          "999.000, 999.000, 999.000, 999.000, 999.000, 999.000, 999.000", \
+                          "999.000, 999.000, 999.000, 999.000, 999.000, 999.000, 999.000", \
+                          "999.000, 999.000, 999.000, 999.000, 999.000, 999.000, 999.000", \
+                          "999.000, 999.000, 999.000, 999.000, 999.000, 999.000, 999.000", \
+                          "999.000, 999.000, 999.000, 999.000, 999.000, 999.000, 999.000", \
+                          "999.000, 999.000, 999.000, 999.000, 999.000, 999.000, 999.000", \
+                          "999.000, 999.000, 999.000, 999.000, 999.000, 999.000, 999.000" \
+                        )
+                        }
+                        fall_transition(pre_trace_mem_mem_out_slew_template) {
+                        index_1 ("0.001, 0.010, 0.020, 0.040, 0.080, 0.160, 0.320");
+                        values ("0.075, 0.094, 0.115, 0.157, 0.241, 0.408, 0.743")
+                        }
+                }
+                timing() {
+                        related_pin :   "CLK" ;
+                        timing_type : rising_edge;
+                        timing_sense : non_unate;
+                        when : "(EMA[2]) & (!EMA[1]) & (EMA[0])";
+                        sdf_cond : "EMA[2] == 1'b1 && EMA[1] == 1'b0 && EMA[0] == 1'b1";
+                        cell_rise(pre_trace_mem_mem_out_delay_template) {
+                        index_1 ("0.010, 0.025, 0.040, 0.072, 0.170, 0.380, 0.480");
+                        index_2 ("0.001, 0.010, 0.020, 0.040, 0.080, 0.160, 0.320");
+                        values ( \
+                          "999.000, 999.000, 999.000, 999.000, 999.000, 999.000, 999.000", \
+                          "999.000, 999.000, 999.000, 999.000, 999.000, 999.000, 999.000", \
+                          "999.000, 999.000, 999.000, 999.000, 999.000, 999.000, 999.000", \
+                          "999.000, 999.000, 999.000, 999.000, 999.000, 999.000, 999.000", \
+                          "999.000, 999.000, 999.000, 999.000, 999.000, 999.000, 999.000", \
+                          "999.000, 999.000, 999.000, 999.000, 999.000, 999.000, 999.000", \
+                          "999.000, 999.000, 999.000, 999.000, 999.000, 999.000, 999.000" \
+                        )
+                        }
+                        rise_transition(pre_trace_mem_mem_out_slew_template) {
+                        index_1 ("0.001, 0.010, 0.020, 0.040, 0.080, 0.160, 0.320");
+                        values ("0.107, 0.129, 0.155, 0.206, 0.307, 0.511, 0.917")
+                        }
+                        cell_fall(pre_trace_mem_mem_out_delay_template) {
+                        index_1 ("0.010, 0.025, 0.040, 0.072, 0.170, 0.380, 0.480");
+                        index_2 ("0.001, 0.010, 0.020, 0.040, 0.080, 0.160, 0.320");
+                        values ( \
+                          "999.000, 999.000, 999.000, 999.000, 999.000, 999.000, 999.000", \
+                          "999.000, 999.000, 999.000, 999.000, 999.000, 999.000, 999.000", \
+                          "999.000, 999.000, 999.000, 999.000, 999.000, 999.000, 999.000", \
+                          "999.000, 999.000, 999.000, 999.000, 999.000, 999.000, 999.000", \
+                          "999.000, 999.000, 999.000, 999.000, 999.000, 999.000, 999.000", \
+                          "999.000, 999.000, 999.000, 999.000, 999.000, 999.000, 999.000", \
+                          "999.000, 999.000, 999.000, 999.000, 999.000, 999.000, 999.000" \
+                        )
+                        }
+                        fall_transition(pre_trace_mem_mem_out_slew_template) {
+                        index_1 ("0.001, 0.010, 0.020, 0.040, 0.080, 0.160, 0.320");
+                        values ("0.075, 0.094, 0.115, 0.157, 0.241, 0.408, 0.743")
+                        }
+                }
+                timing() {
+                        related_pin :   "CLK" ;
+                        timing_type : rising_edge;
+                        timing_sense : non_unate;
+                        when : "(EMA[2]) & (EMA[1]) & (!EMA[0])";
+                        sdf_cond : "EMA[2] == 1'b1 && EMA[1] == 1'b1 && EMA[0] == 1'b0";
+                        cell_rise(pre_trace_mem_mem_out_delay_template) {
+                        index_1 ("0.010, 0.025, 0.040, 0.072, 0.170, 0.380, 0.480");
+                        index_2 ("0.001, 0.010, 0.020, 0.040, 0.080, 0.160, 0.320");
+                        values ( \
+                          "999.000, 999.000, 999.000, 999.000, 999.000, 999.000, 999.000", \
+                          "999.000, 999.000, 999.000, 999.000, 999.000, 999.000, 999.000", \
+                          "999.000, 999.000, 999.000, 999.000, 999.000, 999.000, 999.000", \
+                          "999.000, 999.000, 999.000, 999.000, 999.000, 999.000, 999.000", \
+                          "999.000, 999.000, 999.000, 999.000, 999.000, 999.000, 999.000", \
+                          "999.000, 999.000, 999.000, 999.000, 999.000, 999.000, 999.000", \
+                          "999.000, 999.000, 999.000, 999.000, 999.000, 999.000, 999.000" \
+                        )
+                        }
+                        rise_transition(pre_trace_mem_mem_out_slew_template) {
+                        index_1 ("0.001, 0.010, 0.020, 0.040, 0.080, 0.160, 0.320");
+                        values ("0.107, 0.129, 0.155, 0.206, 0.307, 0.511, 0.917")
+                        }
+                        cell_fall(pre_trace_mem_mem_out_delay_template) {
+                        index_1 ("0.010, 0.025, 0.040, 0.072, 0.170, 0.380, 0.480");
+                        index_2 ("0.001, 0.010, 0.020, 0.040, 0.080, 0.160, 0.320");
+                        values ( \
+                          "999.000, 999.000, 999.000, 999.000, 999.000, 999.000, 999.000", \
+                          "999.000, 999.000, 999.000, 999.000, 999.000, 999.000, 999.000", \
+                          "999.000, 999.000, 999.000, 999.000, 999.000, 999.000, 999.000", \
+                          "999.000, 999.000, 999.000, 999.000, 999.000, 999.000, 999.000", \
+                          "999.000, 999.000, 999.000, 999.000, 999.000, 999.000, 999.000", \
+                          "999.000, 999.000, 999.000, 999.000, 999.000, 999.000, 999.000", \
+                          "999.000, 999.000, 999.000, 999.000, 999.000, 999.000, 999.000" \
+                        )
+                        }
+                        fall_transition(pre_trace_mem_mem_out_slew_template) {
+                        index_1 ("0.001, 0.010, 0.020, 0.040, 0.080, 0.160, 0.320");
+                        values ("0.075, 0.094, 0.115, 0.157, 0.241, 0.408, 0.743")
+                        }
+                }
+                timing() {
+                        related_pin :   "CLK" ;
+                        timing_type : rising_edge;
+                        timing_sense : non_unate;
+                        when : "(EMA[2]) & (EMA[1]) & (EMA[0])";
+                        sdf_cond : "EMA[2] == 1'b1 && EMA[1] == 1'b1 && EMA[0] == 1'b1";
+                        cell_rise(pre_trace_mem_mem_out_delay_template) {
+                        index_1 ("0.010, 0.025, 0.040, 0.072, 0.170, 0.380, 0.480");
+                        index_2 ("0.001, 0.010, 0.020, 0.040, 0.080, 0.160, 0.320");
+                        values ( \
+                          "999.000, 999.000, 999.000, 999.000, 999.000, 999.000, 999.000", \
+                          "999.000, 999.000, 999.000, 999.000, 999.000, 999.000, 999.000", \
+                          "999.000, 999.000, 999.000, 999.000, 999.000, 999.000, 999.000", \
+                          "999.000, 999.000, 999.000, 999.000, 999.000, 999.000, 999.000", \
+                          "999.000, 999.000, 999.000, 999.000, 999.000, 999.000, 999.000", \
+                          "999.000, 999.000, 999.000, 999.000, 999.000, 999.000, 999.000", \
+                          "999.000, 999.000, 999.000, 999.000, 999.000, 999.000, 999.000" \
+                        )
+                        }
+                        rise_transition(pre_trace_mem_mem_out_slew_template) {
+                        index_1 ("0.001, 0.010, 0.020, 0.040, 0.080, 0.160, 0.320");
+                        values ("0.107, 0.129, 0.155, 0.206, 0.307, 0.511, 0.917")
+                        }
+                        cell_fall(pre_trace_mem_mem_out_delay_template) {
+                        index_1 ("0.010, 0.025, 0.040, 0.072, 0.170, 0.380, 0.480");
+                        index_2 ("0.001, 0.010, 0.020, 0.040, 0.080, 0.160, 0.320");
+                        values ( \
+                          "999.000, 999.000, 999.000, 999.000, 999.000, 999.000, 999.000", \
+                          "999.000, 999.000, 999.000, 999.000, 999.000, 999.000, 999.000", \
+                          "999.000, 999.000, 999.000, 999.000, 999.000, 999.000, 999.000", \
+                          "999.000, 999.000, 999.000, 999.000, 999.000, 999.000, 999.000", \
+                          "999.000, 999.000, 999.000, 999.000, 999.000, 999.000, 999.000", \
+                          "999.000, 999.000, 999.000, 999.000, 999.000, 999.000, 999.000", \
+                          "999.000, 999.000, 999.000, 999.000, 999.000, 999.000, 999.000" \
+                        )
+                        }
+                        fall_transition(pre_trace_mem_mem_out_slew_template) {
+                        index_1 ("0.001, 0.010, 0.020, 0.040, 0.080, 0.160, 0.320");
+                        values ("0.075, 0.094, 0.115, 0.157, 0.241, 0.408, 0.743")
+                        }
+                }
+                internal_power(){
+                        rise_power(pre_trace_mem_energy_template_load) {
+                        index_1 ("0.001, 0.010, 0.020, 0.040, 0.080, 0.160, 0.320");
+                        values ("0.020, 0.020, 0.020, 0.020, 0.020, 0.021, 0.021")
+                        }
+                        fall_power(pre_trace_mem_energy_template_load) {
+                        index_1 ("0.001, 0.010, 0.020, 0.040, 0.080, 0.160, 0.320");
+                        values ("0.022, 0.022, 0.022, 0.022, 0.022, 0.022, 0.022")
+                        }
+                }
+        }
+        pin(CLK)   {
+		direction : input;
+		capacitance : 0.027;
+                clock : true;
+                max_transition : 1.000;
+                min_pulse_width_high : 0.043 ;
+                min_pulse_width_low  : 0.233 ;
+                min_period           : 0.644 ;
+
+                minimum_period(){
+                  constraint : 0.644 ;
+                  when : "(!EMA[2]) & (!EMA[1]) & (!EMA[0])";
+                  sdf_cond : "EMA2eq0andEMA1eq0andEMA0eq0";
+                }
+                minimum_period(){
+                  constraint : 0.778 ;
+                  when : "(!EMA[2]) & (!EMA[1]) & (EMA[0])";
+                  sdf_cond : "EMA2eq0andEMA1eq0andEMA0eq1";
+                }
+                minimum_period(){
+                  constraint : 0.923 ;
+                  when : "(!EMA[2]) & (EMA[1]) & (!EMA[0])";
+                  sdf_cond : "EMA2eq0andEMA1eq1andEMA0eq0";
+                }
+                minimum_period(){
+                  constraint : 0.981 ;
+                  when : "(!EMA[2]) & (EMA[1]) & (EMA[0])";
+                  sdf_cond : "EMA2eq0andEMA1eq1andEMA0eq1";
+                }
+                minimum_period(){
+                  constraint : 999.000 ;
+                  when : "(EMA[2]) & (!EMA[1]) & (!EMA[0])";
+                  sdf_cond : "EMA2eq1andEMA1eq0andEMA0eq0";
+                }
+                minimum_period(){
+                  constraint : 999.001 ;
+                  when : "(EMA[2]) & (!EMA[1]) & (EMA[0])";
+                  sdf_cond : "EMA2eq1andEMA1eq0andEMA0eq1";
+                }
+                minimum_period(){
+                  constraint : 999.002 ;
+                  when : "(EMA[2]) & (EMA[1]) & (!EMA[0])";
+                  sdf_cond : "EMA2eq1andEMA1eq1andEMA0eq0";
+                }
+                minimum_period(){
+                  constraint : 999.003 ;
+                  when : "(EMA[2]) & (EMA[1]) & (EMA[0])";
+                  sdf_cond : "EMA2eq1andEMA1eq1andEMA0eq1";
+                }
+
+                internal_power(){
+                        when : "(!CEN & ! \
+                                 (WEN) \
+                                ) \
+                                 &  (!EMA[2]) & (!EMA[1]) & (!EMA[0]) ";
+                        rise_power(pre_trace_mem_energy_template_clkslew) {
+                        index_1 ("0.010, 0.025, 0.040, 0.072, 0.170, 0.380, 0.480");
+                        values ("16.508, 16.508, 16.508, 16.508, 16.508, 16.508, 16.508")
+                        }
+                        fall_power(pre_trace_mem_energy_template_clkslew) {
+                        index_1 ("0.010, 0.025, 0.040, 0.072, 0.170, 0.380, 0.480");
+                        values ("0.069, 0.069, 0.069, 0.069, 0.069, 0.069, 0.069")
+                        }
+                }
+                internal_power(){
+                        when : "(!CEN & ! \
+                                 (WEN) \
+                                ) \
+                                 &  (!EMA[2]) & (!EMA[1]) & (EMA[0]) ";
+                        rise_power(pre_trace_mem_energy_template_clkslew) {
+                        index_1 ("0.010, 0.025, 0.040, 0.072, 0.170, 0.380, 0.480");
+                        values ("17.191, 17.191, 17.191, 17.191, 17.191, 17.191, 17.191")
+                        }
+                        fall_power(pre_trace_mem_energy_template_clkslew) {
+                        index_1 ("0.010, 0.025, 0.040, 0.072, 0.170, 0.380, 0.480");
+                        values ("0.069, 0.069, 0.069, 0.069, 0.069, 0.069, 0.069")
+                        }
+                }
+                internal_power(){
+                        when : "(!CEN & ! \
+                                 (WEN) \
+                                ) \
+                                 &  (!EMA[2]) & (EMA[1]) & (!EMA[0]) ";
+                        rise_power(pre_trace_mem_energy_template_clkslew) {
+                        index_1 ("0.010, 0.025, 0.040, 0.072, 0.170, 0.380, 0.480");
+                        values ("17.664, 17.664, 17.664, 17.664, 17.664, 17.664, 17.664")
+                        }
+                        fall_power(pre_trace_mem_energy_template_clkslew) {
+                        index_1 ("0.010, 0.025, 0.040, 0.072, 0.170, 0.380, 0.480");
+                        values ("0.069, 0.069, 0.069, 0.069, 0.069, 0.069, 0.069")
+                        }
+                }
+                internal_power(){
+                        when : "(!CEN & ! \
+                                 (WEN) \
+                                ) \
+                                 &  (!EMA[2]) & (EMA[1]) & (EMA[0]) ";
+                        rise_power(pre_trace_mem_energy_template_clkslew) {
+                        index_1 ("0.010, 0.025, 0.040, 0.072, 0.170, 0.380, 0.480");
+                        values ("17.944, 17.944, 17.944, 17.944, 17.944, 17.944, 17.944")
+                        }
+                        fall_power(pre_trace_mem_energy_template_clkslew) {
+                        index_1 ("0.010, 0.025, 0.040, 0.072, 0.170, 0.380, 0.480");
+                        values ("0.069, 0.069, 0.069, 0.069, 0.069, 0.069, 0.069")
+                        }
+                }
+                internal_power(){
+                        when : "(!CEN & ! \
+                                 (WEN) \
+                                ) \
+                                 &  (EMA[2]) & (!EMA[1]) & (!EMA[0]) ";
+                        rise_power(pre_trace_mem_energy_template_clkslew) {
+                        index_1 ("0.010, 0.025, 0.040, 0.072, 0.170, 0.380, 0.480");
+                        values ("19.421, 19.421, 19.421, 19.421, 19.421, 19.421, 19.421")
+                        }
+                        fall_power(pre_trace_mem_energy_template_clkslew) {
+                        index_1 ("0.010, 0.025, 0.040, 0.072, 0.170, 0.380, 0.480");
+                        values ("0.069, 0.069, 0.069, 0.069, 0.069, 0.069, 0.069")
+                        }
+                }
+                internal_power(){
+                        when : "(!CEN & ! \
+                                 (WEN) \
+                                ) \
+                                 &  (EMA[2]) & (!EMA[1]) & (EMA[0]) ";
+                        rise_power(pre_trace_mem_energy_template_clkslew) {
+                        index_1 ("0.010, 0.025, 0.040, 0.072, 0.170, 0.380, 0.480");
+                        values ("19.421, 19.421, 19.421, 19.421, 19.421, 19.421, 19.421")
+                        }
+                        fall_power(pre_trace_mem_energy_template_clkslew) {
+                        index_1 ("0.010, 0.025, 0.040, 0.072, 0.170, 0.380, 0.480");
+                        values ("0.069, 0.069, 0.069, 0.069, 0.069, 0.069, 0.069")
+                        }
+                }
+                internal_power(){
+                        when : "(!CEN & ! \
+                                 (WEN) \
+                                ) \
+                                 &  (EMA[2]) & (EMA[1]) & (!EMA[0]) ";
+                        rise_power(pre_trace_mem_energy_template_clkslew) {
+                        index_1 ("0.010, 0.025, 0.040, 0.072, 0.170, 0.380, 0.480");
+                        values ("18.426, 18.426, 18.426, 18.426, 18.426, 18.426, 18.426")
+                        }
+                        fall_power(pre_trace_mem_energy_template_clkslew) {
+                        index_1 ("0.010, 0.025, 0.040, 0.072, 0.170, 0.380, 0.480");
+                        values ("0.069, 0.069, 0.069, 0.069, 0.069, 0.069, 0.069")
+                        }
+                }
+                internal_power(){
+                        when : "(!CEN & ! \
+                                 (WEN) \
+                                ) \
+                                 &  (EMA[2]) & (EMA[1]) & (EMA[0]) ";
+                        rise_power(pre_trace_mem_energy_template_clkslew) {
+                        index_1 ("0.010, 0.025, 0.040, 0.072, 0.170, 0.380, 0.480");
+                        values ("18.442, 18.442, 18.442, 18.442, 18.442, 18.442, 18.442")
+                        }
+                        fall_power(pre_trace_mem_energy_template_clkslew) {
+                        index_1 ("0.010, 0.025, 0.040, 0.072, 0.170, 0.380, 0.480");
+                        values ("0.069, 0.069, 0.069, 0.069, 0.069, 0.069, 0.069")
+                        }
+                }
+                internal_power(){
+                        when : "(!CEN & \
+                                 (WEN) \
+                                ) \
+                                 &  (!EMA[2]) & (!EMA[1]) & (!EMA[0]) ";
+                        rise_power(pre_trace_mem_energy_template_clkslew) {
+                        index_1 ("0.010, 0.025, 0.040, 0.072, 0.170, 0.380, 0.480");
+                        values ("11.574, 11.574, 11.574, 11.574, 11.574, 11.574, 11.574")
+                        }
+                        fall_power(pre_trace_mem_energy_template_clkslew) {
+                        index_1 ("0.010, 0.025, 0.040, 0.072, 0.170, 0.380, 0.480");
+                        values ("0.069, 0.069, 0.069, 0.069, 0.069, 0.069, 0.069")
+                        }
+                }
+                internal_power(){
+                        when : "(!CEN & \
+                                 (WEN) \
+                                ) \
+                                 &  (!EMA[2]) & (!EMA[1]) & (EMA[0]) ";
+                        rise_power(pre_trace_mem_energy_template_clkslew) {
+                        index_1 ("0.010, 0.025, 0.040, 0.072, 0.170, 0.380, 0.480");
+                        values ("11.739, 11.739, 11.739, 11.739, 11.739, 11.739, 11.739")
+                        }
+                        fall_power(pre_trace_mem_energy_template_clkslew) {
+                        index_1 ("0.010, 0.025, 0.040, 0.072, 0.170, 0.380, 0.480");
+                        values ("0.069, 0.069, 0.069, 0.069, 0.069, 0.069, 0.069")
+                        }
+                }
+                internal_power(){
+                        when : "(!CEN & \
+                                 (WEN) \
+                                ) \
+                                 &  (!EMA[2]) & (EMA[1]) & (!EMA[0]) ";
+                        rise_power(pre_trace_mem_energy_template_clkslew) {
+                        index_1 ("0.010, 0.025, 0.040, 0.072, 0.170, 0.380, 0.480");
+                        values ("12.064, 12.064, 12.064, 12.064, 12.064, 12.064, 12.064")
+                        }
+                        fall_power(pre_trace_mem_energy_template_clkslew) {
+                        index_1 ("0.010, 0.025, 0.040, 0.072, 0.170, 0.380, 0.480");
+                        values ("0.069, 0.069, 0.069, 0.069, 0.069, 0.069, 0.069")
+                        }
+                }
+                internal_power(){
+                        when : "(!CEN & \
+                                 (WEN) \
+                                ) \
+                                 &  (!EMA[2]) & (EMA[1]) & (EMA[0]) ";
+                        rise_power(pre_trace_mem_energy_template_clkslew) {
+                        index_1 ("0.010, 0.025, 0.040, 0.072, 0.170, 0.380, 0.480");
+                        values ("12.268, 12.268, 12.268, 12.268, 12.268, 12.268, 12.268")
+                        }
+                        fall_power(pre_trace_mem_energy_template_clkslew) {
+                        index_1 ("0.010, 0.025, 0.040, 0.072, 0.170, 0.380, 0.480");
+                        values ("0.069, 0.069, 0.069, 0.069, 0.069, 0.069, 0.069")
+                        }
+                }
+                internal_power(){
+                        when : "(!CEN & \
+                                 (WEN) \
+                                ) \
+                                 &  (EMA[2]) & (!EMA[1]) & (!EMA[0]) ";
+                        rise_power(pre_trace_mem_energy_template_clkslew) {
+                        index_1 ("0.010, 0.025, 0.040, 0.072, 0.170, 0.380, 0.480");
+                        values ("13.084, 13.084, 13.084, 13.084, 13.084, 13.084, 13.084")
+                        }
+                        fall_power(pre_trace_mem_energy_template_clkslew) {
+                        index_1 ("0.010, 0.025, 0.040, 0.072, 0.170, 0.380, 0.480");
+                        values ("0.069, 0.069, 0.069, 0.069, 0.069, 0.069, 0.069")
+                        }
+                }
+                internal_power(){
+                        when : "(!CEN & \
+                                 (WEN) \
+                                ) \
+                                 &  (EMA[2]) & (!EMA[1]) & (EMA[0]) ";
+                        rise_power(pre_trace_mem_energy_template_clkslew) {
+                        index_1 ("0.010, 0.025, 0.040, 0.072, 0.170, 0.380, 0.480");
+                        values ("14.279, 14.279, 14.279, 14.279, 14.279, 14.279, 14.279")
+                        }
+                        fall_power(pre_trace_mem_energy_template_clkslew) {
+                        index_1 ("0.010, 0.025, 0.040, 0.072, 0.170, 0.380, 0.480");
+                        values ("0.069, 0.069, 0.069, 0.069, 0.069, 0.069, 0.069")
+                        }
+                }
+                internal_power(){
+                        when : "(!CEN & \
+                                 (WEN) \
+                                ) \
+                                 &  (EMA[2]) & (EMA[1]) & (!EMA[0]) ";
+                        rise_power(pre_trace_mem_energy_template_clkslew) {
+                        index_1 ("0.010, 0.025, 0.040, 0.072, 0.170, 0.380, 0.480");
+                        values ("13.864, 13.864, 13.864, 13.864, 13.864, 13.864, 13.864")
+                        }
+                        fall_power(pre_trace_mem_energy_template_clkslew) {
+                        index_1 ("0.010, 0.025, 0.040, 0.072, 0.170, 0.380, 0.480");
+                        values ("0.069, 0.069, 0.069, 0.069, 0.069, 0.069, 0.069")
+                        }
+                }
+                internal_power(){
+                        when : "(!CEN & \
+                                 (WEN) \
+                                ) \
+                                 &  (EMA[2]) & (EMA[1]) & (EMA[0]) ";
+                        rise_power(pre_trace_mem_energy_template_clkslew) {
+                        index_1 ("0.010, 0.025, 0.040, 0.072, 0.170, 0.380, 0.480");
+                        values ("14.106, 14.106, 14.106, 14.106, 14.106, 14.106, 14.106")
+                        }
+                        fall_power(pre_trace_mem_energy_template_clkslew) {
+                        index_1 ("0.010, 0.025, 0.040, 0.072, 0.170, 0.380, 0.480");
+                        values ("0.069, 0.069, 0.069, 0.069, 0.069, 0.069, 0.069")
+                        }
+                }
+         internal_power(){
+                 when : "(CEN)";
+                        rise_power(pre_trace_mem_energy_template_clkslew) {
+                        index_1 ("0.010, 0.025, 0.040, 0.072, 0.170, 0.380, 0.480");
+                        values ("0.071, 0.071, 0.071, 0.071, 0.071, 0.071, 0.071")
+                        }
+                        fall_power(pre_trace_mem_energy_template_clkslew) {
+                        index_1 ("0.010, 0.025, 0.040, 0.072, 0.170, 0.380, 0.480");
+                        values ("0.114, 0.114, 0.114, 0.114, 0.114, 0.114, 0.114")
+                        }
+                }
+        }
+
+        pin(CEN)   {
+                direction : input;
+                capacitance : 0.006;
+                timing() {
+                        related_pin     : CLK;
+                        timing_type     : setup_rising ;
+                        rise_constraint(pre_trace_mem_constraint_template) {
+                        index_1 ("0.010, 0.025, 0.040, 0.072, 0.170, 0.380, 0.480");
+                        index_2 ("0.010, 0.025, 0.040, 0.072, 0.170, 0.380, 0.480");
+                        values ( \
+                          "0.050, 0.051, 0.052, 0.055, 0.062, 0.079, 0.086", \
+                          "0.052, 0.054, 0.055, 0.057, 0.065, 0.081, 0.089", \
+                          "0.055, 0.056, 0.057, 0.060, 0.067, 0.084, 0.092", \
+                          "0.060, 0.062, 0.063, 0.065, 0.073, 0.089, 0.097", \
+                          "0.077, 0.078, 0.080, 0.082, 0.090, 0.106, 0.114", \
+                          "0.113, 0.115, 0.116, 0.118, 0.126, 0.142, 0.150", \
+                          "0.131, 0.132, 0.133, 0.135, 0.143, 0.159, 0.167" \
+                        )
+                        }
+                        fall_constraint(pre_trace_mem_constraint_template) {
+                        index_1 ("0.010, 0.025, 0.040, 0.072, 0.170, 0.380, 0.480");
+                        index_2 ("0.010, 0.025, 0.040, 0.072, 0.170, 0.380, 0.480");
+                        values ( \
+                          "0.080, 0.080, 0.081, 0.083, 0.088, 0.098, 0.103", \
+                          "0.082, 0.083, 0.084, 0.085, 0.090, 0.101, 0.106", \
+                          "0.085, 0.086, 0.086, 0.088, 0.093, 0.103, 0.108", \
+                          "0.090, 0.091, 0.092, 0.093, 0.098, 0.109, 0.114", \
+                          "0.107, 0.108, 0.109, 0.110, 0.115, 0.126, 0.131", \
+                          "0.143, 0.144, 0.145, 0.146, 0.151, 0.162, 0.167", \
+                          "0.160, 0.161, 0.162, 0.163, 0.168, 0.179, 0.184" \
+                        )
+                        }
+                } 
+                timing() {
+                        related_pin     : CLK;
+                        timing_type     : hold_rising ;
+                        rise_constraint(pre_trace_mem_constraint_template) {
+                        index_1 ("0.010, 0.025, 0.040, 0.072, 0.170, 0.380, 0.480");
+                        index_2 ("0.010, 0.025, 0.040, 0.072, 0.170, 0.380, 0.480");
+                        values ( \
+                          "0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000", \
+                          "0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000", \
+                          "0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000", \
+                          "0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000", \
+                          "0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000", \
+                          "0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000", \
+                          "0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000" \
+                        )
+                        }
+                        fall_constraint(pre_trace_mem_constraint_template) {
+                        index_1 ("0.010, 0.025, 0.040, 0.072, 0.170, 0.380, 0.480");
+                        index_2 ("0.010, 0.025, 0.040, 0.072, 0.170, 0.380, 0.480");
+                        values ( \
+                          "0.004, 0.004, 0.003, 0.001, 0.000, 0.000, 0.000", \
+                          "0.002, 0.001, 0.000, 0.000, 0.000, 0.000, 0.000", \
+                          "0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000", \
+                          "0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000", \
+                          "0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000", \
+                          "0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000", \
+                          "0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000" \
+                        )
+                        }
+               }
+                internal_power(){
+                        rise_power(pre_trace_mem_energy_template_sigslew) {
+                        index_1 ("0.010, 0.025, 0.040, 0.072, 0.170, 0.380, 0.480");
+                        values ("0.923, 0.923, 0.923, 0.923, 0.923, 0.923, 0.923")
+                        }
+                        fall_power(pre_trace_mem_energy_template_sigslew) {
+                        index_1 ("0.010, 0.025, 0.040, 0.072, 0.170, 0.380, 0.480");
+                        values ("0.088, 0.088, 0.088, 0.088, 0.088, 0.088, 0.088")
+                        }
+                }
+        }
+        pin(WEN){
+                direction : input;
+                capacitance : 0.017;
+                timing() {
+                        related_pin     : CLK;
+                        timing_type     : setup_rising ;
+                        rise_constraint(pre_trace_mem_constraint_template) {
+                        index_1 ("0.010, 0.025, 0.040, 0.072, 0.170, 0.380, 0.480");
+                        index_2 ("0.010, 0.025, 0.040, 0.072, 0.170, 0.380, 0.480");
+                        values ( \
+                          "0.069, 0.069, 0.070, 0.070, 0.072, 0.077, 0.080", \
+                          "0.071, 0.072, 0.072, 0.073, 0.075, 0.080, 0.082", \
+                          "0.074, 0.074, 0.075, 0.075, 0.078, 0.082, 0.085", \
+                          "0.079, 0.080, 0.080, 0.081, 0.083, 0.088, 0.090", \
+                          "0.096, 0.097, 0.097, 0.098, 0.100, 0.105, 0.107", \
+                          "0.132, 0.133, 0.133, 0.134, 0.136, 0.141, 0.143", \
+                          "0.150, 0.150, 0.150, 0.151, 0.153, 0.158, 0.160" \
+                        )
+                        }
+                        fall_constraint(pre_trace_mem_constraint_template) {
+                        index_1 ("0.010, 0.025, 0.040, 0.072, 0.170, 0.380, 0.480");
+                        index_2 ("0.010, 0.025, 0.040, 0.072, 0.170, 0.380, 0.480");
+                        values ( \
+                          "0.107, 0.108, 0.109, 0.110, 0.115, 0.125, 0.130", \
+                          "0.110, 0.111, 0.111, 0.113, 0.118, 0.128, 0.133", \
+                          "0.113, 0.113, 0.114, 0.116, 0.120, 0.130, 0.135", \
+                          "0.118, 0.119, 0.120, 0.121, 0.126, 0.136, 0.141", \
+                          "0.135, 0.136, 0.136, 0.138, 0.143, 0.153, 0.158", \
+                          "0.171, 0.172, 0.172, 0.174, 0.179, 0.189, 0.194", \
+                          "0.188, 0.189, 0.190, 0.191, 0.196, 0.206, 0.211" \
+                        )
+                        }
+                } 
+                timing() {
+                        related_pin     : CLK;
+                        timing_type     : hold_rising ;
+                        rise_constraint(pre_trace_mem_constraint_template) {
+                        index_1 ("0.010, 0.025, 0.040, 0.072, 0.170, 0.380, 0.480");
+                        index_2 ("0.010, 0.025, 0.040, 0.072, 0.170, 0.380, 0.480");
+                        values ( \
+                          "0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000", \
+                          "0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000", \
+                          "0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000", \
+                          "0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000", \
+                          "0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000", \
+                          "0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000", \
+                          "0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000" \
+                        )
+                        }
+                        fall_constraint(pre_trace_mem_constraint_template) {
+                        index_1 ("0.010, 0.025, 0.040, 0.072, 0.170, 0.380, 0.480");
+                        index_2 ("0.010, 0.025, 0.040, 0.072, 0.170, 0.380, 0.480");
+                        values ( \
+                          "0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000", \
+                          "0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000", \
+                          "0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000", \
+                          "0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000", \
+                          "0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000", \
+                          "0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000", \
+                          "0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000" \
+                        )
+                        }
+               }
+                internal_power(){
+                        rise_power(pre_trace_mem_energy_template_sigslew) {
+                        index_1 ("0.010, 0.025, 0.040, 0.072, 0.170, 0.380, 0.480");
+                        values ("1.019, 1.019, 1.019, 1.019, 1.019, 1.019, 1.019")
+                        }
+                        fall_power(pre_trace_mem_energy_template_sigslew) {
+                        index_1 ("0.010, 0.025, 0.040, 0.072, 0.170, 0.380, 0.480");
+                        values ("1.126, 1.126, 1.126, 1.126, 1.126, 1.126, 1.126")
+                        }
+                }
+        }
+        bus(A)   {
+                bus_type : pre_trace_mem_ADDRESS;
+                direction : input;
+                capacitance : 0.002;
+                timing() {
+                        related_pin     : CLK;
+                        timing_type     : setup_rising ;
+                        rise_constraint(pre_trace_mem_constraint_template) {
+                        index_1 ("0.010, 0.025, 0.040, 0.072, 0.170, 0.380, 0.480");
+                        index_2 ("0.010, 0.025, 0.040, 0.072, 0.170, 0.380, 0.480");
+                        values ( \
+                          "0.104, 0.105, 0.105, 0.107, 0.111, 0.120, 0.124", \
+                          "0.107, 0.107, 0.108, 0.109, 0.113, 0.122, 0.126", \
+                          "0.109, 0.110, 0.111, 0.112, 0.116, 0.125, 0.129", \
+                          "0.115, 0.115, 0.116, 0.117, 0.122, 0.130, 0.135", \
+                          "0.132, 0.132, 0.133, 0.134, 0.138, 0.147, 0.151", \
+                          "0.168, 0.168, 0.169, 0.170, 0.174, 0.183, 0.187", \
+                          "0.185, 0.185, 0.186, 0.187, 0.192, 0.200, 0.205" \
+                        )
+                        }
+                        fall_constraint(pre_trace_mem_constraint_template) {
+                        index_1 ("0.010, 0.025, 0.040, 0.072, 0.170, 0.380, 0.480");
+                        index_2 ("0.010, 0.025, 0.040, 0.072, 0.170, 0.380, 0.480");
+                        values ( \
+                          "0.059, 0.060, 0.061, 0.063, 0.069, 0.083, 0.089", \
+                          "0.061, 0.062, 0.063, 0.065, 0.072, 0.085, 0.092", \
+                          "0.064, 0.065, 0.066, 0.068, 0.074, 0.088, 0.094", \
+                          "0.069, 0.070, 0.071, 0.073, 0.080, 0.093, 0.100", \
+                          "0.086, 0.087, 0.088, 0.090, 0.097, 0.110, 0.117", \
+                          "0.122, 0.123, 0.124, 0.126, 0.133, 0.146, 0.153", \
+                          "0.139, 0.140, 0.141, 0.143, 0.150, 0.164, 0.170" \
+                        )
+                        }
+                } 
+                timing() {
+                        related_pin     : CLK;
+                        timing_type     : hold_rising ;
+                        rise_constraint(pre_trace_mem_constraint_template) {
+                        index_1 ("0.010, 0.025, 0.040, 0.072, 0.170, 0.380, 0.480");
+                        index_2 ("0.010, 0.025, 0.040, 0.072, 0.170, 0.380, 0.480");
+                        values ( \
+                          "0.019, 0.019, 0.018, 0.017, 0.012, 0.004, 0.000", \
+                          "0.017, 0.016, 0.015, 0.014, 0.010, 0.001, 0.000", \
+                          "0.014, 0.013, 0.013, 0.011, 0.007, 0.000, 0.000", \
+                          "0.009, 0.008, 0.007, 0.006, 0.002, 0.000, 0.000", \
+                          "0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000", \
+                          "0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000", \
+                          "0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000" \
+                        )
+                        }
+                        fall_constraint(pre_trace_mem_constraint_template) {
+                        index_1 ("0.010, 0.025, 0.040, 0.072, 0.170, 0.380, 0.480");
+                        index_2 ("0.010, 0.025, 0.040, 0.072, 0.170, 0.380, 0.480");
+                        values ( \
+                          "0.017, 0.016, 0.015, 0.013, 0.007, 0.000, 0.000", \
+                          "0.015, 0.014, 0.013, 0.011, 0.004, 0.000, 0.000", \
+                          "0.012, 0.011, 0.010, 0.008, 0.002, 0.000, 0.000", \
+                          "0.007, 0.006, 0.005, 0.003, 0.000, 0.000, 0.000", \
+                          "0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000", \
+                          "0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000", \
+                          "0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000" \
+                        )
+                        }
+               }
+                internal_power(){
+                        rise_power(pre_trace_mem_energy_template_sigslew) {
+                        index_1 ("0.010, 0.025, 0.040, 0.072, 0.170, 0.380, 0.480");
+                        values ("0.066, 0.066, 0.066, 0.066, 0.066, 0.066, 0.066")
+                        }
+                        fall_power(pre_trace_mem_energy_template_sigslew) {
+                        index_1 ("0.010, 0.025, 0.040, 0.072, 0.170, 0.380, 0.480");
+                        values ("-0.002, -0.002, -0.002, -0.002, -0.002, -0.002, -0.002")
+                        }
+                }
+        }
+        bus(D)   {
+                bus_type : pre_trace_mem_DATA;
+                memory_write() {
+                        address : A;
+                        clocked_on : "CLK";
+                }
+                direction : input;
+                capacitance : 0.003;
+                timing() {
+                        related_pin     : CLK;
+                        timing_type     : setup_rising ;
+                        rise_constraint(pre_trace_mem_constraint_template) {
+                        index_1 ("0.010, 0.025, 0.040, 0.072, 0.170, 0.380, 0.480");
+                        index_2 ("0.010, 0.025, 0.040, 0.072, 0.170, 0.380, 0.480");
+                        values ( \
+                          "0.027, 0.026, 0.025, 0.022, 0.014, -0.004, -0.012", \
+                          "0.030, 0.028, 0.027, 0.024, 0.016, -0.001, -0.009", \
+                          "0.032, 0.031, 0.030, 0.027, 0.019, 0.001, -0.007", \
+                          "0.038, 0.036, 0.035, 0.033, 0.024, 0.007, -0.001", \
+                          "0.054, 0.053, 0.052, 0.049, 0.041, 0.024, 0.015", \
+                          "0.091, 0.089, 0.088, 0.085, 0.077, 0.060, 0.052", \
+                          "0.108, 0.107, 0.105, 0.103, 0.094, 0.077, 0.069" \
+                        )
+                        }
+                        fall_constraint(pre_trace_mem_constraint_template) {
+                        index_1 ("0.010, 0.025, 0.040, 0.072, 0.170, 0.380, 0.480");
+                        index_2 ("0.010, 0.025, 0.040, 0.072, 0.170, 0.380, 0.480");
+                        values ( \
+                          "0.045, 0.047, 0.050, 0.055, 0.070, 0.104, 0.120", \
+                          "0.047, 0.050, 0.052, 0.057, 0.073, 0.106, 0.122", \
+                          "0.050, 0.052, 0.055, 0.060, 0.075, 0.109, 0.125", \
+                          "0.055, 0.058, 0.060, 0.065, 0.081, 0.114, 0.130", \
+                          "0.072, 0.075, 0.077, 0.082, 0.098, 0.131, 0.147", \
+                          "0.108, 0.111, 0.113, 0.118, 0.134, 0.167, 0.183", \
+                          "0.126, 0.128, 0.130, 0.135, 0.151, 0.185, 0.200" \
+                        )
+                        }
+                } 
+                timing() {
+                        related_pin     : CLK;
+                        timing_type     : hold_rising ;
+                        rise_constraint(pre_trace_mem_constraint_template) {
+                        index_1 ("0.010, 0.025, 0.040, 0.072, 0.170, 0.380, 0.480");
+                        index_2 ("0.010, 0.025, 0.040, 0.072, 0.170, 0.380, 0.480");
+                        values ( \
+                          "0.000, 0.000, 0.001, 0.004, 0.012, 0.029, 0.037", \
+                          "0.000, 0.000, 0.000, 0.001, 0.009, 0.027, 0.035", \
+                          "0.000, 0.000, 0.000, 0.000, 0.006, 0.024, 0.032", \
+                          "0.000, 0.000, 0.000, 0.000, 0.001, 0.018, 0.027", \
+                          "0.000, 0.000, 0.000, 0.000, 0.000, 0.002, 0.010", \
+                          "0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000", \
+                          "0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000" \
+                        )
+                        }
+                        fall_constraint(pre_trace_mem_constraint_template) {
+                        index_1 ("0.010, 0.025, 0.040, 0.072, 0.170, 0.380, 0.480");
+                        index_2 ("0.010, 0.025, 0.040, 0.072, 0.170, 0.380, 0.480");
+                        values ( \
+                          "0.019, 0.017, 0.014, 0.009, 0.000, 0.000, 0.000", \
+                          "0.017, 0.014, 0.012, 0.007, 0.000, 0.000, 0.000", \
+                          "0.014, 0.012, 0.009, 0.004, 0.000, 0.000, 0.000", \
+                          "0.008, 0.006, 0.004, 0.000, 0.000, 0.000, 0.000", \
+                          "0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000", \
+                          "0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000", \
+                          "0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000" \
+                        )
+                        }
+               }
+                internal_power(){
+                        when : "(! \
+                                 (WEN) \
+                                )";
+                        rise_power(pre_trace_mem_energy_template_sigslew) {
+                        index_1 ("0.010, 0.025, 0.040, 0.072, 0.170, 0.380, 0.480");
+                        values ("0.028, 0.028, 0.028, 0.028, 0.028, 0.028, 0.028")
+                        }
+                        fall_power(pre_trace_mem_energy_template_sigslew) {
+                        index_1 ("0.010, 0.025, 0.040, 0.072, 0.170, 0.380, 0.480");
+                        values ("0.029, 0.029, 0.029, 0.029, 0.029, 0.029, 0.029")
+                        }
+                }
+                internal_power(){
+                        when : " \
+                                 (WEN) \
+                               ";
+                        rise_power(pre_trace_mem_energy_template_sigslew) {
+                        index_1 ("0.010, 0.025, 0.040, 0.072, 0.170, 0.380, 0.480");
+                        values ("-0.002, -0.002, -0.002, -0.002, -0.002, -0.002, -0.002")
+                        }
+                        fall_power(pre_trace_mem_energy_template_sigslew) {
+                        index_1 ("0.010, 0.025, 0.040, 0.072, 0.170, 0.380, 0.480");
+                        values ("0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001")
+                        }
+                }
+        }
+        bus(EMA)   {
+                bus_type : pre_trace_mem_UPM;
+                direction : input;
+                capacitance : 0.000;
+                timing() {
+                        related_pin     : CLK;
+                        timing_type     : setup_rising ;
+                        rise_constraint(pre_trace_mem_constraint_template) {
+                        index_1 ("0.010, 0.025, 0.040, 0.072, 0.170, 0.380, 0.480");
+                        index_2 ("0.010, 0.025, 0.040, 0.072, 0.170, 0.380, 0.480");
+                        values ( \
+                          "0.644, 0.644, 0.644, 0.644, 0.644, 0.644, 0.644", \
+                          "0.644, 0.644, 0.644, 0.644, 0.644, 0.644, 0.644", \
+                          "0.644, 0.644, 0.644, 0.644, 0.644, 0.644, 0.644", \
+                          "0.644, 0.644, 0.644, 0.644, 0.644, 0.644, 0.644", \
+                          "0.644, 0.644, 0.644, 0.644, 0.644, 0.644, 0.644", \
+                          "0.644, 0.644, 0.644, 0.644, 0.644, 0.644, 0.644", \
+                          "0.644, 0.644, 0.644, 0.644, 0.644, 0.644, 0.644" \
+                        )
+                        }
+                        fall_constraint(pre_trace_mem_constraint_template) {
+                        index_1 ("0.010, 0.025, 0.040, 0.072, 0.170, 0.380, 0.480");
+                        index_2 ("0.010, 0.025, 0.040, 0.072, 0.170, 0.380, 0.480");
+                        values ( \
+                          "0.644, 0.644, 0.644, 0.644, 0.644, 0.644, 0.644", \
+                          "0.644, 0.644, 0.644, 0.644, 0.644, 0.644, 0.644", \
+                          "0.644, 0.644, 0.644, 0.644, 0.644, 0.644, 0.644", \
+                          "0.644, 0.644, 0.644, 0.644, 0.644, 0.644, 0.644", \
+                          "0.644, 0.644, 0.644, 0.644, 0.644, 0.644, 0.644", \
+                          "0.644, 0.644, 0.644, 0.644, 0.644, 0.644, 0.644", \
+                          "0.644, 0.644, 0.644, 0.644, 0.644, 0.644, 0.644" \
+                        )
+                        }
+                } 
+                timing() {
+                        related_pin     : CLK;
+                        timing_type     : hold_rising ;
+                        rise_constraint(pre_trace_mem_constraint_template) {
+                        index_1 ("0.010, 0.025, 0.040, 0.072, 0.170, 0.380, 0.480");
+                        index_2 ("0.010, 0.025, 0.040, 0.072, 0.170, 0.380, 0.480");
+                        values ( \
+                          "0.644, 0.644, 0.644, 0.644, 0.644, 0.644, 0.644", \
+                          "0.644, 0.644, 0.644, 0.644, 0.644, 0.644, 0.644", \
+                          "0.644, 0.644, 0.644, 0.644, 0.644, 0.644, 0.644", \
+                          "0.644, 0.644, 0.644, 0.644, 0.644, 0.644, 0.644", \
+                          "0.644, 0.644, 0.644, 0.644, 0.644, 0.644, 0.644", \
+                          "0.644, 0.644, 0.644, 0.644, 0.644, 0.644, 0.644", \
+                          "0.644, 0.644, 0.644, 0.644, 0.644, 0.644, 0.644" \
+                        )
+                        }
+                        fall_constraint(pre_trace_mem_constraint_template) {
+                        index_1 ("0.010, 0.025, 0.040, 0.072, 0.170, 0.380, 0.480");
+                        index_2 ("0.010, 0.025, 0.040, 0.072, 0.170, 0.380, 0.480");
+                        values ( \
+                          "0.644, 0.644, 0.644, 0.644, 0.644, 0.644, 0.644", \
+                          "0.644, 0.644, 0.644, 0.644, 0.644, 0.644, 0.644", \
+                          "0.644, 0.644, 0.644, 0.644, 0.644, 0.644, 0.644", \
+                          "0.644, 0.644, 0.644, 0.644, 0.644, 0.644, 0.644", \
+                          "0.644, 0.644, 0.644, 0.644, 0.644, 0.644, 0.644", \
+                          "0.644, 0.644, 0.644, 0.644, 0.644, 0.644, 0.644", \
+                          "0.644, 0.644, 0.644, 0.644, 0.644, 0.644, 0.644" \
+                        )
+                        }
+               }
+        }
+
+        cell_leakage_power : 2.067;
+}
+}
