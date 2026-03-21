@@ -3,7 +3,7 @@ module lif_unit_784to1 #(
     parameter I_WIDTH    = 18,  // 電流位寬
     parameter V_WIDTH    = 19,   // 電位位寬
     parameter THRESHOLD  = 800, // 發火閾值
-    parameter LEAK_SHIFT = 3,   // 漏電移位
+    parameter LEAK_SHIFT = 6,   // 漏電移位
     parameter REF_PERIOD = 3    // 不應期週期數
 )(
     input  wire clk,
@@ -49,7 +49,7 @@ module lif_unit_784to1 #(
             // 如果有外部電流輸入，下一刻進入積分狀態
             state_next = ST_INTEGRATE;
         end
-        else if(accum_en && weight_grp_cnt == 7'd0) begin
+        else if(accum_en) begin
             // 沒有輸入且不在不應期，進入漏電狀態
             state_next = ST_LEAK;
         end

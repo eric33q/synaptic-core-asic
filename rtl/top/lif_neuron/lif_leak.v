@@ -1,6 +1,6 @@
 module lif_leak #(
     parameter V_WIDTH = 19,  
-    parameter LEAK_SHIFT = 3  
+    parameter LEAK_SHIFT = 15  
 )(
     input  wire [V_WIDTH-1:0] V_in,
     output wire [V_WIDTH-1:0] V_leak
