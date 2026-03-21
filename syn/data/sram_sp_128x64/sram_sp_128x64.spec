@@ -1,0 +1,37 @@
+#user spec file, version 2007Q2V1
+#Sat Mar 21 22:18:55 CST 2026
+acroread=acroread
+asvm=off
+bits=64
+bmux=off
+bus_notation=on
+check_instname=on
+corners=ff_1.1_-40.0,ff_1.1_125.0,tt_1.0_25.0,ss_0.9_125.0
+cust_comment=
+diodes=on
+drive=4
+ema=on
+frequency=1
+horiz=met3
+inside_ring_type=VSS
+instname=sram_sp_128x64
+left_bus_delim=[
+mux=1
+name_case=upper
+pin_space=0.0
+power_type=rings
+prefix=
+pwr_gnd_rename=VDD:VDD,VSS:VSS
+rcols=1
+redundancy=off
+right_bus_delim=]
+ring_width=2.0
+rrows=0
+synopsys.libname=sram_sp_128x64
+top_layer=met5-9
+vclef-fp.inst2ring=blockages
+vclef-fp.site_def=off
+vert=met2
+words=128
+wp_size=8
+write_mask=on
