@@ -1,19 +1,29 @@
  # 1. 讀取 filelist.f (使用 analyze 指令)
  set_svf ./reports/default.svf 
-# analyze 會分析語法，並將中間檔存入 work 目錄
- analyze -format verilog -f filelist.f
-#
+# 逐行讀取 filelist.f
+set fp [open "../syn_filelist.f" r]
+while {[gets $fp line] >= 0} {
+    set line [string trim $line]
+
+    if {$line eq ""} { continue }
+    if {[string match "#*" $line]} { continue }
+    if {[string match {//*} $line]} { continue }
+
+    puts "Analyzing $line"
+    analyze -format verilog $line
+}
+close $fp
  # 2. 建立設計 (Elaborate)
  # 將分析過的模組組合成一個完整的電路架構
- elaborate TOP
+ elaborate top
 #
  # 3. 定義頂層與連結
- current_design TOP
+ current_design top
  link
  check_design
 #
  # 4. 設定約束 (請確認 TOP.sdc 內的時鐘名稱與 TOP.v 一致)
- source -echo -verbose TOP.sdc
+ source -echo -verbose ./data/top.sdc
 #
  # 5. 設計環境優化
  # uniquify 針對多次呼叫的相同子模組進行獨立優化
