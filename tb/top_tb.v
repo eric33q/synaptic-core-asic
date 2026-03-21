@@ -111,11 +111,9 @@ module top_tb;
         // 註: 如果有多張圖，這個 $readmemh 應該放在 for 迴圈內，並配合動態檔名
         $readmemh("../../data/mnist_input_7.hex", pixel_data_mem);
 
-        // 模擬連續送 10 次圖，觀察 STDP 權重收斂狀態
-        for (frame = 1; frame <= 10; frame = frame + 1) begin
+        for (frame = 1; frame <= 25; frame = frame + 1) begin
             $display("--- Start Frame %0d ---", frame);
             
-            // 提早發送 Start 脈衝
             @(posedge clk);
             start_loading <= 1'b1; 
             
@@ -123,7 +121,6 @@ module top_tb;
             start_loading <= 1'b0; 
 
             fork
-                // [執行緒 1] 數據餵入迴圈 (每 4 拍一組 64-bit)
                 begin
                     for (i = 0; i < BATCH_NUM; i = i + 1) begin
                         data_in <= pixel_data_mem[i][15:0];  @(posedge clk);
@@ -134,10 +131,8 @@ module top_tb;
                     data_in <= 16'd0; // 餵完後歸零
                 end
                 
-                // [執行緒 2] 監控結算訊號與 Timeout (時間放寬以容納雙階段)
                 begin
                     wait_timeout = 0;
-                    // Phase 1 (392拍) + Phase 2 (392拍) + Buffer時間，大約 800 拍
                     while (finish == 0 && wait_timeout < 2000) begin
                         @(posedge clk);
                         wait_timeout = wait_timeout + 1;
@@ -146,41 +141,44 @@ module top_tb;
             join
 
             if (wait_timeout >= 2000) begin
-                $display("❌ [Error] Frame %0d stuck! Timeout reached.", frame);
+                $display("[Error] Frame %0d stuck! Timeout reached.", frame);
                 $finish;
             end else begin
-                $display("✅ Frame %0d Finished successfully.", frame);
+                $display("Frame %0d Finished successfully.", frame);
             end
 
-            $sformat(filename, "weights_frame_%0d.txt", frame);
-            
-            file_out = $fopen(filename, "w");
-            if (file_out) begin
-                for (i = 0; i < BATCH_NUM; i = i + 1) begin
-                    $fdisplay(file_out, "%h", uut.u_we.u_sram.mem[i][63:0]); 
+            //每 5 輪匯出一次權重
+            if (frame % 5 == 0) begin
+                $sformat(filename, "weights_frame_%0d.txt", frame);
+                
+                file_out = $fopen(filename, "w");
+                if (file_out) begin
+                    for (i = 0; i < BATCH_NUM; i = i + 1) begin
+                        $fdisplay(file_out, "%h", uut.u_we.u_sram.mem[i][63:0]); 
+                    end
+                    $fclose(file_out);
+                    $display("Weights exported to '%0s' successfully.", filename);
+                end else begin
+                    $display("[Error] Could not open file for writing.");
                 end
-                $fclose(file_out);
-                // 使用 %0s 印出字串，去掉前面多餘的空白
-                $display("Weights exported to '%0s' successfully.", filename);
-            end else begin
-                $display("[Error] Could not open file for writing.");
             end
-
             // Frame 之間的休息時間
             #(CLK_PERIOD * 50);
         end
+        
         $display("\n=== Exporting Final Weights to TXT ===");
-        file_out = $fopen("final_weights_frame10.txt", "w");
+        file_out = $fopen("final_weights_frame25.txt", "w");
         
         if (file_out) begin
             for (i = 0; i < BATCH_NUM; i = i + 1) begin
                 $fdisplay(file_out, "%h", uut.u_we.u_sram.mem[i][63:0]); 
             end
             $fclose(file_out);
-            $display("Weights exported to 'final_weights_frame.txt' successfully.");
+            $display("Weights exported to 'final_weights_frame25.txt' successfully.");
         end else begin
             $display("[Error] Could not open file for writing.");
         end
+        
         $display("\n=== Simulation Complete ===");
         $finish;
     end
