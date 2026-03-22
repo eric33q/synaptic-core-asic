@@ -5,8 +5,10 @@
 # # 2. 設定搜尋路徑 (關鍵：指向 T180 的 .db 檔案位置)
 # # 注意：路徑請根據你學校伺服器的實際安裝位置調整，以下為典型路徑
  set t90_path "/home/cell_lib/CBDK_TSMC90GUTM_Arm_f1.0/CIC/SynopsysDC/db/"
- set sram_path "../../syn/data/pre_trace_mem/" 
- set search_path "$t90_path $sram_path . $search_path"
+ set pre_trace_path "./syn/data/pre_trace_mem/" 
+ set spike_gen_path "./syn/data/spike_gen_mem"
+ set mem128_path "./syn/data/sram_sp_128x64/"
+ set search_path "$t90_path $pre_trace_path $spike_gen_path $mem128_path . $search_path"
 #
 # # 3. 設定 Library
 # # target_library: 綜合時用來對應的元件庫 (通常只放 slow.db)
@@ -14,7 +16,7 @@
 #
 # # link_library: 連結時搜尋的對象 (包含標準元件、SRAM 與 DesignWare)
 # # 注意：這裡必須包含你的 SRAM .db 檔名
- set link_library "* slow.db dw_foundation.sldb sram_sp_128x64_slow.db"
+ set link_library "* slow.db dw_foundation.sldb pre_trace_mem_slow.db spike_gen_mem_slow.db sram_sp_128x64_slow.db"
 
 # # 4. 其他 Library 設定
  set symbol_library "generic.sdb"
