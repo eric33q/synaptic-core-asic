@@ -1,0 +1,68 @@
+
+Initializing...
+lc_shell> read_lib sram_sp_128x64_ff_1.1_-40.0_syn.lib
+Reading '/home/t112830043/Desktop/my_sram_work/sram_sp_128x64/sram_sp_128x64_ff_1.1_-40.0_syn.lib' ...
+Warning: Line 58, The 'internal_power_calculation' attribute in char_config group is required for NLPM library. 
+        No default can be applied to this attribute. (LBDB-366)
+Technology library 'sram_sp_128x64' read successfully
+1
+lc_shell> write_lib sram_sp_128x64_ff_1.1_-40.0_syn.lib -output sram_sp_128x64_fast_n40.db
+Warning: The 'sram_sp_128x64_ff_1.1_-40.0_syn.lib' library has not been read in yet. (UIL-3)
+0
+lc_shell> pwd
+/home/t112830043/Desktop/my_sram_work/sram_sp_128x64
+lc_shell> read_lib sram_sp_128x64_ff_1.1_-40.0_syn.lib
+Reading '/home/t112830043/Desktop/my_sram_work/sram_sp_128x64/sram_sp_128x64_ff_1.1_-40.0_syn.lib' ...
+Warning: Line 58, The 'internal_power_calculation' attribute in char_config group is required for NLPM library. 
+        No default can be applied to this attribute. (LBDB-366)
+Warning: Overwriting an old technology library '/home/t112830043/Desktop/my_sram_work/sram_sp_128x64/sram_sp_128x64.db' file with a new one. (UIL-2)
+1
+lc_shell> write_lib sram_sp_128x64_ff_1.1_-40.0_syn.lib -output sram_sp_128x64_fast_n40.db
+Warning: The 'sram_sp_128x64_ff_1.1_-40.0_syn.lib' library has not been read in yet. (UIL-3)
+0
+lc_shell> write_lib sram_sp_128x64_ff_1.1_-40.0_syn -output sram_sp_128x64_fast_n40.db
+Warning: The 'sram_sp_128x64_ff_1.1_-40.0_syn' library has not been read in yet. (UIL-3)
+0
+lc_shell> write_lib sram_sp_128x64 -output sram_sp_128x64_fast_n40.db
+Wrote the 'sram_sp_128x64' library to '/home/t112830043/Desktop/my_sram_work/sram_sp_128x64/sram_sp_128x64_fast_n40.db' successfully
+1
+lc_shell> read_lib sram_sp_128x64_ff_1.1_125.0_syn.lib
+Reading '/home/t112830043/Desktop/my_sram_work/sram_sp_128x64/sram_sp_128x64_ff_1.1_125.0_syn.lib' ...
+Warning: Line 58, The 'internal_power_calculation' attribute in char_config group is required for NLPM library. 
+        No default can be applied to this attribute. (LBDB-366)
+Warning: Overwriting an old technology library '/home/t112830043/Desktop/my_sram_work/sram_sp_128x64/sram_sp_128x64.db' file with a new one. (UIL-2)
+1
+lc_shell> read_lib sram_sp_128x64_ff_1.1_125.0_syn.lib
+Reading '/home/t112830043/Desktop/my_sram_work/sram_sp_128x64/sram_sp_128x64_ff_1.1_125.0_syn.lib' ...
+Warning: Line 58, The 'internal_power_calculation' attribute in char_config group is required for NLPM library. 
+        No default can be applied to this attribute. (LBDB-366)
+Warning: Overwriting an old technology library '/home/t112830043/Desktop/my_sram_work/sram_sp_128x64/sram_sp_128x64.db' file with a new one. (UIL-2)
+1
+lc_shell> write_lib sram_sp_128x64 -output sram_sp_128x64_fast_125.db
+Wrote the 'sram_sp_128x64' library to '/home/t112830043/Desktop/my_sram_work/sram_sp_128x64/sram_sp_128x64_fast_125.db' successfully
+1
+lc_shell> read_lib sram_sp_128x64_ss_0.9_125.0_syn.lib
+Reading '/home/t112830043/Desktop/my_sram_work/sram_sp_128x64/sram_sp_128x64_ss_0.9_125.0_syn.lib' ...
+Warning: Line 58, The 'internal_power_calculation' attribute in char_config group is required for NLPM library. 
+        No default can be applied to this attribute. (LBDB-366)
+Warning: Overwriting an old technology library '/home/t112830043/Desktop/my_sram_work/sram_sp_128x64/sram_sp_128x64.db' file with a new one. (UIL-2)
+1
+lc_shell> write_lib sram_sp_128x64 -output sram_sp_128x64_slow.db
+Wrote the 'sram_sp_128x64' library to '/home/t112830043/Desktop/my_sram_work/sram_sp_128x64/sram_sp_128x64_slow.db' successfully
+1
+lc_shell> read_lib sram_sp_128x64_tt_1.0_25.0_syn.lib
+Reading '/home/t112830043/Desktop/my_sram_work/sram_sp_128x64/sram_sp_128x64_tt_1.0_25.0_syn.lib' ...
+Warning: Line 58, The 'internal_power_calculation' attribute in char_config group is required for NLPM library. 
+        No default can be applied to this attribute. (LBDB-366)
+Warning: Overwriting an old technology library '/home/t112830043/Desktop/my_sram_work/sram_sp_128x64/sram_sp_128x64.db' file with a new one. (UIL-2)
+1
+lc_shell> write_lib sram_sp_128x64 -output sram_sp_128x64_typical.db
+Wrote the 'sram_sp_128x64' library to '/home/t112830043/Desktop/my_sram_work/sram_sp_128x64/sram_sp_128x64_typical.db' successfully
+1
+lc_shell> exit
+Maximum memory usage for this session: 88.18 MB
+Maximum memory usage for this session including child processes: 88.18 MB
+CPU usage for this session:      5 seconds (  0.00 hours)
+Elapsed time for this session:    830 seconds (  0.23 hours)
+Thank you for using Library Compiler.
+
