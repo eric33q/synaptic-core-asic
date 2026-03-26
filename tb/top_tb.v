@@ -10,7 +10,6 @@ module top_tb;
     reg         clk;
     reg         rst_n;
     reg         start_loading;
-    reg  [6:0]  addr_in;
     reg  [15:0] data_in;
     
     wire        spike_out;
@@ -31,7 +30,6 @@ module top_tb;
         .clk(clk),
         .rst_n(rst_n),
         .start_loading(start_loading),
-        .addr_in(addr_in),
         .data_in(data_in),
         .spike_out(spike_out),
         .busy(busy),
@@ -69,7 +67,6 @@ module top_tb;
         $display("\n=== System Reset ===");
         start_loading = 0;
         rst_n = 0;
-        addr_in = 0;
         data_in = 0;
         #(CLK_PERIOD * 5);
         rst_n = 1;

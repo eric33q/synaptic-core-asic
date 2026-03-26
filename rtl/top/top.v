@@ -12,7 +12,6 @@ module top #(
     input  wire        clk,
     input  wire        rst_n,
     input  wire        start_loading,
-    input  wire [6:0]  addr_in,     // SRAM 位址輸入
     input  wire [15:0] data_in,     // 16-bit 多工輸入 (權重/像素 共用)
     output wire        spike_out,
     output wire        busy,
