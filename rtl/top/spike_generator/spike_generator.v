@@ -64,24 +64,24 @@ module spike_generator #(
     assign sram_d   = (state == 3'd1 /* S_CLEAR */) ? 96'd0 : sram_wdata_comb;
 
     // --- 防 Hold-Time 假警報的線延遲 (1ns) ---
-    wire [6:0]  sram_addr_dly;
-    wire        sram_cen_dly;
-    wire        sram_wen_dly;       
-    wire [95:0] sram_d_dly;
+    //wire [6:0]  sram_addr_dly;
+    //wire        sram_cen_dly;
+    //wire        sram_wen_dly;       
+    //wire [95:0] sram_d_dly;
 
-    assign #1 sram_addr_dly = cur_batch_cnt;
-    assign #1 sram_cen_dly  = sram_cen;
-    assign #1 sram_wen_dly  = sram_wen;
-    assign #1 sram_d_dly    = sram_d;
+    //assign #1 sram_addr_dly = cur_batch_cnt;
+    //assign #1 sram_cen_dly  = sram_cen;
+    //assign #1 sram_wen_dly  = sram_wen;
+    //assign #1 sram_d_dly    = sram_d;
 
     // --- 實例化你專屬的 spike_gen_mem ---
     spike_gen_mem u_state_sram (
         .Q   (sram_q),
         .CLK (clk),
-        .CEN (sram_cen_dly),
-        .WEN (sram_wen_dly),
-        .A   (sram_addr_dly),
-        .D   (sram_d_dly),
+        .CEN (sram_cen),
+        .WEN (sram_wen),
+        .A   (cur_batch_cnt),
+        .D   (sram_d),
         .EMA (3'b000)  // 💡 如果你生成的 RF 沒有 EMA 這個腳位，請直接把這行註解掉
     );
     

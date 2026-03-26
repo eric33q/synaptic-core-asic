@@ -29,24 +29,24 @@ module we_unit_98x64(
     assign sram_cen  = !(rd_en || wr_en);
     // --- 2. 解決 RTL 模擬 Hold Violation 的絕招：人工線延遲 ---
     // 讓訊號在 Clock 邊緣後 1ns 才改變，完美滿足 0.5ns 的 Hold Time 要求
-    wire [6:0]  sram_addr_dly;
-    wire        sram_cen_dly;
-    wire [7:0]  sram_wen_dly;
-    wire [63:0] sram_d_dly;
+    //wire [6:0]  sram_addr_dly;
+    //wire        sram_cen_dly;
+    //wire [7:0]  sram_wen_dly;
+    //wire [63:0] sram_d_dly;
 
-    assign #1 sram_addr_dly = sram_addr;
-    assign #1 sram_cen_dly  = sram_cen;
-    assign #1 sram_wen_dly  = sram_wen;
-    assign #1 sram_d_dly    = wr_weight;
+    //assign #1 sram_addr_dly = sram_addr;
+    //assign #1 sram_cen_dly  = sram_cen;
+    //assign #1 sram_wen_dly  = sram_wen;
+    //assign #1 sram_d_dly    = wr_weight;
 
     // --- 3. 實例化 TSMC Foundry SRAM ---
     sram_sp_128x64_rf u_sram (
         .Q   (sram_q),
         .CLK (clk),
-        .CEN (sram_cen_dly),
-        .WEN (sram_wen_dly), 
-        .A   (sram_addr_dly),
-        .D   (sram_d_dly),
+        .CEN (sram_cen),
+        .WEN (sram_wen), 
+        .A   (sram_addr),
+        .D   (wr_weight),
         .EMA (3'b000)
     );
 

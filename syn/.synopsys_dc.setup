@@ -5,9 +5,9 @@
 # # 2. 設定搜尋路徑 (關鍵：指向 T180 的 .db 檔案位置)
 # # 注意：路徑請根據你學校伺服器的實際安裝位置調整，以下為典型路徑
  set t90_path "/home/cell_lib/CBDK_TSMC90GUTM_Arm_f1.0/CIC/SynopsysDC/db/"
- set pre_trace_path "./syn/data/pre_trace_mem/" 
- set spike_gen_path "./syn/data/spike_gen_mem"
- set mem128_path "./syn/data/sram_sp_128x64/"
+ set pre_trace_path "./data/pre_trace_mem/" 
+ set spike_gen_path "./data/spike_gen_mem"
+ set mem128_path "./data/sram_sp_128x64/"
  set search_path "$t90_path $pre_trace_path $spike_gen_path $mem128_path . $search_path"
 #
 # # 3. 設定 Library

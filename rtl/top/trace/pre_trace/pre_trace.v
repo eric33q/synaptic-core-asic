@@ -60,21 +60,22 @@ module pre_trace #(
     wire sram_cen = 1'b0; // 永遠致能
 
     wire sram_wen = (init_en) ? 1'b0 : ~action_pipe[2];
-    wire [6:0]  sram_addr_dly;
-    wire        sram_cen_dly;
-    wire        sram_wen_dly;
-    wire [63:0] sram_d_dly;
+    wire [63:0] sram_d   = (init_en) ? 64'd0 : w_new_trace_flat;
+    //wire [6:0]  sram_addr_dly;
+    //wire        sram_cen_dly;
+    //wire        sram_wen_dly;
+    //wire [63:0] sram_d_dly;
 
-    assign #1 sram_addr_dly = sram_addr;
-    assign #1 sram_cen_dly  = sram_cen;
-    assign #1 sram_wen_dly  = sram_wen;
-    assign #1 sram_d_dly    = (init_en) ? 64'd0 : w_new_trace_flat;
+    //assign #1 sram_addr_dly = sram_addr;
+    //assign #1 sram_cen_dly  = sram_cen;
+    //assign #1 sram_wen_dly  = sram_wen;
+    //assign #1 sram_d_dly    = (init_en) ? 64'd0 : w_new_trace_flat;
     pre_trace_mem u_trace_sram (
         .CLK  (clk),
-        .CEN  (sram_cen_dly),
-        .WEN  (sram_wen_dly),
-        .A    (sram_addr_dly),         // 使用仲裁後的地址
-        .D    (sram_d_dly),  // 寫入運算後的新值
+        .CEN  (sram_cen),
+        .WEN  (sram_wen),
+        .A    (sram_addr),         // 使用仲裁後的地址
+        .D    (sram_d),  // 寫入運算後的新值
         .Q    (w_old_trace_flat),   // 讀出舊值
         .EMA  (3'd0)
     );

@@ -49,3 +49,6 @@ filenames.log
 #Synthesis Outputs (Optional)
 syn/netlist/
 syn/reports/
+*.mr
+*.pvl
+*.syn
