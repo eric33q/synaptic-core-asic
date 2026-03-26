@@ -40,7 +40,7 @@ module we_unit_98x64(
     //assign #1 sram_d_dly    = wr_weight;
 
     // --- 3. 實例化 TSMC Foundry SRAM ---
-    sram_sp_128x64_rf u_sram (
+    sram_sp_128x64 u_sram (
         .Q   (sram_q),
         .CLK (clk),
         .CEN (sram_cen),
