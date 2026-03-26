@@ -6,7 +6,7 @@
 
 // --- 2. Weight Memory System ---
 ../rtl/top/weight_memory/we_unit_98X64.v
-../rtl/top/weight_memory/sram_sp_128x64_rf.v
+../rtl/top/weight_memory/sram_sp_128x64.v
 ../rtl/top/weight_memory/spike_gen_mem.v
 ../rtl/top/weight_memory/pre_trace_mem.v
 
