@@ -111,9 +111,6 @@ module lif_unit_784to1 #(
                 ST_HOLD: begin
                     V_mem <= V_mem;           // 保持不變
                 end
-                default: begin
-                    V_mem <= V_mem;           // 預設保持不變
-                end
             endcase
         end
     end
