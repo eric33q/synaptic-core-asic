@@ -124,7 +124,7 @@ module top_tb;
         // Phase 2: ST_WORK (MNIST Inference & Learning)
         // -------------------------------------------------------
         $display("\n=== Phase 2: ST_WORK (Inference & STDP) ===");
-        $readmemh("../data/mnist_input_7.hex", pixel_data_mem);
+        $readmemh("../../data/mnist_input_7.hex", pixel_data_mem);
 
         for (frame = 1; frame <= 25; frame = frame + 1) begin
             $display("--- Start Frame %0d ---", frame);
