@@ -6,7 +6,7 @@ module spike_generator #(
     parameter THRESHOLD  = 200, 
     parameter LEAK_SHIFT = 3,   
     parameter REF_PERIOD = 3,   
-    parameter BATCH_NUM  = 98   
+    parameter [6:0] BATCH_NUM  = 7'd98   
 )(
     input  wire clk,
     input  wire rst_n,
@@ -133,13 +133,13 @@ module spike_generator #(
                 end
             end
             S_CLEAR: begin
-                if (cur_batch_cnt == BATCH_NUM - 1) next_state = S_IDLE;
+                if (cur_batch_cnt == BATCH_NUM - 7'd1) next_state = S_IDLE;
             end
             S_PREFETCH: begin
                 next_state = S_RUN;
             end
             S_RUN: begin
-                if (pixel_valid_in && cur_batch_cnt == BATCH_NUM - 1) next_state = S_IDLE;
+                if (pixel_valid_in && cur_batch_cnt == BATCH_NUM - 7'd1) next_state = S_IDLE;
             end
             default: next_state = S_IDLE;
         endcase
@@ -153,50 +153,50 @@ module spike_generator #(
     // =======================================================
     always @(posedge clk or negedge rst_n) begin
         if (!rst_n) begin
-            cur_batch_cnt <= 0;
-            busy          <= 0;
-            finish        <= 0;
-            req_addr      <= 0;
+            cur_batch_cnt <= 7'd0;
+            busy          <= 1'b0;
+            finish        <= 1'b0;
+            req_addr      <= 7'd0;
         end else begin
-            finish      <= 0;
+            finish      <= 1'b0;
 
             case (state)
                 S_IDLE: begin
-                    busy          <= 0;
-                    cur_batch_cnt <= 0;
-                    if (start) busy <= 1;
+                    busy          <= 1'b0;
+                    cur_batch_cnt <= 7'd0;
+                    if (start) busy <= 1'b1;
                 end
 
                 S_CLEAR: begin
-                    busy <= 1;
-                    if (cur_batch_cnt == BATCH_NUM - 1) begin
-                        cur_batch_cnt <= 0;
-                        req_addr      <= 0;
-                        finish        <= 0;
+                    busy <= 1'b1;
+                    if (cur_batch_cnt == BATCH_NUM - 7'd1) begin
+                        cur_batch_cnt <= 7'd0;
+                        req_addr      <= 7'd0;
+                        finish        <= 1'b0;
                     end else begin
-                        cur_batch_cnt <= cur_batch_cnt + 1;
+                        cur_batch_cnt <= cur_batch_cnt + 7'd1;
                     end
                 end
 
                 S_PREFETCH: begin
-                    busy <= 1;
-                    req_addr      <= 1; 
-                    cur_batch_cnt <= 0;
+                    busy <= 1'b1;
+                    req_addr      <= 7'd1; 
+                    cur_batch_cnt <= 7'd0;
                 end
 
                 S_RUN: begin
-                    busy <= 1;
+                    busy <= 1'b1;
                     if (pixel_valid_in) begin 
-                        if (cur_batch_cnt == BATCH_NUM - 1) begin
-                            finish        <= 1;
-                            cur_batch_cnt <= 0;
-                            req_addr      <= 0;
+                        if (cur_batch_cnt == BATCH_NUM - 7'd1) begin
+                            finish        <= 1'b1;
+                            cur_batch_cnt <= 7'd0;
+                            req_addr      <= 7'd0;
                         end else begin
-                            cur_batch_cnt <= cur_batch_cnt + 1;
+                            cur_batch_cnt <= cur_batch_cnt + 7'd1;
                             if (req_addr < BATCH_NUM )
-                                req_addr <= req_addr + 1;
+                                req_addr <= req_addr + 7'd1;
                             else
-                                req_addr <= 0;
+                                req_addr <= 7'd0;
                         end
                     end
                 end
