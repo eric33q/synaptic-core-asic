@@ -1,7 +1,7 @@
 `timescale 1ns/1ps
 
 // 定義 SDF 檔案路徑 (請依據你的實際路徑修改)
-`define SDFFILE "./top_syn.sdf"
+`define SDFFILE "/home/t112830043/synaptic-core-asic/syn/netlist/top_syn.sdf"
 
 module top_tb;
 
@@ -26,7 +26,7 @@ module top_tb;
     integer file_out;
     reg [8*50:1] filename;
 
-    // --- 實例化 DUT ---
+    // --- 實例化 DUT (Gate-Level 不帶參數) ---
     top uut (
         .clk(clk),
         .rst_n(rst_n),
@@ -95,17 +95,18 @@ module top_tb;
         // -------------------------------------------------------
         $display("\n=== Phase 1: ST_LOAD (Weight Initialization) ===");
         
-        @(posedge clk);
+        // 🛠️ 修正：改用 negedge，讓資料提早半拍準備好
+        @(negedge clk);
         start_loading <= 1'b1;
         
-        @(posedge clk);
+        @(negedge clk);
         start_loading <= 1'b0; 
 
         for (i = 0; i < BATCH_NUM; i = i + 1) begin
-            data_in <= pixel_data_mem[i][15:0];  @(posedge clk); 
-            data_in <= pixel_data_mem[i][31:16]; @(posedge clk);
-            data_in <= pixel_data_mem[i][47:32]; @(posedge clk);
-            data_in <= pixel_data_mem[i][63:48]; @(posedge clk);
+            data_in <= pixel_data_mem[i][15:0];  @(negedge clk); 
+            data_in <= pixel_data_mem[i][31:16]; @(negedge clk);
+            data_in <= pixel_data_mem[i][47:32]; @(negedge clk);
+            data_in <= pixel_data_mem[i][63:48]; @(negedge clk);
         end
         data_in <= 16'd0; 
         
@@ -129,24 +130,26 @@ module top_tb;
         for (frame = 1; frame <= 25; frame = frame + 1) begin
             $display("--- Start Frame %0d ---", frame);
             
-            @(posedge clk);
+            // 🛠️ 修正：改用 negedge
+            @(negedge clk);
             start_loading <= 1'b1; 
-            @(posedge clk);
+            @(negedge clk);
             start_loading <= 1'b0; 
 
             fork
                 begin
                     for (i = 0; i < BATCH_NUM; i = i + 1) begin
-                        data_in <= pixel_data_mem[i][15:0];  @(posedge clk);
-                        data_in <= pixel_data_mem[i][31:16]; @(posedge clk);
-                        data_in <= pixel_data_mem[i][47:32]; @(posedge clk);
-                        data_in <= pixel_data_mem[i][63:48]; @(posedge clk);
+                        data_in <= pixel_data_mem[i][15:0];  @(negedge clk);
+                        data_in <= pixel_data_mem[i][31:16]; @(negedge clk);
+                        data_in <= pixel_data_mem[i][47:32]; @(negedge clk);
+                        data_in <= pixel_data_mem[i][63:48]; @(negedge clk);
                     end
                     data_in <= 16'd0; 
                 end
                 
                 begin
                     wait_timeout = 0;
+                    // 這裡只是單純的計數等待，用 posedge 不影響訊號輸入
                     while (finish == 0 && wait_timeout < 2000) begin
                         @(posedge clk);
                         wait_timeout = wait_timeout + 1;
@@ -161,13 +164,13 @@ module top_tb;
                 $display("Frame %0d Finished successfully.", frame);
             end
 
-            // ⚠️ GLS 時實體 SRAM 無法用 .mem 匯出資料，自動遮蔽
-`ifndef SDF
+            // 🌟 匯出權重：GLS 與 RTL 通用，精準切出 [63:0]
             if (frame % 5 == 0) begin
                 $sformat(filename, "weights_frame_%0d.txt", frame);
                 file_out = $fopen(filename, "w");
                 if (file_out) begin
                     for (i = 0; i < BATCH_NUM; i = i + 1) begin
+                        // 直接讀取 mem 陣列並切出 64 bits
                         $fdisplay(file_out, "%h", uut.u_we.u_sram.mem[i][63:0]); 
                     end
                     $fclose(file_out);
@@ -176,15 +179,16 @@ module top_tb;
                     $display("[Error] Could not open file for writing.");
                 end
             end
-`endif
+            
             #(CLK_PERIOD * 50);
         end
         
-`ifndef SDF
+        // 🌟 最終匯出權重：GLS 與 RTL 通用
         $display("\n=== Exporting Final Weights to TXT ===");
         file_out = $fopen("final_weights_frame25.txt", "w");
         if (file_out) begin
             for (i = 0; i < BATCH_NUM; i = i + 1) begin
+                // 直接讀取 mem 陣列並切出 64 bits
                 $fdisplay(file_out, "%h", uut.u_we.u_sram.mem[i][63:0]); 
             end
             $fclose(file_out);
@@ -192,15 +196,12 @@ module top_tb;
         end else begin
             $display("[Error] Could not open file for writing.");
         end
-`else
-        $display("\n=== [GLS] Simulation Complete (Weight Export Disabled) ===");
-`endif
         
         $finish;
     end
 
     // --- 產生 FSDB 波形檔 ---
-initial begin
+    initial begin
         $fsdbDumpfile("top_gate_tb.fsdb");
         $fsdbDumpvars(0, top_tb);
         $fsdbDumpMDA;
