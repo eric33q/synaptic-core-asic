@@ -21,7 +21,7 @@ echo "==== 正在執行模擬: $1 ===="
 
 # 4. 執行模擬
 # 注意：這裡我們依然使用絕對路徑讀取 filelist
-xmverilog "$PROJ_ROOT/tb/$1" -f "$PROJ_ROOT/gate_filelist.f" +access+r -nowarn CUVWSP
+xmverilog "$PROJ_ROOT/tb/$1" -f "$PROJ_ROOT/gate_filelist.f" +define+SDF +access+r -nowarn CUVWSP
 
 # 5. 回到根目錄
 cd "$PROJ_ROOT"
