@@ -1,88 +1,70 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import os
+import matplotlib
+matplotlib.use('Agg')
 
+# =================================================================
+# 💡 關鍵：必須先定義這個函數，後面的程式碼才不會報錯
+# =================================================================
 def load_hex_to_array(filename):
-    if not os.path.exists(filename):
-        print(f"⚠️ 找不到參考圖片檔: {filename}")
+    """讀取 Hex 檔案並轉為 NumPy 陣列"""
+    if not os.path.exists(filename): 
+        print(f"⚠️ 找不到檔案: {filename}")
         return None
     pixels = []
     with open(filename, 'r') as f:
         for line in f:
             line = line.strip()
             if not line: continue
-            val_64bit = int(line, 16)
-            for i in range(7, -1, -1): 
-                pixels.append((val_64bit >> (i * 8)) & 0xFF)
+            val = int(line, 16)
+            for i in range(7, -1, -1):
+                pixels.append((val >> (i * 8)) & 0xFF)
     return np.array(pixels)
 
 def calculate_cosine_similarity(vec1, vec2):
+    """計算兩個向量的相似度"""
     norm1 = np.linalg.norm(vec1)
     norm2 = np.linalg.norm(vec2)
-    if norm1 == 0 or norm2 == 0: return 0.0
-    return np.dot(vec1, vec2) / (norm1 * norm2)
+    return np.dot(vec1, vec2) / (norm1 * norm2) if norm1 > 0 and norm2 > 0 else 0.0
 
 # =================================================================
-# 💡 關鍵修改 1：對照組改為讀取數字 8 的 hex 檔
+# 接下來才是執行邏輯 (第 16 行之後)
 # =================================================================
-# 請確認以下路徑與您電腦中的實際位置相符
-reference_hex_path = r"../../data/mnist_input_8.hex" 
-reference_img = load_hex_to_array(reference_hex_path)
+TARGET = 8
+output_dir = f"output/mnist_{TARGET}"
+if not os.path.exists(output_dir): os.makedirs(output_dir)
 
-fig, axes = plt.subplots(2, 3, figsize=(12, 7))
-axes = axes.flatten() 
+ref_path = f"../data/mnist_input_{TARGET}.hex"
+sim_dir = "../sim/top_gate_tb_mnist8"
 
-# [第 1 格] 繪製原始圖片 8 (對照組)
-if reference_img is not None:
-    axes[0].imshow(reference_img.reshape(28, 28), cmap='gray', interpolation='nearest', vmin=0, vmax=255)
-    axes[0].set_title('Input 8\n(Target)', fontsize=12, fontweight='bold')
-axes[0].axis('off') 
+plt.rcParams.update(plt.rcParamsDefault)
+ref_img = load_hex_to_array(ref_path) # 👈 現在 Python 就認識這個函數了！
 
-# =================================================================
-# 💡 關鍵修改 2：讀取的檔案加上 _8.txt
-# =================================================================
-frames_to_plot = [5, 10, 15, 20, 25] 
-last_im = None 
+fig, axes = plt.subplots(2, 3, figsize=(13, 7), facecolor='white')
+axes = axes.flatten()
 
-for idx, frame in enumerate(frames_to_plot):
-    ax_idx = idx + 1 
-    # 讀取剛剛 top_gate_tb_8.v 吐出來的檔案
-    filename = f"weights_frame_{frame}_8.txt"
-    
-    if not os.path.exists(filename):
-        axes[ax_idx].set_title(f'Frame {frame}\nFile Not Found', fontsize=12)
-        axes[ax_idx].axis('off')
-        continue
-        
-    weights = []
-    with open(filename, 'r') as f:
-        for line in f.readlines():
-            line = line.strip()
-            if not line: continue
-            val_64bit = int(line, 16)
-            for i in range(7, -1, -1):
-                weights.append((val_64bit >> (i * 8)) & 0xFF)
-                
-    weights_array = np.array(weights)
-    
-    sim_score = 0.0
-    if reference_img is not None:
-        sim_score = calculate_cosine_similarity(reference_img, weights_array)
-        
-    last_im = axes[ax_idx].imshow(weights_array.reshape(28, 28), cmap='gray', interpolation='nearest', vmin=0, vmax=255)
-    axes[ax_idx].set_title(f'Frame {frame}\nSim: {sim_score:.4f}', fontsize=12)
-    axes[ax_idx].axis('off') 
+if ref_img is not None:
+    axes[0].imshow(ref_img.reshape(28, 28), cmap='gray', vmin=0, vmax=255)
+    axes[0].set_title(f'Target: {TARGET}', fontweight='bold', color='black')
+axes[0].axis('off')
 
-plt.tight_layout()
+frames = [5, 10, 15, 20, 25]
+last_im = None
+for idx, f_num in enumerate(frames):
+    f_path = f"{sim_dir}/weights_frame_{f_num}_mnist8.txt"
+    w_arr = load_hex_to_array(f_path)
+    ax = axes[idx+1]
+    if w_arr is not None:
+        score = calculate_cosine_similarity(ref_img, w_arr)
+        last_im = ax.imshow(w_arr.reshape(28, 28), cmap='gray', vmin=0, vmax=255)
+        ax.set_title(f'Frame {f_num}\nSim: {score:.4f}', color='black')
+    ax.axis('off')
 
-if last_im is not None:
-    fig.subplots_adjust(right=0.9)
-    cbar_ax = fig.add_axes([0.92, 0.15, 0.02, 0.7]) 
-    fig.colorbar(last_im, cax=cbar_ax, label='Synaptic Weight / Pixel Intensity (0~255)')
+plt.tight_layout(rect=[0, 0, 0.9, 1])
+if last_im:
+    cbar_ax = fig.add_axes([0.92, 0.15, 0.02, 0.7])
+    fig.colorbar(last_im, cax=cbar_ax, label='Weight (0~255)')
 
-# 💡 關鍵修改 3：輸出的圖片檔名也加上 _8
-output_name = "STDP_Learning_Progression_8.png"
-plt.savefig(output_name, dpi=300, bbox_inches='tight')
-print(f"🎉 成功生成數字 8 的漸進學習圖: {output_name}")
-
-plt.show()
+plt.savefig(f"{output_dir}/heatmap_{TARGET}.png", dpi=300, facecolor='white')
+print(f"✅ 數字 {TARGET} 熱力圖已順利產出至 {output_dir}")
