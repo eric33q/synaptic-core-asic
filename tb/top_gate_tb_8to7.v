@@ -65,7 +65,7 @@ module top_gate_tb_8to7; // 💡 重新命名模組名稱以符實驗
         // -------------------------------------------------------
         $display("\n[Action] Loading Pre-trained Weights of '8' as baseline...");
         // 指向您之前跑過的 mnist8 結果
-        $readmemh("../sim/top_gate_tb_mnist8/final_weights_frame25_mnist8.txt", uut.u_we.u_sram.mem);
+        $readmemh("../data/mnist_input_8.hex", uut.u_we.u_sram.mem);
         
         #(CLK_PERIOD * 10);
         $display("[Status] Initial Weights (Digit 8) Injection Done.");
