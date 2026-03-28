@@ -50,6 +50,9 @@ module top_gate_tb_8to7; // 💡 重新命名模組名稱以符實驗
     // =======================================================
     // 主測試流程：從 8 重新學習 7
     // =======================================================
+// =======================================================
+    // 主測試流程：從 8 重新學習 7
+    // =======================================================
     initial begin
         // 0. 系統重置
         $display("\n=== System Reset & Experiment: 8-to-7 Forgetting ===");
@@ -61,26 +64,46 @@ module top_gate_tb_8to7; // 💡 重新命名模組名稱以符實驗
         #(CLK_PERIOD * 5);
 
         // -------------------------------------------------------
-        // 💡 關鍵步驟 1：強制注入「數字 8」的成熟權重
+        // 💡 關鍵修正 1：喚醒 FSM (Dummy Initialization)
+        // 必須先走一次標準載入，讓晶片內部的狀態機就緒
         // -------------------------------------------------------
-        $display("\n[Action] Loading Pre-trained Weights of '8' as baseline...");
-        // 指向您之前跑過的 mnist8 結果
-        $readmemh("../data/mnist_input_8.hex", uut.u_we.u_sram.mem);
+        $display("\n[Action] Phase 1: Dummy Init to wake up FSM...");
+        @(negedge clk);
+        start_loading <= 1'b1; 
+        @(negedge clk);
+        start_loading <= 1'b0; 
+
+        // 隨便餵入雜訊資料 (0x2020) 騙過狀態機
+        for (i = 0; i < BATCH_NUM; i = i + 1) begin
+            data_in <= 16'h2020; @(negedge clk); 
+            data_in <= 16'h2020; @(negedge clk);
+            data_in <= 16'h2020; @(negedge clk);
+            data_in <= 16'h2020; @(negedge clk);
+        end
+        data_in <= 16'd0; 
         
-        #(CLK_PERIOD * 10);
-        $display("[Status] Initial Weights (Digit 8) Injection Done.");
+        // 等待 FSM 處理完並回到 IDLE (準備好接收 Frame)
+        #(CLK_PERIOD * 20);
+        $display("[Status] FSM is awake and Ready!");
 
         // -------------------------------------------------------
-        // 💡 關鍵步驟 2：載入「數字 7」的訓練資料
+        // 💡 關鍵修正 2：「大腦移植」(強行植入數字 8)
+        // 趁晶片 Ready 時，把 SRAM 裡面的雜訊洗掉，換成成熟的 8
         // -------------------------------------------------------
-        $display("\n[Action] Loading Training Data of '7' for re-learning...");
-        $readmemh("../../data/mnist_input_7.hex", pixel_data_mem);
+        $display("\n[Action] Phase 1.5: Injecting Pre-trained Weights of '8'...");
+        $readmemh("/home/t112830022/synaptic-core-asic/sim/top_gate_tb_mnist8/final_weights_frame25_mnist8.txt", uut.u_we.u_sram.mem);
+        #(CLK_PERIOD * 10); 
 
         // -------------------------------------------------------
-        // Phase 2: 開始訓練過程 (1~25 Frames)
+        // Phase 2: 載入數字 7，開始 100 步的重新學習
         // -------------------------------------------------------
-        for (frame = 1; frame <= 25; frame = frame + 1) begin
+        $display("\n[Action] Phase 2: Loading Training Data of '7'...");
+        $readmemh("/home/t112830022/synaptic-core-asic/data/mnist_input_7.hex", pixel_data_mem);
+
+        // 3. 開始訓練過程 (1~100 Frames)
+        for (frame = 1; frame <= 100; frame = frame + 1) begin
             $display("--- Frame %0d (Learning Digit 7) ---", frame);
+            // ... 底下的 Frame 迴圈與 Timeout 判斷維持不變 ...
             
             @(negedge clk);
             start_loading <= 1'b1; 
