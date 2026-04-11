@@ -2,7 +2,7 @@
 
 // 定義 SDF 檔案路徑
 `define SDFFILE "../../syn/netlist/top_syn.sdf"
-module top_gate_tb;
+module top_gate_tb_mnist8;
 
     // --- 參數與訊號定義 ---
     parameter CLK_PERIOD = 10;
@@ -121,7 +121,7 @@ module top_gate_tb;
         // Phase 2: ST_WORK (MNIST Inference & Learning)
         // -------------------------------------------------------
         $display("\n=== Phase 2: ST_WORK (Inference & STDP) ===");
-        $readmemh("../../data/mnist_input_7.hex", pixel_data_mem);
+        $readmemh("../../data/mnist_input_8.hex", pixel_data_mem);
 
         for (frame = 1; frame <= 25; frame = frame + 1) begin
             $display("--- Start Frame %0d ---", frame);
@@ -162,7 +162,7 @@ module top_gate_tb;
 
             // 🌟 匯出權重：GLS 與 RTL 通用，精準切出 [63:0]
             if (frame % 5 == 0) begin
-                $sformat(filename, "weights_frame_%0d.txt", frame);
+                $sformat(filename, "weights_frame_%0d_mnist8.txt", frame);
                 file_out = $fopen(filename, "w");
                 if (file_out) begin
                     for (i = 0; i < BATCH_NUM; i = i + 1) begin
@@ -181,7 +181,7 @@ module top_gate_tb;
         
         // 🌟 最終匯出權重：GLS 與 RTL 通用
         $display("\n=== Exporting Final Weights to TXT ===");
-        file_out = $fopen("final_weights_frame25.txt", "w");
+        file_out = $fopen("final_weights_frame25_mnist8.txt", "w");
         if (file_out) begin
             for (i = 0; i < BATCH_NUM; i = i + 1) begin
                 // 直接讀取 mem 陣列並切出 64 bits
@@ -199,8 +199,9 @@ module top_gate_tb;
     // --- 產生 FSDB 波形檔 ---
     initial begin
         $fsdbDumpfile("top_gate_tb.fsdb");
-        $fsdbDumpvars(0, top_gate_tb);
+        $fsdbDumpvars(0, top_gate_tb_mnist8);
         $fsdbDumpMDA;
     end
 
 endmodule
+
