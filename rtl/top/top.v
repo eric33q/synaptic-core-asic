@@ -77,6 +77,8 @@ module top #(
             is_initialized <= 1'b0;
             start          <= 1'b0;
             accumulate_en  <= 1'b0;
+            check_wait_cnt <= 4'd0;
+
         end else begin
             start <= 1'b0;
             case (current_mode)
