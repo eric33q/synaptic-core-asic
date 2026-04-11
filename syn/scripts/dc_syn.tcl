@@ -42,6 +42,7 @@ set verilogout_no_tri true
 set verilogout_equation false
  # 8. 匯出 Netlist 到專門的資料夾
  write -format verilog -hierarchy -output "./netlist/top_syn.v"
+ write -format ddc     -hierarchy -output "./netlist/top_syn.ddc"
  write_sdf -version 1.0 "./netlist/top_syn.sdf"
 #
  # 9. 產出報表到專門的資料夾
