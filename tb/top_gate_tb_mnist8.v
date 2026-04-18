@@ -123,7 +123,7 @@ module top_gate_tb_mnist8;
         $display("\n=== Phase 2: ST_WORK (Inference & STDP) ===");
         $readmemh("../../data/mnist_input_8.hex", pixel_data_mem);
 
-        for (frame = 1; frame <= 25; frame = frame + 1) begin
+        for (frame = 1; frame <= 100; frame = frame + 1) begin
             $display("--- Start Frame %0d ---", frame);
             
             // 🛠️ 修正：改用 negedge
