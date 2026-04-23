@@ -161,7 +161,7 @@ module top_gate_tb_mnist8;
             end
 
             // 🌟 匯出權重：GLS 與 RTL 通用，精準切出 [63:0]
-            if (((frame - 1) % 3) == 0 && frame > 0 && frame <= 46) begin
+            if ((frame % 4) == 1 && frame <= 49) begin
                 $sformat(filename, "weights_frame_%0d_mnist8.txt", frame);
                 file_out = $fopen(filename, "w");
                 if (file_out) begin
