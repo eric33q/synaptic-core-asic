@@ -2,30 +2,30 @@
 read_file -format ddc {../syn/netlist/top_syn.ddc}
 current_design top
 link
-
+# ==========================================
 # 建立掃描鍊專用的 I/O Port
+# ==========================================
 create_port -dir in SCAN_IN
 create_port -dir out SCAN_OUT
 create_port -dir in SCAN_EN
 
-# 為 SCAN 腳位套用與 top.sdc 相同的物理條件，確保 compile -scan 能正確優化
-set_input_delay  5.0 -clock clk [get_ports {SCAN_IN SCAN_EN}]
+# 為 SCAN 與測試腳位套用物理條件 (test_mode 已經存在，所以可以直接 get_ports 抓取)
+set_input_delay  5.0 -clock clk [get_ports {SCAN_IN SCAN_EN test_mode}]
 set_output_delay 0.5 -clock clk [get_ports SCAN_OUT]
-set_drive        1              [get_ports {SCAN_IN SCAN_EN}]
+set_drive        1              [get_ports {SCAN_IN SCAN_EN test_mode}]
 set_load         1              [get_ports SCAN_OUT]
 
-# 宣告 SCAN_EN 為理想網路 (因為它是全域控制訊號，通常交給後端 APR 去長 Tree)
-set_ideal_network [get_ports SCAN_EN]
+# 宣告 SCAN_EN 與 test_mode 為理想網路
+set_ideal_network [get_ports {SCAN_EN test_mode}]
 
 # ==========================================
-# 設定現有的 Clock 與 Reset 訊號
+# 設定現有的 Clock、Reset 與 DFT 訊號
 # ==========================================
-# 根據 top.sdc，clock period 為 10.0ns。
-# 設定 {4.5 5.5} 代表在 4.5ns 升緣，5.5ns 降緣 (脈衝寬度 1ns)
 set_dft_signal -view exist -type ScanClock -timing {4.5 5.5} -port clk
-
-# 使用的是 rst_n (Active Low)，所以 active_state 必須改為 0
 set_dft_signal -view exist -type Reset -active_state 0 -port rst_n
+
+# 宣告 Test Mode 訊號，讓 ATPG 工具知道測試時必須將此腳位保持為 1
+set_dft_signal -view exist -type TestMode -active_state 1 -port test_mode
 
 # 建立與檢查 Test Protocol
 create_test_protocol

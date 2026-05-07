@@ -12,6 +12,7 @@ module top_gate_tb_mnist8;
     reg         clk;
     reg         rst_n;
     reg         start_loading;
+    reg         test_mode;
     reg  [15:0] data_in;
     
     wire        spike_out;
@@ -32,7 +33,8 @@ module top_gate_tb_mnist8;
         .data_in(data_in),
         .spike_out(spike_out),
         .busy(busy),
-        .finish(finish)
+        .finish(finish),
+        .test_mode      (test_mode)
     );
 
     // =======================================================
@@ -82,6 +84,7 @@ module top_gate_tb_mnist8;
         start_loading = 0;
         rst_n = 0;
         data_in = 0;
+        test_mode = 0;
         #(CLK_PERIOD * 5);
         rst_n = 1;
         #(CLK_PERIOD * 5);
@@ -123,10 +126,9 @@ module top_gate_tb_mnist8;
         $display("\n=== Phase 2: ST_WORK (Inference & STDP) ===");
         $readmemh("../../data/mnist_input_8.hex", pixel_data_mem);
 
-        for (frame = 1; frame <= 100; frame = frame + 1) begin
+        for (frame = 1; frame <= 25; frame = frame + 1) begin
             $display("--- Start Frame %0d ---", frame);
             
-            // 🛠️ 修正：改用 negedge
             @(negedge clk);
             start_loading <= 1'b1; 
             @(negedge clk);
@@ -145,7 +147,6 @@ module top_gate_tb_mnist8;
                 
                 begin
                     wait_timeout = 0;
-                    // 這裡只是單純的計數等待，用 posedge 不影響訊號輸入
                     while (finish == 0 && wait_timeout < 2000) begin
                         @(posedge clk);
                         wait_timeout = wait_timeout + 1;
@@ -160,14 +161,16 @@ module top_gate_tb_mnist8;
                 $display("Frame %0d Finished successfully.", frame);
             end
 
-            // 🌟 匯出權重：GLS 與 RTL 通用，精準切出 [63:0]
-            if (frame <= 50) begin
+            // =======================================================
+            // 🌟 修正處：GLS 權重匯出路徑 (原本是 uut.u_we.u_sram.mem)
+            // =======================================================
+            if (frame % 5 == 0) begin
                 $sformat(filename, "weights_frame_%0d_mnist8.txt", frame);
                 file_out = $fopen(filename, "w");
                 if (file_out) begin
                     for (i = 0; i < BATCH_NUM; i = i + 1) begin
-                        // 直接讀取 mem 陣列並切出 64 bits
-                        $fdisplay(file_out, "%h", uut.u_we.u_sram.mem[i][63:0]); 
+                        // 根據你提供的 top_syn.v，路徑應改為：
+                        $fdisplay(file_out, "%h", uut.u_we_u_sram.mem[i][63:0]); 
                     end
                     $fclose(file_out);
                     $display("Weights exported to '%0s' successfully.", filename);
@@ -179,13 +182,15 @@ module top_gate_tb_mnist8;
             #(CLK_PERIOD * 50);
         end
         
-        // 🌟 最終匯出權重：GLS 與 RTL 通用
+        // =======================================================
+        // 🌟 修正處：最終權重匯出路徑
+        // =======================================================
         $display("\n=== Exporting Final Weights to TXT ===");
         file_out = $fopen("final_weights_frame25_mnist8.txt", "w");
         if (file_out) begin
             for (i = 0; i < BATCH_NUM; i = i + 1) begin
-                // 直接讀取 mem 陣列並切出 64 bits
-                $fdisplay(file_out, "%h", uut.u_we.u_sram.mem[i][63:0]); 
+                // 同樣改為扁平化後的名稱：
+                $fdisplay(file_out, "%h", uut.u_we_u_sram.mem[i][63:0]); 
             end
             $fclose(file_out);
             $display("Weights exported to 'final_weights_frame25.txt' successfully.");
@@ -198,10 +203,9 @@ module top_gate_tb_mnist8;
 
     // --- 產生 FSDB 波形檔 ---
     initial begin
-        $fsdbDumpfile("top_gate_tb.fsdb");
+        $fsdbDumpfile("top_gate_tb_mnist8.fsdb");
         $fsdbDumpvars(0, top_gate_tb_mnist8);
         $fsdbDumpMDA;
     end
 
 endmodule
-

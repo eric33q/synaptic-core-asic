@@ -11,6 +11,7 @@ module top #(
 )(
     input  wire        clk,
     input  wire        rst_n,
+    input  wire        test_mode,   // [新增] 測試模式控制腳位
     input  wire        start_loading,
     input  wire [15:0] data_in,     // 16-bit 多工輸入 (權重/像素 共用)
     output wire        spike_out,
@@ -39,7 +40,11 @@ module top #(
     wire [63:0] rd_weight;      
     wire [6:0]  cur_batch_cnt;         
     wire        rd_valid;     
-    
+
+    // [新增] 宣告專給 SRAM 實體輸出的 wire
+    wire [63:0] sram_rd_weight;
+    wire        sram_rd_valid;
+
     wire [7:0]  spike_data_out;         
     wire        spike_valid_out;         
     wire [D_WIDTH*T_WIDTH-1:0] trace_data_out; 
@@ -77,6 +82,7 @@ module top #(
             is_initialized <= 1'b0;
             start          <= 1'b0;
             accumulate_en  <= 1'b0;
+            check_wait_cnt <= 4'd0;
         end else begin
             start <= 1'b0;
             case (current_mode)
@@ -223,6 +229,7 @@ module top #(
     ) u_pre_syn_blk (
         .clk             (clk),
         .rst_n           (rst_n),
+        .test_mode       (test_mode),
         .start           (start),         
         .accumulate_en   (accumulate_en), 
         .pixel_valid_in  (pixel_valid_in),      
@@ -275,7 +282,19 @@ module top #(
             );
         end
     endgenerate
-    
+   
+    reg [63:0] test_bypass_reg;
+    always @(posedge clk or negedge rst_n) begin
+        if (!rst_n) begin
+            test_bypass_reg <= 64'd0;
+        end else if (test_mode) begin
+        // 測試模式下，每一拍將準備寫入的值存入暫存器
+            test_bypass_reg <= wr_weight; 
+        end
+    end
+
+    assign rd_weight = test_mode ? test_bypass_reg : sram_rd_weight;
+    assign rd_valid  = test_mode ? 1'b1            : sram_rd_valid;   
     // Weight Memory
     we_unit_98x64 u_we (
         .clk        (clk),
@@ -283,8 +302,8 @@ module top #(
         .rd_en      (effective_rd_en),      
         .rd_row     (effective_rd_row),      
         .pre_mask   (we_pre_mask),         
-        .rd_weight  (rd_weight),
-        .rd_valid   (rd_valid),  
+        .rd_weight  (sram_rd_weight), // [修改] 改接內部 wire
+        .rd_valid   (sram_rd_valid),  // [修改] 改接內部 wire
         .wr_en      (wr_en),     
         .wr_mask    (wr_mask), 
         .wr_row     (wr_row),   
