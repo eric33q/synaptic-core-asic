@@ -7,6 +7,7 @@ module layer1_system_top #(
 )(
     input  wire clk,
     input  wire rst_n,
+    input  wire test_mode,
     input  wire start,
     input wire accumulate_en,
     input wire pixel_valid_in, // 新增
@@ -30,6 +31,7 @@ module layer1_system_top #(
     ) u_generator (
         .clk            (clk),
         .rst_n          (rst_n),
+        .test_mode      (test_mode),
         .start          (start),
         .accumulate_en  (accumulate_en),
         .pixel_valid_in (pixel_valid_in),

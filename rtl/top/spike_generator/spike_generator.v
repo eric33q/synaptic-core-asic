@@ -10,6 +10,7 @@ module spike_generator #(
 )(
     input  wire clk,
     input  wire rst_n,
+    input  wire test_mode,
     
     // --- 控制介面 ---
     input  wire start,          
@@ -37,11 +38,23 @@ module spike_generator #(
     // =======================================================
     // 實例化 Foundry RF IP (98x96, 無 Write Mask 版)
     // =======================================================
-    wire [95:0] sram_q;             
     wire        sram_cen;           // Chip Enable (Active Low)
     wire        sram_wen;           // 單一 bit Write Enable (Active Low)
     wire [95:0] sram_d;             
+    wire [95:0] sram_q_actual;       // 專門用來接 SRAM 實體輸出的線
+    reg  [95:0] test_bypass_reg;     // 測試專用的 D-Flip-Flop
 
+    always @(posedge clk or negedge rst_n) begin
+        if (!rst_n) begin
+            test_bypass_reg <= 96'd0;
+        end else if (test_mode) begin
+            // 在測試模式下，將準備寫入的資料 (sram_d) 存入暫存器
+            test_bypass_reg <= sram_d; 
+        end
+    end
+
+    // MUX：當 test_mode=1 時吃暫存器的值；正常運作 (0) 時吃 SRAM 讀出的值
+    wire [95:0] sram_q = test_mode ? test_bypass_reg : sram_q_actual;
 
     // 控制邏輯：
 
@@ -76,7 +89,7 @@ module spike_generator #(
 
     // --- 實例化你專屬的 spike_gen_mem ---
     spike_gen_mem u_state_sram (
-        .Q   (sram_q),
+        .Q   (sram_q_actual),
         .CLK (clk),
         .CEN (sram_cen),
         .WEN (sram_wen),
