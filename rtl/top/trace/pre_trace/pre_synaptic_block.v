@@ -8,6 +8,7 @@ module pre_synaptic_block #(
 )(
     input  wire clk,
     input  wire rst_n,
+    input  wire test_mode,
     
     // --- 系統控制 ---
     input  wire start,
@@ -55,6 +56,7 @@ module pre_synaptic_block #(
     ) u_layer1_top (
         .clk            (clk),
         .rst_n          (rst_n),
+        .test_mode      (test_mode),
         .start          (start),
         .accumulate_en  (accumulate_en),
         .pixel_valid_in (pixel_valid_in),
@@ -84,6 +86,7 @@ module pre_synaptic_block #(
     ) u_trace_manager (
         .clk            (clk),
         .rst_n          (rst_n),
+        .test_mode      (test_mode),
         .init_en        (trace_init_en),   
         .init_addr      (trace_init_addr),        
         // 控制訊號來自 Layer 1

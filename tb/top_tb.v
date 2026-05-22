@@ -11,7 +11,7 @@ module top_tb;
     reg         rst_n;
     reg         start_loading;
     reg  [15:0] data_in;
-    
+    reg         test_mode; 
     wire        spike_out;
     wire        busy;
     wire        finish;
@@ -33,7 +33,8 @@ module top_tb;
         .data_in(data_in),
         .spike_out(spike_out),
         .busy(busy),
-        .finish(finish)
+        .finish(finish),
+        .test_mode(test_mode)
     );
 
     // --- 時脈產生 ---
@@ -68,6 +69,7 @@ module top_tb;
         start_loading = 0;
         rst_n = 0;
         data_in = 0;
+        test_mode = 0;
         #(CLK_PERIOD * 5);
         rst_n = 1;
         #(CLK_PERIOD * 5);

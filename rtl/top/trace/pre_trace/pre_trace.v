@@ -8,6 +8,7 @@ module pre_trace #(
 )(
     input  wire                                 clk,
     input  wire                                 rst_n,
+    input  wire                                 test_mode,
     input  wire                                 init_en,    
     input  wire [ADDR_WIDTH-1:0]                init_addr,
     
@@ -23,7 +24,6 @@ module pre_trace #(
     // ============================================================
     // 1. 內部訊號
     // ============================================================
-    wire [N_PARALLEL*T_WIDTH-1:0] w_old_trace_flat; // 從記憶體讀出的舊值
     wire [N_PARALLEL*T_WIDTH-1:0] w_new_trace_flat; // 算完的新值
     // ============================================================
     // 2. 管線化暫存器 (3-Stage Shift Register for Read-Modify-Write)
@@ -61,22 +61,28 @@ module pre_trace #(
 
     wire sram_wen = (init_en) ? 1'b0 : ~action_pipe[2];
     wire [63:0] sram_d   = (init_en) ? 64'd0 : w_new_trace_flat;
-    //wire [6:0]  sram_addr_dly;
-    //wire        sram_cen_dly;
-    //wire        sram_wen_dly;
-    //wire [63:0] sram_d_dly;
+    wire [63:0] sram_q_actual; 
+    reg  [63:0] test_bypass_reg;
 
-    //assign #1 sram_addr_dly = sram_addr;
-    //assign #1 sram_cen_dly  = sram_cen;
-    //assign #1 sram_wen_dly  = sram_wen;
-    //assign #1 sram_d_dly    = (init_en) ? 64'd0 : w_new_trace_flat;
+    always @(posedge clk or negedge rst_n) begin
+        if (!rst_n) begin
+            test_bypass_reg <= 64'd0;
+        end else if (test_mode) begin
+            // 測試模式下，將寫入資料 sram_d 存入暫存器
+            test_bypass_reg <= sram_d;
+        end
+    end
+
+    // MUX：測試時吃暫存器，正常時吃 SRAM (注意寬度匹配)
+    wire [N_PARALLEL*T_WIDTH-1:0] w_old_trace_flat = test_mode ? test_bypass_reg : sram_q_actual;
+
     pre_trace_mem u_trace_sram (
         .CLK  (clk),
         .CEN  (sram_cen),
         .WEN  (sram_wen),
-        .A    (sram_addr),         // 使用仲裁後的地址
-        .D    (sram_d),  // 寫入運算後的新值
-        .Q    (w_old_trace_flat),   // 讀出舊值
+        .A    (sram_addr),         
+        .D    (sram_d),  
+        .Q    (sram_q_actual),     // 🌟 [修改] 改接實際輸出線
         .EMA  (3'd0)
     );
 
