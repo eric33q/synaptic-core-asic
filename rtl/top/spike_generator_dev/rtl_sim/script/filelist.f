@@ -1,0 +1,9 @@
+../../top.v
+../../spike_generator.v
+../../spike_gen_mem.v
+../../lif_unit_core.v
+../../lif_th_cmp.v
+../../lif_refrac_logic.v
+../../lif_leak.v
+../../lif_integrator.v
+../../tb/top_tb.v
