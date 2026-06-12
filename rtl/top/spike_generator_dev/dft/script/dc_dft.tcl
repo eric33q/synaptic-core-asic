@@ -1,7 +1,7 @@
 read_file -format ddc {../syn/netlist/top_syn.ddc}
 current_design top
 link
-#set_app_var test_default_black_box true
+set_app_var test_default_black_box true
 create_port -dir in SCAN_IN
 create_port -dir out SCAN_OUT
 create_port -dir in SCAN_EN
